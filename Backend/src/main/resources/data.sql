@@ -135,3 +135,57 @@ INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_i
 INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (168, 'Bookly reservation', '2020-02-01 22:16:19.038', '2020-02-01 23:16:19.038', 'BOOKINGCANCELED', 4, 60, '2020-02-01 22:16:57.223');
 INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (173, 'Bookly reservation', '2020-02-05 12:45:19.933', '2020-02-05 13:45:19.933', 'BOOKED', 5, 113, '2020-02-05 12:46:29.738');
 INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (174, 'Bookly reservation', '2020-02-05 13:24:57.03', '2020-02-05 14:24:57.03', 'BOOKED', 5, 95, '2020-02-05 13:27:46.193');
+
+
+insert into public.cities (id,name) VALUES
+(1,'KATOWICE'),
+(2,'LUBLIN'),
+(3,'BYDGOSZCZ'),
+(4,'SZCZECIN'),
+(5,'GDAŃSK'),
+(6,'POZNAŃ'),
+(7,'WROCŁAW'),
+(8,'ŁÓDŹ'),
+(9,'KRAKÓW'),
+(10,'WARSZAWA');
+
+insert into public.spot ( name, city_id)  VALUES
+('MICKIEWICZA',1),
+('1 MAJA',1),
+('WIEJSKA',1),
+('DALEKA',1),
+('DERENIOWA',1),
+('DŁUGA',1),
+('CISOWA',2),
+('GALERIA XD',2),
+('CICHA',2),
+('DOLOMITOWA',2),
+('DUŃSKA',2),
+('DOLNA',3),
+('FABRYCZNA',3),
+('GAJOWA',3),
+('GARBARSKA',4),
+('MACZKA',4),
+('BEMA',4),
+('GLINIANA',4),
+('GÓRNA',5),
+('GROCHOWSKA',5),
+('GALERIA XD',6),
+('CICHA',6),
+('DOLOMITOWA',6),
+('DUŃSKA',6),
+('DOLNA',3),
+('GLINIANA',10),
+('GÓRNA',10),
+('GROCHOWSKA',10),
+('JEROZOLIMSKIE',10),
+('MARIOT',10),
+('DOLOMITOWA',8),
+('DUŃSKA',8),
+('DOLNA',8),
+('DERENIOWA',7),
+('DŁUGA',7),
+('CISOWA',7),
+('FABRYCZNA',9),
+('GAJOWA',9),
+('GARBARSKA',9);
