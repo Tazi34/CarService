@@ -1,5 +1,6 @@
-package com.tazi34.carservice.location;
+package com.tazi34.carservice.location.city;
 
+import com.tazi34.carservice.location.spot.Spot;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,12 +8,13 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "cities")
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy="city")
     private List<Spot> spots;
 
 
