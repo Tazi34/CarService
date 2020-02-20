@@ -1,47 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import carReducer from './redux/reducers/carsReducer';
-import { createStore } from 'redux';
-import { addCar, deleteCar } from './redux/car/actions/carActions';
+import VisibleCarList from './components/car/VisibleCarList'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import green from '@material-ui/core/colors/green';
+import NavBar from './components/UI/NavBar';
+import { Box, Container } from '@material-ui/core';
+const theme = createMuiTheme({
+  palette: {
+
+    primary: {
+      main:"#121212",
+    },
+   
+    secondary: {main:
+      "#01579b",
+    }
+  },
+  
+  status: {
+    danger: 'orange',
+  },
+});
+
 
 function App() {
-  const store = createStore(carReducer)
-  const unsubscribe = store.subscribe(()=>console.log(store.getState()))
 
-  store.dispatch(
-    addCar( 
-      {
-        id:1,
-        make:"Honda",
-        price:150,
-      }
-
-  ))
-  store.dispatch(
-    addCar( 
-      {
-        id:2,
-        make:"Honda",
-        price:150,
-      }
-
-  ))
-  store.dispatch(
-    deleteCar(
-      {
-          id:1,
-          make:"Honda",
-          price:150,
-      }
-
-    )
-  )
-
+  
   return (
-    <div className="App">
-      
-    </div>
+    //<CarReservationForm></CarReservationForm>
+
+    <MuiThemeProvider theme={theme} >
+      <Box bgcolor="primary.light">
+        <NavBar/>
+        <VisibleCarList></VisibleCarList>
+      </Box> 
+    </MuiThemeProvider>
+
+   
   );
 }
 
