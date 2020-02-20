@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, InputLabel, FormControl, Select, MenuItem, makeStyles } from '@material-ui/core'
+import { Grid, InputLabel, FormControl, Select, MenuItem, makeStyles, Button } from '@material-ui/core'
 import { MockedCities } from '../../MockData/mockedCities'
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -75,6 +75,7 @@ export default class CarReservationForm extends Component {
                             handleChange={this.handleDataChange}>
                         </LocationAndDatePicker>
                     </Grid>
+                    <Button variant="contained" color="primary">Find</Button>
                 </Grid>
             </form>
         )
