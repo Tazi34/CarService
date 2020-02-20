@@ -7,25 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import pw.react.carly.CarlyApplication;
-import pw.react.carly.car.Car;
-import pw.react.carly.car.CarRepository;
-import pw.react.carly.status.Status;
+import com.tazi34.carservice.CarServiceApplication;
+import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.car.CarRepository;
+import com.tazi34.carservice.status.Status;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static pw.react.carly.car.CarSpecification.isDeniedByStatuses;
-import static pw.react.carly.car.CarSpecification.isNotDeniedByStatuses;
+import static com.tazi34.carservice.car.CarSpecification.isDeniedByStatuses;
+import static com.tazi34.carservice.car.CarSpecification.isNotDeniedByStatuses;
 import static utilities.CarsTestsUtility.getCarsWithoutId;
 import static utilities.CarsTestsUtility.getDummyCar;
 
 @RunWith(SpringRunner.class)
 @Transactional
 @ActiveProfiles("test")
-@SpringBootTest(classes = CarlyApplication.class)
+@SpringBootTest(classes = CarServiceApplication.class)
 public class CarSpecsTests {
 
     @Autowired

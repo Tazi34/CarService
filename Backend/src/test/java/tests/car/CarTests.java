@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import pw.react.carly.CarlyApplication;
-import pw.react.carly.car.Car;
-import pw.react.carly.car.CarRepository;
-import pw.react.carly.car.CarService;
-import pw.react.carly.status.Status;
-import pw.react.carly.status.StatusRepository;
-import pw.react.carly.status.StatusType;
+import com.tazi34.carservice.CarServiceApplication;
+import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.car.CarRepository;
+import com.tazi34.carservice.car.CarService;
+import com.tazi34.carservice.status.Status;
+import com.tazi34.carservice.status.StatusRepository;
+import com.tazi34.carservice.status.StatusType;
 
 import javax.transaction.Transactional;
 import java.util.Calendar;
@@ -27,7 +27,7 @@ import static utilities.CarsTestsUtility.getDummyCar;
 @RunWith(SpringRunner.class)
 @Transactional
 @ActiveProfiles("test")
-@SpringBootTest(classes = CarlyApplication.class)
+@SpringBootTest(classes = CarServiceApplication.class)
 public class CarTests {
 
 

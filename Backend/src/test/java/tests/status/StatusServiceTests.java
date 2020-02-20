@@ -9,11 +9,11 @@ import org.mockito.Mock;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.server.ResponseStatusException;
-import pw.react.carly.car.Car;
-import pw.react.carly.car.CarService;
-import pw.react.carly.reservation.ReservationData;
-import pw.react.carly.status.StatusRepository;
-import pw.react.carly.status.StatusService;
+import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.car.CarService;
+import com.tazi34.carservice.reservation.ReservationData;
+import com.tazi34.carservice.status.StatusRepository;
+import com.tazi34.carservice.status.StatusService;
 
 import java.util.Calendar;
 import java.util.Date;
