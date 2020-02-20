@@ -1,97 +1,80 @@
 import React, { Component } from 'react'
 import { Grid, InputLabel, FormControl, Select, MenuItem, makeStyles } from '@material-ui/core'
 import { MockedCities } from '../../MockData/mockedCities'
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+import LocationAndDatePicker from './LocationAndDatePicker';
+
 
 
 const styles = {
-
-    formControl: {
-        minWidth: 120,
-        width:120,
-    },
+    container:{
+        minWidth:"400px",
+        maxWidth:"400px",
+        padding:"10px",
+        border:"solid black 1px",
+        margin:"10px",
+    }
+    
 };
 
 export default class CarReservationForm extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         //this.classes = useStyles();
+        var startDate = new Date();
+        var endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1);
+
         this.state = {
-            sourceCity:{ name:'', locations:[]},
-            destinationCity:{ name:'', locations:[]},
-            sourceLocation:'',
-            destinationLocation:'',
+            startData: {
+                city: { name: '', locations: [] },
+                location: '',
+                date: startDate,
+            },
+            endData: {
+                city: { name: '', locations: [] },
+                location: '',
+                date: endDate,
+            },
         }
-        this.handleChange = this.handleChange.bind(this)
+        this.handleDataChange = this.handleDataChange.bind(this)
+
+
+
     }
-    handleChange(event) {
+
+    handleDataChange(event, dataName) {
         const target = event.target;
         const name = target.name;
         const value = target.value;
-        console.log(event)
-        this.setState({
-          [name]: value
-        });
-      }
+        var property = { ...this.state[dataName] }
+        property[name] = value
+        this.setState({ [dataName]: property });
+    }
 
     render() {
-        const sourceCity = this.state.sourceCity;
-        const destinationCity = this.state.destinationCity;
-     
-
         return (
-            <form noValidate autoComplete="off" style={{ border: "solid black 2px" }}>
-                <Grid container direction="column">
-                    <FormControl style={styles.width}>
-                        <InputLabel id="sourceCityLabel">Source city</InputLabel>
-                        <Select
-                            labelId="sourceCityLabel"
-                            id="sourceCitySelect"
-                            onChange={this.handleChange}
-                            value={this.state.sourceCity}
-                            name="sourceCity"
-                        >
-                            {MockedCities.map((city) => <MenuItem value={city}>{city.name}</MenuItem>)}
-                        </Select>
-                    </FormControl>
-                    
-                    <FormControl style={styles.width}>
-                        <InputLabel id="sourceLocationLabel">Location</InputLabel>
-                        <Select
-                            labelId="sourceLocationLabel"
-                            id="sourceLocationSelect"
-                            onChange={this.handleChange}
-                            value={this.sourceLocation}
-                            name="sourceLocation"
-                        >
-                            {sourceCity.locations.map((location) => <MenuItem value={location}> {location} </MenuItem>)}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl style={styles.width}>
-                        <InputLabel id="destinationCityLabel">Destination city</InputLabel>
-                        <Select
-                            labelId="destinationCityLabel"
-                            id="destinationCity"
-                            onChange={this.handleChange}
-                            value={this.state.destinationCity}
-                            name="destinationCity"
-                        >
-                            {MockedCities.map((city) => <MenuItem value={city}>{city.name}</MenuItem>)}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl style={styles.width}>
-                        <InputLabel id="destinationLocationLabel">Location</InputLabel>
-                        <Select
-                            labelId="destinationLocationLabel"
-                            id="destinationLocationSelect"
-                            onChange={this.handleChange}
-                            value={this.destinationLocation}
-                            name="destinationLocation"
-                        >
-                         {destinationCity.locations.map((location) => <MenuItem value={location}> {location} </MenuItem>)}
-                        </Select>
-                    </FormControl>
+            <form>
+                <Grid spacing={5} container direction="column" style={styles.container}>
+                    <Grid item>
+                        <LocationAndDatePicker
+                            name="startData"
+                            data={this.state.startData}
+                            handleChange={this.handleDataChange}>
+                        </LocationAndDatePicker>
+                    </Grid>
+                    <Grid item>
+                        <LocationAndDatePicker
+                            name="endData"
+                            data={this.state.endData}
+                            handleChange={this.handleDataChange}>
+                        </LocationAndDatePicker>
+                    </Grid>
                 </Grid>
             </form>
         )
