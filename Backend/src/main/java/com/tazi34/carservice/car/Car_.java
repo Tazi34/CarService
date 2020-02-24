@@ -14,7 +14,7 @@ public class Car_ {
     public static volatile SingularAttribute<Car,Integer> year;
     public static volatile SingularAttribute<Car, String> licence;
     public static volatile SingularAttribute<Car,String> location;
-    public static volatile SingularAttribute<Car,Boolean> isActive;
+    public static volatile SingularAttribute<Car,Boolean> active;
     public static volatile SingularAttribute<Car, BigDecimal> price;
 
 }
