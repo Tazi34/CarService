@@ -1,4 +1,4 @@
-package com.tazi34.carservice.location.spot;
+package com.tazi34.carservice.carlocation.spot;
 
 import org.springframework.data.repository.CrudRepository;
 

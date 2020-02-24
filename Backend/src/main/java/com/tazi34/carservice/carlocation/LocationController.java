@@ -1,9 +1,9 @@
-package com.tazi34.carservice.location;
+package com.tazi34.carservice.carlocation;
 
-import com.tazi34.carservice.location.city.City;
-import com.tazi34.carservice.location.city.CityService;
-import com.tazi34.carservice.location.spot.Spot;
-import com.tazi34.carservice.location.spot.SpotRepository;
+import com.tazi34.carservice.carlocation.city.City;
+import com.tazi34.carservice.carlocation.city.CityService;
+import com.tazi34.carservice.carlocation.spot.Spot;
+import com.tazi34.carservice.carlocation.spot.SpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

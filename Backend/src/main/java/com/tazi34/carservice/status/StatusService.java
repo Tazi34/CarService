@@ -2,9 +2,9 @@
 package com.tazi34.carservice.status;
 
 
-import com.tazi34.carservice.bookingUserInfo.BookingUserInfo;
-import com.tazi34.carservice.bookingUserInfo.BookingUserInfoDTO;
-import com.tazi34.carservice.bookingUserInfo.BookingUserInfoService;
+import com.tazi34.carservice.clientInfo.ClientInfo;
+import com.tazi34.carservice.clientInfo.ClientInfoDTO;
+import com.tazi34.carservice.clientInfo.ClientInfoService;
 import com.tazi34.carservice.reservation.ReservationData;
 import com.tazi34.carservice.reservation.ReservationInfo;
 import org.modelmapper.ModelMapper;
@@ -28,13 +28,13 @@ public class StatusService {
     private static final ModelMapper mapper = new ModelMapper();
     private StatusRepository statusRepository;
     private CarService carService;
-    private BookingUserInfoService bookingUserInfoService;
+    private ClientInfoService clientInfoService;
 
     @Autowired
-    public StatusService(StatusRepository statusRepository, @Lazy CarService carService, BookingUserInfoService bookingUserInfoService) {
+    public StatusService(StatusRepository statusRepository, @Lazy CarService carService, ClientInfoService clientInfoService) {
         this.carService = carService;
         this.statusRepository = statusRepository;
-        this.bookingUserInfoService = bookingUserInfoService;
+        this.clientInfoService = clientInfoService;
     }
 
     public ReservationInfo getReservation(Long statusID){
@@ -55,11 +55,11 @@ public class StatusService {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Car is not available or does not exist.");
 
-        BookingUserInfoDTO bookingUserInfoDTO = new BookingUserInfoDTO(reservationData.getName(),reservationData.getSurname(),reservationData.getEmail());
-        BookingUserInfo bookingUserInfo = bookingUserInfoService.addBookingUserInfo(bookingUserInfoDTO);
+        ClientInfoDTO clientInfoDTO = new ClientInfoDTO(reservationData.getName(),reservationData.getSurname(),reservationData.getEmail());
+        ClientInfo clientInfo = clientInfoService.addClientInfo(clientInfoDTO);
         Status status = new Status();
         status.setCar(car);
-        status.setBookingUserInfo(bookingUserInfo);
+        status.setClientInfo(clientInfo);
         status.setDateFrom(reservationData.getFromDate());
         status.setDateTo(reservationData.getToDate());
         status.setType(StatusType.BOOKED);

@@ -81,60 +81,63 @@ INSERT INTO public.cars (id, licence, location, make, model, seats, year, price,
 INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (93, 'WA 99975', 'Warszawa', 'Ford', 'F150', 8, 2004, 1151.00, true);
 
 
--- Add initial BookingUserInfos
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (1000, 'booking@mail.com', 'Jan', 'Kowalski');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (1001, 'booking2@mail.com', 'Arek', 'Nowak');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (1002, 'booking3@mail.com', 'Adrian', 'Jaszczomp');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (1, 'b.pazerny@mail.com', 'Bogdan', 'Pazerny');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (2, 'email@email.com', 'Bogdan', 'Śmigło');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (3, 'fdjksf@mail.ru', 'niekotik', 'kotik');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (4, 'nagini@tom.riddle', 'Stefan', 'Małostkowy');
-INSERT INTO public.booking_user_infos (id, email, name, surname) VALUES (5, 'bazyliszek@tom.riddle', 'Bogdan', 'Cyniczny');
+--Add initial address
+INSERT INTO public.addresses (id, city, country, house_number, postal_code, street) VALUES (1,'Warszawa','PL','14a','03-32','Stara');
+
+-- Add initial ClientInfos
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (1000, 'booking@mail.com', 'Jan', 'Kowalski',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (1001, 'booking2@mail.com', 'Arek', 'Nowak',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (1002, 'booking3@mail.com', 'Adrian', 'Jaszczomp',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (1, 'b.pazerny@mail.com', 'Bogdan', 'Pazerny',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (2, 'email@email.com', 'Bogdan', 'Śmigło',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (3, 'fdjksf@mail.ru', 'niekotik', 'kotik',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (4, 'nagini@tom.riddle', 'Stefan', 'Małostkowy',1);
+INSERT INTO public.client_info (id, email, name, surname,address_id) VALUES (5, 'bazyliszek@tom.riddle', 'Bogdan', 'Cyniczny',1);
 
 
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (151, 'tyres exchange', '2020-01-31 10:29:41', '2020-02-01 10:29:41', 'UNAVAILABLE', NULL, 99, '2020-01-30 10:30:02.311');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (154, 'test', '2020-01-31 15:32:23', '2020-02-01 15:32:23', 'UNAVAILABLE', NULL, 85, '2020-01-30 15:32:31.319');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (133, 'Bookly reservation', '2020-01-30 03:14:16.778', '2020-01-30 23:14:16.778', 'BOOKED', 3, 94, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (134, 'Bookly reservation', '2020-01-30 23:44:01.189', '2020-02-06 23:44:01.189', 'BOOKED', 4, 94, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (135, 'Bookly reservation', '2020-02-06 23:54:50.468', '2020-03-17 23:54:50.468', 'BOOKED', 4, 94, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (136, 'Bookly reservation', '2020-01-31 00:06:08.08', '2020-02-02 00:06:08.08', 'BOOKED', 4, 100, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (137, 'Bookly reservation', '2020-01-31 00:19:14.66', '2020-02-13 00:19:14.66', 'BOOKED', 4, 96, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (138, 'Bookly reservation', '2020-01-31 00:20:53.572', '2020-02-06 00:20:53.572', 'BOOKED', 4, 98, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (139, 'Bookly reservation', '2020-01-31 00:21:48.109', '2020-02-13 00:21:48.109', 'BOOKED', 4, 103, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (140, 'Bookly reservation', '2020-01-31 00:23:44.197', '2020-02-02 00:23:44.197', 'BOOKED', 4, 101, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (141, 'Bookly reservation', '2020-02-27 00:28:55.695', '2020-02-28 00:28:55.695', 'BOOKED', 4, 95, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (142, 'Bookly reservation', '2020-01-31 00:31:15.805', '2020-02-02 00:31:15.805', 'BOOKED', 4, 112, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (143, 'Bookly reservation', '2020-02-21 00:32:29.973', '2020-03-27 00:32:29.973', 'BOOKED', 4, 112, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (144, 'Bookly reservation', '2020-02-28 00:34:12.701', '2020-03-06 00:34:12.701', 'BOOKED', 4, 95, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (145, 'Bookly reservation', '2020-01-30 23:14:16.778', '2020-01-31 23:14:16.778', 'BOOKED', 3, 111, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (146, 'Bookly reservation', '2020-01-31 00:37:33.205', '2020-02-01 00:37:33.205', 'BOOKED', 4, 113, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (147, 'Bookly reservation', '2020-02-02 00:39:20.784', '2020-02-04 00:39:20.784', 'BOOKED', 4, 113, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (148, 'Bookly reservation', '2020-02-20 00:39:40.381', '2020-03-25 00:39:40.381', 'BOOKED', 4, 113, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (175, 'cleaning', '2020-02-05 16:38:02.574', '2020-02-07 16:38:02', 'UNAVAILABLE', NULL, 119, '2020-02-05 16:38:14.487');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (176, 'Bookly reservation', '2020-02-13 22:06:56.988', '2020-02-13 23:06:56.988', 'BOOKED', 5, 95, '2020-02-13 22:11:08.751');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (152, 'Bookly reservation', '2020-02-02 12:11:29.769', '2020-02-04 12:11:29.769', 'BOOKED', 4, 60, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (156, 'Bookly reservation', '2020-02-02 18:26:41.414', '2020-02-04 18:26:41.414', 'BOOKED', 4, 66, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (157, 'Bookly reservation', '2020-02-09 01:59:44.557', '2020-02-11 02:11:19.508', 'BOOKED', 4, 112, '2020-02-01 02:20:06.56');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (158, 'Bookly reservation', '2020-02-01 02:21:12.253', '2020-02-01 03:21:12.253', 'BOOKED', 4, 60, '2020-02-01 02:22:17.132');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (159, '', '2020-02-01 07:20:24.08', '2020-02-01 07:20:24.08', 'UNAVAILABLE', NULL, 99, '2020-02-01 07:20:35.615');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (160, '', '2020-02-01 07:24:01.873', '2020-02-01 07:24:01.873', 'UNAVAILABLE', NULL, 111, '2020-02-01 07:24:09.113');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (161, '', '2020-02-05 07:24:55', '2020-02-13 07:24:55', 'UNAVAILABLE', NULL, 112, '2020-02-01 07:25:12.757');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (163, 'Bookly reservation', '2020-02-01 21:31:22.263', '2020-02-01 22:31:22.263', 'BOOKED', 4, 104, '2020-02-01 21:31:59.626');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (164, 'Bookly reservation', '2020-10-06 23:44:01.189', '2020-10-08 23:44:01.189', 'BOOKED', 4, 104, '2020-02-01 21:57:16.144');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (165, 'Bookly reservation', '2020-11-06 22:44:01.189', '2020-11-08 23:44:01.189', 'BOOKED', 4, 104, '2020-02-01 21:57:45.798');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (166, 'Bookly reservation', '2020-02-03 22:02:05.579', '2020-02-04 22:02:29.54', 'BOOKED', 4, 100, '2020-02-01 22:02:50.399');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (167, 'Bookly reservation', '2020-02-01 22:11:53.415', '2020-02-02 00:13:54.835', 'BOOKED', 4, 61, '2020-02-01 22:13:13.188');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (169, 'Serwis', '2020-02-10 21:56:26', '2020-02-15 21:56:26', 'UNAVAILABLE', NULL, 102, '2020-02-02 21:56:43.121');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (149, 'Bookly reservation', '2020-02-12 00:40:21.156', '2020-02-13 00:40:21.156', 'BOOKINGCANCELED', 4, 102, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (153, 'Bookly reservation', '2020-02-02 12:13:41.021', '2020-02-04 12:13:41.021', 'BOOKINGCANCELED', 4, 61, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (155, 'Bookly reservation', '2020-02-02 18:25:03.981', '2020-02-04 18:25:03.981', 'BOOKINGCANCELED', 4, 64, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (150, 'Bookly reservation', '2020-02-02 01:42:36.594', '2020-02-04 01:42:36.594', 'BOOKINGCANCELED', 4, 109, '2019-01-31 14:48:00');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (172, 'needs cleaning', '2020-02-06 11:59:57', '2020-02-07 11:59:57', 'UNAVAILABLE', NULL, 118, '2020-02-05 12:00:16.984');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (171, 'Bookly reservation', '2020-05-08 10:09:58.724', '2020-05-10 11:15:03.305', 'BOOKINGCANCELED', 4, 110, '2020-02-05 11:14:45.345');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (170, 'Bookly reservation', '2020-02-26 00:09:53.843', '2020-02-27 12:00:50.257', 'BOOKINGCANCELED', 4, 110, '2020-02-05 11:13:09.931');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (168, 'Bookly reservation', '2020-02-01 22:16:19.038', '2020-02-01 23:16:19.038', 'BOOKINGCANCELED', 4, 60, '2020-02-01 22:16:57.223');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (173, 'Bookly reservation', '2020-02-05 12:45:19.933', '2020-02-05 13:45:19.933', 'BOOKED', 5, 113, '2020-02-05 12:46:29.738');
-INSERT INTO public.status (id, comment, date_from, date_to, type, booking_user_info_id, car_id, created_at) VALUES (174, 'Bookly reservation', '2020-02-05 13:24:57.03', '2020-02-05 14:24:57.03', 'BOOKED', 5, 95, '2020-02-05 13:27:46.193');
+INSERT INTO public.status (id, comment, date_from, date_to, type, client_info_id, car_id, created_at) VALUES (151, 'tyres exchange', '2020-01-31 10:29:41', '2020-02-01 10:29:41', 'UNAVAILABLE', NULL, 99, '2020-01-30 10:30:02.311');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (154, 'test', '2020-01-31 15:32:23', '2020-02-01 15:32:23', 'UNAVAILABLE', NULL, 85, '2020-01-30 15:32:31.319');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (133, 'Bookly reservation', '2020-01-30 03:14:16.778', '2020-01-30 23:14:16.778', 'BOOKED', 3, 94, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (134, 'Bookly reservation', '2020-01-30 23:44:01.189', '2020-02-06 23:44:01.189', 'BOOKED', 4, 94, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (135, 'Bookly reservation', '2020-02-06 23:54:50.468', '2020-03-17 23:54:50.468', 'BOOKED', 4, 94, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (136, 'Bookly reservation', '2020-01-31 00:06:08.08', '2020-02-02 00:06:08.08', 'BOOKED', 4, 100, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (137, 'Bookly reservation', '2020-01-31 00:19:14.66', '2020-02-13 00:19:14.66', 'BOOKED', 4, 96, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (138, 'Bookly reservation', '2020-01-31 00:20:53.572', '2020-02-06 00:20:53.572', 'BOOKED', 4, 98, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (139, 'Bookly reservation', '2020-01-31 00:21:48.109', '2020-02-13 00:21:48.109', 'BOOKED', 4, 103, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (140, 'Bookly reservation', '2020-01-31 00:23:44.197', '2020-02-02 00:23:44.197', 'BOOKED', 4, 101, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (141, 'Bookly reservation', '2020-02-27 00:28:55.695', '2020-02-28 00:28:55.695', 'BOOKED', 4, 95, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (142, 'Bookly reservation', '2020-01-31 00:31:15.805', '2020-02-02 00:31:15.805', 'BOOKED', 4, 112, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (143, 'Bookly reservation', '2020-02-21 00:32:29.973', '2020-03-27 00:32:29.973', 'BOOKED', 4, 112, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (144, 'Bookly reservation', '2020-02-28 00:34:12.701', '2020-03-06 00:34:12.701', 'BOOKED', 4, 95, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (145, 'Bookly reservation', '2020-01-30 23:14:16.778', '2020-01-31 23:14:16.778', 'BOOKED', 3, 111, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (146, 'Bookly reservation', '2020-01-31 00:37:33.205', '2020-02-01 00:37:33.205', 'BOOKED', 4, 113, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (147, 'Bookly reservation', '2020-02-02 00:39:20.784', '2020-02-04 00:39:20.784', 'BOOKED', 4, 113, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (148, 'Bookly reservation', '2020-02-20 00:39:40.381', '2020-03-25 00:39:40.381', 'BOOKED', 4, 113, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (175, 'cleaning', '2020-02-05 16:38:02.574', '2020-02-07 16:38:02', 'UNAVAILABLE', NULL, 119, '2020-02-05 16:38:14.487');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (176, 'Bookly reservation', '2020-02-13 22:06:56.988', '2020-02-13 23:06:56.988', 'BOOKED', 5, 95, '2020-02-13 22:11:08.751');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (152, 'Bookly reservation', '2020-02-02 12:11:29.769', '2020-02-04 12:11:29.769', 'BOOKED', 4, 60, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (156, 'Bookly reservation', '2020-02-02 18:26:41.414', '2020-02-04 18:26:41.414', 'BOOKED', 4, 66, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (157, 'Bookly reservation', '2020-02-09 01:59:44.557', '2020-02-11 02:11:19.508', 'BOOKED', 4, 112, '2020-02-01 02:20:06.56');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (158, 'Bookly reservation', '2020-02-01 02:21:12.253', '2020-02-01 03:21:12.253', 'BOOKED', 4, 60, '2020-02-01 02:22:17.132');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (159, '', '2020-02-01 07:20:24.08', '2020-02-01 07:20:24.08', 'UNAVAILABLE', NULL, 99, '2020-02-01 07:20:35.615');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (160, '', '2020-02-01 07:24:01.873', '2020-02-01 07:24:01.873', 'UNAVAILABLE', NULL, 111, '2020-02-01 07:24:09.113');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (161, '', '2020-02-05 07:24:55', '2020-02-13 07:24:55', 'UNAVAILABLE', NULL, 112, '2020-02-01 07:25:12.757');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (163, 'Bookly reservation', '2020-02-01 21:31:22.263', '2020-02-01 22:31:22.263', 'BOOKED', 4, 104, '2020-02-01 21:31:59.626');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (164, 'Bookly reservation', '2020-10-06 23:44:01.189', '2020-10-08 23:44:01.189', 'BOOKED', 4, 104, '2020-02-01 21:57:16.144');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (165, 'Bookly reservation', '2020-11-06 22:44:01.189', '2020-11-08 23:44:01.189', 'BOOKED', 4, 104, '2020-02-01 21:57:45.798');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (166, 'Bookly reservation', '2020-02-03 22:02:05.579', '2020-02-04 22:02:29.54', 'BOOKED', 4, 100, '2020-02-01 22:02:50.399');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (167, 'Bookly reservation', '2020-02-01 22:11:53.415', '2020-02-02 00:13:54.835', 'BOOKED', 4, 61, '2020-02-01 22:13:13.188');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (169, 'Serwis', '2020-02-10 21:56:26', '2020-02-15 21:56:26', 'UNAVAILABLE', NULL, 102, '2020-02-02 21:56:43.121');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (149, 'Bookly reservation', '2020-02-12 00:40:21.156', '2020-02-13 00:40:21.156', 'BOOKINGCANCELED', 4, 102, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (153, 'Bookly reservation', '2020-02-02 12:13:41.021', '2020-02-04 12:13:41.021', 'BOOKINGCANCELED', 4, 61, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (155, 'Bookly reservation', '2020-02-02 18:25:03.981', '2020-02-04 18:25:03.981', 'BOOKINGCANCELED', 4, 64, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (150, 'Bookly reservation', '2020-02-02 01:42:36.594', '2020-02-04 01:42:36.594', 'BOOKINGCANCELED', 4, 109, '2019-01-31 14:48:00');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (172, 'needs cleaning', '2020-02-06 11:59:57', '2020-02-07 11:59:57', 'UNAVAILABLE', NULL, 118, '2020-02-05 12:00:16.984');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (171, 'Bookly reservation', '2020-05-08 10:09:58.724', '2020-05-10 11:15:03.305', 'BOOKINGCANCELED', 4, 110, '2020-02-05 11:14:45.345');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (170, 'Bookly reservation', '2020-02-26 00:09:53.843', '2020-02-27 12:00:50.257', 'BOOKINGCANCELED', 4, 110, '2020-02-05 11:13:09.931');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (168, 'Bookly reservation', '2020-02-01 22:16:19.038', '2020-02-01 23:16:19.038', 'BOOKINGCANCELED', 4, 60, '2020-02-01 22:16:57.223');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (173, 'Bookly reservation', '2020-02-05 12:45:19.933', '2020-02-05 13:45:19.933', 'BOOKED', 5, 113, '2020-02-05 12:46:29.738');
+INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (174, 'Bookly reservation', '2020-02-05 13:24:57.03', '2020-02-05 14:24:57.03', 'BOOKED', 5, 95, '2020-02-05 13:27:46.193');
 
 
 insert into public.cities (id,name) VALUES
@@ -148,6 +151,8 @@ insert into public.cities (id,name) VALUES
 (8,'ŁÓDŹ'),
 (9,'KRAKÓW'),
 (10,'WARSZAWA');
+
+
 
 insert into public.spot ( name, city_id)  VALUES
 ('MICKIEWICZA',1),

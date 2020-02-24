@@ -1,4 +1,4 @@
-package com.tazi34.carservice.location.city;
+package com.tazi34.carservice.carlocation.city;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;

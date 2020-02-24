@@ -1,6 +1,6 @@
-package com.tazi34.carservice.location.city;
+package com.tazi34.carservice.carlocation.city;
 
-import com.tazi34.carservice.location.spot.Spot;
+import com.tazi34.carservice.carlocation.spot.Spot;
 import lombok.Data;
 
 import javax.persistence.*;

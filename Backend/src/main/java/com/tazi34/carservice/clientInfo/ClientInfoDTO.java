@@ -1,18 +1,18 @@
-package com.tazi34.carservice.bookingUserInfo;
+package com.tazi34.carservice.clientInfo;
 
-public class BookingUserInfoDTO {
+public class ClientInfoDTO {
 
     private String name;
     private String surname;
     private String email;
 
-    public BookingUserInfoDTO(String name, String surname, String email) {
+    public ClientInfoDTO(String name, String surname, String email) {
         this.name = name;
         this.surname = surname;
         this.email = email;
     }
 
-    public BookingUserInfoDTO() {
+    public ClientInfoDTO() {
     }
 
     public String getName() {

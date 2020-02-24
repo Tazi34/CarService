@@ -8,7 +8,7 @@ import java.util.Date;
 public class StatusDTO {
     @NotNull
     private Long carId;
-    private Long bookingUserInfoId;
+    private Long clientInfoId;
     private String comment;
 
     @NotNull
@@ -21,9 +21,9 @@ public class StatusDTO {
     @Enumerated(EnumType.STRING)
     private StatusType type;
 
-    public StatusDTO(@NotNull Long carId, Long bookingUserInfoId, String comment, @NotNull Date dateFrom, @NotNull Date dateTo, StatusType type) {
+    public StatusDTO(@NotNull Long carId, Long clientInfoId, String comment, @NotNull Date dateFrom, @NotNull Date dateTo, StatusType type) {
         this.carId = carId;
-        this.bookingUserInfoId = bookingUserInfoId;
+        this.clientInfoId = clientInfoId;
         this.comment = comment;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
@@ -37,8 +37,8 @@ public class StatusDTO {
         return carId;
     }
 
-    public Long getBookingUserInfoId() {
-        return bookingUserInfoId;
+    public Long getClientInfoId() {
+        return clientInfoId;
     }
 
     public String getComment() {

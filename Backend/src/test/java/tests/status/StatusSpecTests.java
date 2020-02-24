@@ -48,7 +48,7 @@ public class StatusSpecTests {
         status.setType(StatusType.BOOKED);
         Car car = getDummyCar();
         status.setCar(car);
-        status.setBookingUserInfo(null);
+        status.setClientInfo(null);
         carRepository.save(car);
         return status;
     }

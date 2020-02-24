@@ -1,7 +1,7 @@
-package com.tazi34.carservice.location.spot;
+package com.tazi34.carservice.carlocation.spot;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tazi34.carservice.location.city.City;
+import com.tazi34.carservice.carlocation.city.City;
 import lombok.Data;
 
 import javax.persistence.*;

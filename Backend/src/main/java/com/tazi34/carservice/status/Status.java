@@ -1,6 +1,6 @@
 package com.tazi34.carservice.status;
 
-import com.tazi34.carservice.bookingUserInfo.BookingUserInfo;
+import com.tazi34.carservice.clientInfo.ClientInfo;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +21,7 @@ public class Status {
     @ManyToOne//(fetch=FetchType.LAZY,optional = false)
     private Car car;
     @ManyToOne(cascade = CascadeType.ALL)
-    private BookingUserInfo bookingUserInfo;
+    private ClientInfo clientInfo;
     private String comment;
     @CreationTimestamp
     private Date createdAt;
