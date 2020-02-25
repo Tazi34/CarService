@@ -9,16 +9,15 @@ import { withRouter } from 'react-router-dom';
  class VisibleCarList extends Component {
     
     componentDidMount(){
-            this.props.getCarsPage(0);
-     
+            this.props.getCarsPage(0);  
     }
     render() {
-        if(!this.props.cars  || !this.props.getCarsPage)
+        if(!this.props.cars)
             return null
+
         var cars = this.props.cars;
-        console.log(this.props)
-       
- 
+        
+
         if (this.props.cars.isFetching || !this.props.cars.fetched)
             return <Typography>Loading...</Typography>
 
@@ -39,6 +38,7 @@ import { withRouter } from 'react-router-dom';
 }
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return{
         cars: state.cars.cars,
         pagination: state.pagination,
