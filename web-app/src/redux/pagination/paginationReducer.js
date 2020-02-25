@@ -1,6 +1,7 @@
-import { REQUEST_PAGE, RECEIVE_PAGE, SET_CURRENT_PAGE } from "./paginationActions";
+import { REQUEST_PAGE, RECEIVE_PAGE, SET_CURRENT_PAGE, SET_SORT_ORDER,SET_SORT_FIELD,SortOrders, SET_SORTING } from "./paginationActions";
 import { combineReducers } from "redux";
 
+const {NOT_SORTED} = SortOrders
 
 
 function pages(state = {}, action) {
@@ -13,7 +14,6 @@ function pages(state = {}, action) {
                     fetching: true
                 }
             }
-
         case RECEIVE_PAGE:
             return {
                 ...state,
@@ -27,7 +27,15 @@ function pages(state = {}, action) {
     }
 }
 
-function currentPage(state = 0, action) {
+function sorting(state = {order:NOT_SORTED,field:null}, action){
+    switch(action.type){
+        case SET_SORTING:
+            return Object.assign({},state,{order:action.payload.sortOrder,field:action.payload.sortField});
+        default:
+             return state;
+    }
+}
+function currentPage(state = -1, action) {
     switch (action.type) {
         case REQUEST_PAGE : 
             return action.payload.page
@@ -47,6 +55,7 @@ export const paginationReducer =
     combineReducers({
         pages,
         currentPage,
-        totalPages
+        totalPages,
+        sorting,
     })
 

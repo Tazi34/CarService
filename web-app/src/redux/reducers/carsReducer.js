@@ -4,8 +4,7 @@ import { combineReducers } from 'redux'
 
 
 
-const {SHOW_ALL} = VisibilityFilters
-const {NOT_SORTED} = SortOrders
+
 
 function cars(state = [], action) {
     switch (action.type) {
@@ -22,31 +21,10 @@ function cars(state = [], action) {
 
 }
 
-function visibilityFilter(state = SHOW_ALL,action){
-    switch(action.type){
-        case SET_VISIBILITY_FILTER:
-            return action.filter;
-        default:
-            return state
-    }
-}
 
-function sortOrder(state = NOT_SORTED,action){
-    switch(action.type){
-        case SET_SORT_ORDER:
-            return action.sortOrder;
-        default:
-            return state
-    }
-}
 
-const carReducer = combineReducers(
-    {
-        visibilityFilter,
-        sortOrder,
-        cars,
-    }
-)
+
+const carReducer = cars
 
 export default carReducer;
 

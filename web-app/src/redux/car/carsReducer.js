@@ -1,14 +1,18 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_CARS_ERROR,RECEIVE_CARS_SUCCESS, REQUEST_CARS, SET_SORT_ORDER, SET_VISIBILITY_FILTER, SortOrders, VisibilityFilters } from './actions/carActions'
+import { RECEIVE_CARS_ERROR,RECEIVE_CARS_SUCCESS, REQUEST_CARS,  SET_VISIBILITY_FILTER, VisibilityFilters } from './actions/carActions'
 
 const { SHOW_ALL } = VisibilityFilters
-const { NOT_SORTED } = SortOrders
+
+
 
 function cars(state =
     {
-        items: [],
+        items: {},
         isFetching: false,
         error: null,
+        byId:[],
+        lastUpdated:0,
+        fetched:false,
     },
     action) {
     switch (action.type) {
@@ -18,13 +22,15 @@ function cars(state =
             })
         case RECEIVE_CARS_SUCCESS:
             var payload = action.payload
+
             var byId = payload.cars.map((car) => car.id)
-            var items = {}
-            payload.cars.forEach(car => items[car.id] = car)
+            var _items = {}
+            payload.cars.forEach(car => _items = {..._items,[car.id]: car});
+            
             return Object.assign({}, state, {
                 isFetching: false,
-                byId: byId,
-                items: items,
+                byId:[...state.byId,byId],
+                items: {...state.items,..._items},
                 lastUpdated: payload.receivedAt,
                 fetched: true,
             })
@@ -41,24 +47,10 @@ function cars(state =
 
 }
 
-function visibilityFilter(state = SHOW_ALL, action) {
-    switch (action.type) {
-        case SET_VISIBILITY_FILTER:
-            return action.filter;
-        default:
-            return state
-    }
-}
 
 
 
-
-const carReducer = combineReducers(
-    {
-        visibilityFilter,
-        cars,
-    }
-)
+const carReducer = cars
 
 export default carReducer;
 

@@ -21,15 +21,8 @@ export const VisibilityFilters = {
     SHOW_BOOKED: 'SHOW_BOOKED'
 }
 
-export const SortFields = {
-    NOT_SORTED: 'NOT_SORTED',
-    SORT_BY_PRICE: 'SORT_BY_PRICE',
-    SORT_BY_SEATS: 'SORT_BY_SEATS',
-}
-export const SortOrders = {
-    ASC: 'ASC',
-    DESC: 'DESC',
-}
+
+
 
 //ACTION CREATORS
 //TODO normalize state (change from objects to ids)
@@ -45,13 +38,7 @@ export function setVisibilityFilter(filter) {
     return { type: SET_VISIBILITY_FILTER, filter }
 }
 
-export function setSortField(sortField) {
-    return { type: SET_SORT_FIELD, sortField }
-}
 
-export function setSortOrder(sortOrder) {
-    return { type: SET_SORT_ORDER, sortOrder }
-}
 
 //API
 export function requestCars() {
