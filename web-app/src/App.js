@@ -1,9 +1,10 @@
-import { Box } from '@material-ui/core';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import './App.css';
-import NavBar from './components/UI/NavBar';
-import VisibleCarList from './components/car/VisibleCarList'
+import VisibleCarList from './components/car/VisibleCarList';
+import Layout from './components/UI/Layout'
+import { Route } from 'react-router-dom';
+import Home from './components/UI/Home';
 const theme = createMuiTheme({
   palette: {
 
@@ -23,22 +24,15 @@ const theme = createMuiTheme({
 });
 
 
-function App() {
 
-
+function App(props) {
   return (
-    //<CarReservationForm></CarReservationForm>
-
-   
-      <MuiThemeProvider theme={theme} >
-        <Box bgcolor="primary.light">
-          <NavBar />
-
-           <VisibleCarList></VisibleCarList> 
-        </Box>
-      </MuiThemeProvider>
-  
+    <MuiThemeProvider theme={theme} >
+      <Layout style={{width:"100%",height:"100%"}}>
+        <Route path="/" component={Home} />
+        <Route path="/cars" component={VisibleCarList} />
+      </Layout>
+    </MuiThemeProvider>
   );
 }
-
 export default App;

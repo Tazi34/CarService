@@ -1,33 +1,35 @@
 import { Grid, Typography } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { connect } from 'react-redux';
-import { MockedCars } from '../../MockData/mockedCars';
-import { fetchCars } from '../../redux/car/actions/carActions';
+
 import React, { Component } from 'react';
 import CarList from './CarList';
 import { fetchCarPage, setCurrentPage } from '../../redux/pagination/paginationActions';
-export class VisibleCarList extends Component {
-    componentDidMount(){
-       this.props.getCarsPage(1);
-    }
-
-
-    render() {
-
-        var cars = this.props.cars;
-        if(this.props.cars.isFetching || !this.props.cars.fetched)
-            return <Typography>Loading...</Typography>
-         
-        
+import { withRouter } from 'react-router-dom';
+ class VisibleCarList extends Component {
     
+    componentDidMount(){
+            this.props.getCarsPage(0);
+     
+    }
+    render() {
+        if(!this.props.cars  || !this.props.getCarsPage)
+            return null
+        var cars = this.props.cars;
+        console.log(this.props)
+       
+ 
+        if (this.props.cars.isFetching || !this.props.cars.fetched)
+            return <Typography>Loading...</Typography>
+
         return (
             <Grid container direction="column" alignItems="center" alignContent="center" style={{ width: "80%", margin: "auto", }}>
-                
+
                 <Grid item >
                     <CarList cars={cars.byId.map(id => cars.items[id])}></CarList>
                 </Grid>
                 <Grid item>
-                    <Pagination count={this.props.pagination.totalPages} onChange={(event,page) => this.props.getCarsPage(page-1)}></Pagination>
+                    <Pagination count={this.props.pagination.totalPages} onChange={(event, page) => this.props.getCarsPage(page - 1)}></Pagination>
                 </Grid>
 
             </Grid>
@@ -36,15 +38,16 @@ export class VisibleCarList extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-
-    cars:state.cars.cars,
-    pagination:state.pagination,
-})
-
-const mapDispatchToProps = {
-    getCarsPage:fetchCarPage,
-    setPage:setCurrentPage,
+const mapStateToProps = (state) => {
+    return{
+        cars: state.cars.cars,
+        pagination: state.pagination,
+    }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(VisibleCarList)
+const mapDispatchToProps = {
+    getCarsPage: fetchCarPage,
+    setPage: setCurrentPage,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VisibleCarList)
