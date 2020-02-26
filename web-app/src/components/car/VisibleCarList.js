@@ -2,9 +2,10 @@ import { FormControl, Grid, Select, Typography, Button } from '@material-ui/core
 import Pagination from '@material-ui/lab/Pagination';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCarPage, setCurrentPage, setSorting } from '../../redux/pagination/paginationActions';
+import { fetchCarPage, setCurrentPage, setSorting, SortFields, setSortField, setSortOrder, resetPagination, SortOrders } from '../../redux/pagination/paginationActions';
 import CarList from './CarList';
-import { OrderCarsBy } from './FieldsConst';
+import { SortCarsOrderFields } from './FieldsConst';
+import SortingSelectors from '../UI/SortingSelectors';
 
 
 
@@ -12,14 +13,15 @@ class VisibleCarList extends Component {
 
 
     componentDidMount() {
-        this.getCarsPage(0)
+        var sorting = this.props.sorting;
+        this.getCarsPage(0, sorting.field, sorting.order)
     }
 
     getCarsPage = (page) => {
         var pagination = this.props.pagination;
+        var sorting = this.props.sorting;
         //IF NOT FETCHED
         if (!pagination.pages[page]) {
-            var sorting = pagination.sorting;
             this.props.fetchCarPage(page, sorting.field, sorting.order)
         }
         //IF ALREADY IN STORE
@@ -27,14 +29,25 @@ class VisibleCarList extends Component {
             this.props.setPage(page)
         }
     }
-    getFieldSortOptions() {
+
+    getFieldSortOptions = () => {
         var options = [];
-        for (var sortOption in OrderCarsBy){
-            var option = OrderCarsBy[sortOption];
+        for (var sortOption in SortCarsOrderFields) {
+            var option = SortCarsOrderFields[sortOption];
             options.push(<option value={option.value}>{option.display}</option>)
         }
         return options;
     }
+
+
+    sortingApplyHandler = () => {
+        var sorting = this.props.sorting;
+        if (sorting.field && sorting.order != SortOrders.NOT_SORTED) {
+            this.props.resetPages()
+            this.props.fetchCarPage(0, sorting.field, sorting.order)
+        }
+    }
+
 
 
     render() {
@@ -43,7 +56,6 @@ class VisibleCarList extends Component {
 
         var cars = this.props.cars;
         var pagination = this.props.pagination;
-        var sorting = this.props.pagination.sorting;
 
         if (cars.isFetching || !cars.fetched)
             return <Typography>Loading...</Typography>
@@ -52,30 +64,15 @@ class VisibleCarList extends Component {
 
         return (
             <Grid container direction="column" alignItems="center" alignContent="center" style={{ width: "80%", margin: "auto", }}>
-
-                <flexbox>
-                    <FormControl variant="outlined" >
-                        <Select
-                            native
-                            defaultValue=""
-                            onChange={(event) => this.props.setSorting(event.target.value,sorting.order)}
-                        >
-                            <option value="" disabled>Sort by </option>
-                            {this.getFieldSortOptions()}
-                        </Select>
-                    </FormControl>
-                    <FormControl variant="outlined" >
-                        <Select
-                            native
-                            defaultValue="">
-                            <option value="" disabled>Sort Order</option>
-                            <option value={10}>Ascending</option>
-                            <option value={20}>Descending</option>
-                        </Select>
-                    </FormControl>
-                    <Button variant="contained">Apply</Button>
-                </flexbox>
-
+                <Grid item container justify="flex-end" direction="row">
+                    <Grid item>
+                        <SortingSelectors
+                            fieldChanged={this.props.setSortField}
+                            orderChanged={this.props.setSortOrder}
+                            fieldOptions={this.getFieldSortOptions()}
+                            applyHandler={this.sortingApplyHandler} />
+                    </Grid>
+                </Grid>
 
                 <Grid item >
                     <CarList cars={currentPage.ids.map(id => cars.items[id])}></CarList>
@@ -83,8 +80,7 @@ class VisibleCarList extends Component {
                 <Grid item>
                     <Pagination count={pagination.totalPages} onChange={(event, page) => {
                         this.getCarsPage(page - 1);
-                    }
-                    }></Pagination>
+                    }}></Pagination>
                 </Grid>
             </Grid>
 
@@ -96,13 +92,16 @@ const mapStateToProps = (state) => {
     return {
         cars: state.cars,
         pagination: state.pagination,
+        sorting: state.sorting,
     }
 }
 
 const mapDispatchToProps = {
-    setSorting: setSorting,
+    setSortField: setSortField,
+    setSortOrder: setSortOrder,
     fetchCarPage: fetchCarPage,
     setPage: setCurrentPage,
+    resetPages: resetPagination,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisibleCarList)

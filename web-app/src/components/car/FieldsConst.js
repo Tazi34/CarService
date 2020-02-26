@@ -1,5 +1,5 @@
 
-export const OrderCarsBy = {
+export const SortCarsOrderFields = {
     BY_PRICE:{
         display:"Price",
         value:"price"
