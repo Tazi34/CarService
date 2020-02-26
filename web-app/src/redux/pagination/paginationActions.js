@@ -5,6 +5,7 @@ export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 export const SET_TOTAL_PAGES = 'SET_TOTAL_PAGES'
 export const REQUEST_PAGE = 'REQUEST_PAGE'
 export const RECEIVE_PAGE = 'RECEIVE_PAGE'
+export const RESET_PAGINATION = 'RESET_PAGINATION'
 
 export const SET_SORT_FIELD = 'SET_SORT_FIELD'
 export const SET_SORT_ORDER = 'SET_SORT_ORDER'
@@ -45,6 +46,9 @@ export function requestPage(endpoint,resultKey,page){
         meta:{endpoint,resultKey}
     }
 }
+export function resetPagination(){
+    return {type:RESET_PAGINATION}
+}
 
 export function receivePage(page,results,totalPages){
     return {type:RECEIVE_PAGE,payload:{page,results,totalPages}}
@@ -59,7 +63,6 @@ const requestCarPage = createRequestPageActionCreator('/cars','cars')
 export function fetchCarPage(pageNo = 0,sortField = null, sortOrder = null){
     return function(dispatch){
         dispatch(requestCarPage(pageNo))
-        
         return axios.get(buildUrl('/cars',pageNo,sortField,sortOrder))
             .then(response => {
                 dispatch(receiveCars(response.data.content))

@@ -7,7 +7,7 @@ const submit = values => {
   console.log(values);
 };
 
-export default function ReservationForm() {
+export default function ReservationForm(props) {
   return (
     <div
       style={{
