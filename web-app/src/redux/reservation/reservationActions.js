@@ -6,6 +6,12 @@ export const SET_END_SPOT = "SET_END_SPOT";
 
 export const SET_START_CITY = "SET_START_CITY";
 export const SET_END_CITY = "SET_END_CITY";
+export const SET_RESERVATION_CAR = "SET_RESERVATION_CAR";
+export const setCar = car => ({
+  type: SET_RESERVATION_CAR,
+  payload: { car: car }
+});
+
 export function setStartDate(date) {
   return { type: SET_START_DATE, payload: { date: date } };
 }

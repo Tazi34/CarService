@@ -1,12 +1,13 @@
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import React from "react";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
-import VisibleCarList from "./components/car/VisibleCarList";
+import AvailableCarList from "./components/car/AvailableCarList";
 import Layout from "./components/UI/Layout";
-import { Route } from "react-router-dom";
+import DateLocationCarForm from "./components/reservationForm/DateLocationCarForm";
 import ReservationForm from "./components/reservationForm/ReservationForm";
-import { purple } from "@material-ui/core/colors";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -31,8 +32,12 @@ function App(props) {
       <CssBaseline>
         {/*Needed to apply background for whole page */}
         <Layout>
-          <Route exact path="/" component={ReservationForm} />
-          <Route path="/cars" component={VisibleCarList} />
+          <Switch>
+            <Route exact path="/" component={DateLocationCarForm} />
+            <Route path="/cars/apply/:id" component={ReservationForm} />
+            <Route path="/cars" component={AvailableCarList} />
+            <Route path="*" component={NotFoundErrorPage} />
+          </Switch>
         </Layout>
       </CssBaseline>
     </MuiThemeProvider>

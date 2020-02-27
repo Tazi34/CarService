@@ -4,7 +4,8 @@ import {
   SET_END_SPOT,
   SET_START_SPOT,
   SET_START_CITY,
-  SET_END_CITY
+  SET_END_CITY,
+  SET_RESERVATION_CAR
 } from "./reservationActions";
 
 function reservations(
@@ -20,14 +21,24 @@ function reservations(
       name: ""
     },
     startCity: {
-      id: -1,
-      spots: [],
-      name: "Start city"
+      selected: false,
+      item: {
+        id: -1,
+        spots: [],
+        name: "Start city"
+      }
     },
     endCity: {
-      id: -1,
-      spots: [],
-      name: "End city"
+      selected: false,
+      item: {
+        id: -1,
+        spots: [],
+        name: "Start city"
+      }
+    },
+    car: {
+      item: {},
+      selected: false
     }
   },
   action
@@ -42,9 +53,11 @@ function reservations(
     case SET_END_SPOT:
       return { ...state, endSpot: action.payload.spot };
     case SET_START_CITY:
-      return { ...state, startCity: action.payload };
+      return { ...state, startCity: { item: action.payload, selected: true } };
     case SET_END_CITY:
-      return { ...state, endCity: action.payload };
+      return { ...state, endCity: { item: action.payload, selected: true } };
+    case SET_RESERVATION_CAR:
+      return { ...state, car: { item: action.payload.car, selected: true } };
     default:
       return state;
   }

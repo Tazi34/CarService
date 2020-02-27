@@ -1,31 +1,30 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
+  Button,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
-  Select,
-  Button
+  Select
 } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
-import React, { useState, useEffect, Component } from "react";
-import { MockedCities } from "../../MockData/mockedCities";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
+import { fetchCities } from "../../redux/city/cityActions";
 import {
-  setStartDate,
-  setStartSpot,
+  setEndCity,
   setEndDate,
   setEndSpot,
   setStartCity,
-  setEndCity
+  setStartDate,
+  setStartSpot
 } from "../../redux/reservation/reservationActions";
-import { fetchCities } from "../../redux/city/cityActions";
-import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
-import { addSpots } from "../../redux/city/spot/spotActions";
+
 //TODO reuse date + location
 class DateLocationCarForm extends Component {
   componentDidMount() {
@@ -40,6 +39,8 @@ class DateLocationCarForm extends Component {
 
   render() {
     var reservation = this.props.reservation;
+    var startCity = reservation.startCity;
+    var endCity = reservation.endCity;
     //map ids to items
     var cities = this.props.cities.byId.map(this.mapIdToCity);
 
@@ -62,9 +63,12 @@ class DateLocationCarForm extends Component {
                     onChange={e => {
                       this.props.setStartCity(this.mapIdToCity(e.target.value));
                     }}
-                    value={reservation.startCity.id}
+                    value={startCity.item.id}
                     name="city"
                   >
+                    <MenuItem value={-1} disabled>
+                      Source city
+                    </MenuItem>
                     {cities.map(city => (
                       <MenuItem value={city.id} key={city.id}>
                         {city.name}
@@ -77,6 +81,7 @@ class DateLocationCarForm extends Component {
                 <FormControl fullWidth>
                   <InputLabel id="spotLabel">Location</InputLabel>
                   <Select
+                    disabled={!startCity.selected}
                     type="controlled"
                     labelId="spotLabel"
                     id="spotSelect"
@@ -86,7 +91,10 @@ class DateLocationCarForm extends Component {
                     value={reservation.startSpot.id}
                     name="spot"
                   >
-                    {reservation.startCity.spots.map(spot => (
+                    <MenuItem value={-1} disabled>
+                      Spot
+                    </MenuItem>
+                    {startCity.item.spots.map(spot => (
                       <MenuItem value={spot.id}> {spot.name} </MenuItem>
                     ))}
                   </Select>
@@ -137,9 +145,12 @@ class DateLocationCarForm extends Component {
                     onChange={e => {
                       this.props.setEndCity(this.mapIdToCity(e.target.value));
                     }}
-                    value={reservation.endCity.id}
+                    value={endCity.item.id}
                     name="endCity"
                   >
+                    <MenuItem value={-1} disabled>
+                      Destination city
+                    </MenuItem>
                     {cities.map(city => (
                       <MenuItem value={city.id}>{city.name}</MenuItem>
                     ))}
@@ -150,6 +161,7 @@ class DateLocationCarForm extends Component {
                 <FormControl fullWidth>
                   <InputLabel id="endspotLabel">Spot</InputLabel>
                   <Select
+                    disabled={!endCity.selected}
                     type="controlled"
                     labelId="endspotLabel"
                     id="endspotSelect"
@@ -159,7 +171,10 @@ class DateLocationCarForm extends Component {
                     value={reservation.endSpot.id}
                     name="spot"
                   >
-                    {reservation.endCity.spots.map(spot => (
+                    <MenuItem value={-1} disabled>
+                      Spot
+                    </MenuItem>
+                    {endCity.item.spots.map(spot => (
                       <MenuItem value={spot.id}> {spot.name} </MenuItem>
                     ))}
                   </Select>

@@ -3,11 +3,13 @@ import { Form, Field } from "react-final-form";
 import { Grid, Button, MenuItem, Checkbox } from "@material-ui/core";
 import { TextField, Select, Autocomplete } from "mui-rff";
 import countries from "../../MockData/countries";
+import { Redirect } from "react-router-dom";
 const submit = values => {
   console.log(values);
 };
 
 export default function ReservationForm(props) {
+  if (!props.location.car) return <Redirect to="/"></Redirect>;
   return (
     <div
       style={{
@@ -142,7 +144,7 @@ export default function ReservationForm(props) {
                   </Field>
                 </Grid>
               </Grid>
-              <Grid item container direction="row" spacing={2}>
+              <Grid item>
                 <Field name="email">
                   {props => (
                     <TextField
