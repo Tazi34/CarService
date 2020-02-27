@@ -1,14 +1,13 @@
 import {
-  REQUEST_PAGE,
   RECEIVE_PAGE,
+  REQUEST_PAGE,
+  RESET_PAGINATION,
   SET_CURRENT_PAGE,
-  SET_SORT_ORDER,
-  SET_SORT_FIELD,
-  SortOrders,
   SET_SORTING,
-  RESET_PAGINATION
+  SET_SORT_FIELD,
+  SET_SORT_ORDER,
+  SortOrders
 } from "./paginationActions";
-import { combineReducers } from "redux";
 
 const { NOT_SORTED } = SortOrders;
 
@@ -57,38 +56,6 @@ function pagination(state = paginationInitialState, action) {
       return state;
   }
 }
-function currentPage(state = -1, action) {
-  switch (action.type) {
-    case REQUEST_PAGE:
-      return action.payload.page;
-    case SET_CURRENT_PAGE:
-      return { ...state, currentPage: action.payload.page };
-
-    default:
-      return state;
-  }
-}
-
-function totalPages(state = -1, action) {
-  return action.type == RECEIVE_PAGE ? action.payload.totalPages : state;
-}
-
-// function sortOrder(state = NOT_SORTED, action) {
-//     switch (action.type) {
-//         case SET_SORT_ORDER:
-//             return action.payload.sortOrder
-//         default:
-//             return state
-//     }
-// }
-// function sortField(state = null, action) {
-//     switch (action.type) {
-//         case SET_SORT_FIELD:
-//             return action.payload.sortField
-//         default:
-//             return state
-//     }
-// }
 
 function sorting(state = { order: NOT_SORTED, field: null }, action) {
   switch (action.type) {
@@ -109,3 +76,36 @@ function sorting(state = { order: NOT_SORTED, field: null }, action) {
 
 export const paginationReducer = pagination;
 export const sortingReducer = sorting;
+
+// function currentPage(state = -1, action) {
+//   switch (action.type) {
+//     case REQUEST_PAGE:
+//       return action.payload.page;
+//     case SET_CURRENT_PAGE:
+//       return { ...state, currentPage: action.payload.page };
+
+//     default:
+//       return state;
+//   }
+// }
+
+// function totalPages(state = -1, action) {
+//   return action.type == RECEIVE_PAGE ? action.payload.totalPages : state;
+// }
+
+// function sortOrder(state = NOT_SORTED, action) {
+//     switch (action.type) {
+//         case SET_SORT_ORDER:
+//             return action.payload.sortOrder
+//         default:
+//             return state
+//     }
+// }
+// function sortField(state = null, action) {
+//     switch (action.type) {
+//         case SET_SORT_FIELD:
+//             return action.payload.sortField
+//         default:
+//             return state
+//     }
+// }

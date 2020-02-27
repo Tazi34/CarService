@@ -1,9 +1,9 @@
+import { Button, Grid } from "@material-ui/core";
+import { Select, TextField } from "mui-rff";
 import React from "react";
-import { Form, Field } from "react-final-form";
-import { Grid, Button, MenuItem, Checkbox } from "@material-ui/core";
-import { TextField, Select, Autocomplete } from "mui-rff";
-import countries from "../../MockData/countries";
+import { Field, Form } from "react-final-form";
 import { Redirect } from "react-router-dom";
+import countries from "../../MockData/countries";
 const submit = values => {
   console.log(values);
 };
@@ -77,7 +77,7 @@ export default function ReservationForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item item xs={6}>
+                <Grid item xs={6}>
                   <Field name="houseNumber">
                     {props => (
                       <TextField
@@ -93,7 +93,7 @@ export default function ReservationForm(props) {
               </Grid>
 
               <Grid item container direction="row" spacing={2}>
-                <Grid item item xs={6}>
+                <Grid item xs={6}>
                   <Select
                     name="country"
                     label="Country"
@@ -102,7 +102,7 @@ export default function ReservationForm(props) {
                     data={countries}
                   />
                 </Grid>
-                <Grid item item xs={6}>
+                <Grid item xs={6}>
                   <Field name="city">
                     {props => (
                       <TextField
@@ -117,7 +117,7 @@ export default function ReservationForm(props) {
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={2}>
-                <Grid item item xs={3}>
+                <Grid item xs={3}>
                   <Field name="postalCode">
                     {props => (
                       <TextField
@@ -130,7 +130,7 @@ export default function ReservationForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item item xs={9}>
+                <Grid item xs={9}>
                   <Field name="phoneNumber">
                     {props => (
                       <TextField

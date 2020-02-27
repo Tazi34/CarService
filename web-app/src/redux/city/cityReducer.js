@@ -3,7 +3,6 @@ import {
   REQUEST_CITIES,
   RECEIVE_CITIES_ERROR
 } from "./cityActions";
-import { addSpots } from "./spot/spotActions";
 
 const initialState = {
   items: {},

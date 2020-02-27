@@ -2,6 +2,7 @@ import { Grid, Typography } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { fetchAvailableCarsPage } from "../../redux/car/carAPIrequests";
 import {
   resetPagination,
   setCurrentPage,
@@ -9,8 +10,7 @@ import {
   setSortOrder,
   SortOrders
 } from "../../redux/pagination/paginationActions";
-import SortingSelectors from "../UI/SortingSelectors";
-import { fetchAvailableCarsPage } from "../../redux/car/carAPIrequests";
+import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
 
@@ -54,7 +54,7 @@ class AvailableCarList extends Component {
 
   sortingApplyHandler = () => {
     var sorting = this.props.sorting;
-    if (sorting.field && sorting.order != SortOrders.NOT_SORTED) {
+    if (sorting.field && sorting.order !== SortOrders.NOT_SORTED) {
       this.props.resetPages();
     }
   };
@@ -76,7 +76,7 @@ class AvailableCarList extends Component {
       >
         <Grid item container justify="flex-end" direction="row">
           <Grid item>
-            <SortingSelectors
+            <SortingPanel
               fieldChanged={this.props.setSortField}
               orderChanged={this.props.setSortOrder}
               fieldOptions={this.getFieldSortOptions()}

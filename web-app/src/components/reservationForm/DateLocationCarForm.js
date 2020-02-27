@@ -91,7 +91,7 @@ class DateLocationCarForm extends Component {
                     value={reservation.startSpot.id}
                     name="spot"
                   >
-                    <MenuItem value={-1} disabled>
+                    <MenuItem value={-1} key={-1} disabled>
                       Spot
                     </MenuItem>
                     {startCity.item.spots.map(spot => (
@@ -148,11 +148,13 @@ class DateLocationCarForm extends Component {
                     value={endCity.item.id}
                     name="endCity"
                   >
-                    <MenuItem value={-1} disabled>
+                    <MenuItem value={-1} key={-1} disabled>
                       Destination city
                     </MenuItem>
                     {cities.map(city => (
-                      <MenuItem value={city.id}>{city.name}</MenuItem>
+                      <MenuItem key={city.id} value={city.id}>
+                        {city.name}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -171,11 +173,13 @@ class DateLocationCarForm extends Component {
                     value={reservation.endSpot.id}
                     name="spot"
                   >
-                    <MenuItem value={-1} disabled>
+                    <MenuItem key={-1} value={-1} disabled>
                       Spot
                     </MenuItem>
                     {endCity.item.spots.map(spot => (
-                      <MenuItem value={spot.id}> {spot.name} </MenuItem>
+                      <MenuItem key={spot.id} value={spot.id}>
+                        {spot.name}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
