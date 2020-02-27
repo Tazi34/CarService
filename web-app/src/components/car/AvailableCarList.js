@@ -18,22 +18,23 @@ class AvailableCarList extends Component {
   componentDidMount() {
     this.getAvailableCarsPage(0);
   }
+  componentDidUpdate() {
+    if (!this.props.pagination.pages[0]) this.getAvailableCarsPage(0);
+  }
 
   getAvailableCarsPage = page => {
     var pagination = this.props.pagination;
     var sorting = this.props.sorting;
     var dateLocationInput = this.props.dateLocationInput;
     //IF NOT FETCHED
-
     if (!pagination.pages[page]) {
-      alert(dateLocationInput.startSpot.id);
       this.props.fetchCarPage(
         page,
         sorting.field,
         sorting.order,
         dateLocationInput.startDate,
-        dateLocationInput.endDate,
-        dateLocationInput.startSpot.id
+        dateLocationInput.endDate
+        //TODO commented only for testing dateLocationInput.startSpot.id
       );
     }
     //IF ALREADY IN STORE
@@ -55,18 +56,14 @@ class AvailableCarList extends Component {
     var sorting = this.props.sorting;
     if (sorting.field && sorting.order != SortOrders.NOT_SORTED) {
       this.props.resetPages();
-      this.getAvailableCarsPage(0);
     }
   };
 
   render() {
-    if (!this.props.cars) return null;
-
     var cars = this.props.cars;
     var pagination = this.props.pagination;
 
-    if (cars.isFetching || !cars.fetched)
-      return <Typography>Loading...</Typography>;
+    if (!pagination.pages[0]) return <Typography>Loading...</Typography>;
 
     var currentPage = pagination.pages[pagination.currentPage];
 

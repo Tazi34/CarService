@@ -47,7 +47,12 @@ function pagination(state = paginationInitialState, action) {
     case SET_CURRENT_PAGE:
       return { ...state, currentPage: action.payload.page };
     case RESET_PAGINATION:
-      return paginationInitialState;
+      var _state = {
+        pages: {},
+        currentPage: 0,
+        totalPages: 0
+      };
+      return _state;
     default:
       return state;
   }
