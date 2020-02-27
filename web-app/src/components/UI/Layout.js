@@ -4,9 +4,23 @@ import NavBar from "./NavBar";
 export class Layout extends Component {
   render() {
     return (
-      <Box>
+      <Box
+        style={{
+          width: "100%",
+          height: "100vh"
+        }}
+      >
         <NavBar />
-        <Container>{this.props.children}</Container>
+        <Container
+          style={{
+            width: "70%",
+            minWidth: "300px",
+            backgroundColor: "#f4f4f4",
+            height: "100vh"
+          }}
+        >
+          {this.props.children}
+        </Container>
       </Box>
     );
   }

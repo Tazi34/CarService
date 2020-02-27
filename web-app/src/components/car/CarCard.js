@@ -15,8 +15,8 @@ import { purple } from "@material-ui/core/colors";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import Filter5Icon from "@material-ui/icons/Filter5";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import carImage from "../../sampleCar.png";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 function CarCard(props) {
+  const history = useHistory();
   const classes = useStyles();
   var car = props.car;
   if (!car) return null;
@@ -104,10 +105,9 @@ function CarCard(props) {
           variant="contained"
           size="small"
           color="primary"
-          component={Link}
-          to={{
-            pathname: `/cars/apply/${car.id}`,
-            car: car
+          onClick={() => {
+            props.carSelectionHandler(car);
+            history.push(`/cars/apply/${car.id}`);
           }}
         >
           BOOK

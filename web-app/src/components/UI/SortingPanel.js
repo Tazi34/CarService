@@ -13,7 +13,7 @@ export default function SortingPanel(props) {
           // onChange={(event) => this.props.setSorting(event.target.value, sorting.order)}
         >
           <option value="" disabled>
-            Sort by{" "}
+            Sort by
           </option>
           {props.fieldOptions}
         </Select>

@@ -5,7 +5,8 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Select
+  Select,
+  withStyles
 } from "@material-ui/core";
 import {
   KeyboardDatePicker,
@@ -14,9 +15,10 @@ import {
 } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import compose from "recompose/compose";
 import { fetchCities } from "../../redux/city/cityActions";
 import {
+  confirmDateLocation,
   setEndCity,
   setEndDate,
   setEndSpot,
@@ -24,6 +26,16 @@ import {
   setStartDate,
   setStartSpot
 } from "../../redux/reservation/reservationActions";
+
+const styles = theme => ({
+  root: {
+    borderRadius: 3,
+    maxWidth: "500px",
+    minWidth: "200px",
+    padding: "5px",
+    border: "1px solid black"
+  }
+});
 
 //TODO reuse date + location
 class DateLocationCarForm extends Component {
@@ -38,6 +50,7 @@ class DateLocationCarForm extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     var reservation = this.props.reservation;
     var startCity = reservation.startCity;
     var endCity = reservation.endCity;
@@ -45,19 +58,18 @@ class DateLocationCarForm extends Component {
     var cities = this.props.cities.byId.map(this.mapIdToCity);
 
     return (
-      <div>
+      <div className={classes.root}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid
             container
             direction="column"
             justify="center"
             alignItems="center"
-            style={{ backgroundColor: "white", padding: "5px" }}
           >
             <Grid item container direction="row">
               <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="label">Source city</InputLabel>
+                  <InputLabel id="label">Source</InputLabel>
                   <Select
                     labelId="cityLabel"
                     onChange={e => {
@@ -139,7 +151,7 @@ class DateLocationCarForm extends Component {
             <Grid item container direction="row">
               <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="endCityLabel">Destination city</InputLabel>
+                  <InputLabel id="endCityLabel">Destination</InputLabel>
                   <Select
                     labelId="endCityLabel"
                     onChange={e => {
@@ -222,8 +234,10 @@ class DateLocationCarForm extends Component {
                 fullWidth
                 color="primary"
                 variant="contained"
-                component={RouterLink}
-                to="/cars"
+                onClick={() => {
+                  this.props.confirmSelection();
+                  this.props.history.push("/cars");
+                }}
               >
                 Find Available
               </Button>
@@ -237,7 +251,7 @@ class DateLocationCarForm extends Component {
 
 const mapStateToprops = state => {
   return {
-    reservation: state.reservations,
+    reservation: state.currentReservation,
     cities: state.cities,
     spots: state.spots
   };
@@ -249,10 +263,13 @@ const mapDispatchToprops = {
   setEndSpot: setEndSpot,
   getCities: fetchCities,
   setStartCity: setStartCity,
-  setEndCity: setEndCity
+  setEndCity: setEndCity,
+  confirmSelection: confirmDateLocation
 };
 
-export default connect(
-  mapStateToprops,
-  mapDispatchToprops
+export default compose(
+  withStyles(styles, {
+    name: "DateLocation"
+  }),
+  connect(mapStateToprops, mapDispatchToprops)
 )(DateLocationCarForm);
