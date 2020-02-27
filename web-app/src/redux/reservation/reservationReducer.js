@@ -5,10 +5,14 @@ import {
   SET_START_SPOT,
   SET_START_CITY,
   SET_END_CITY,
-  SET_RESERVATION_CAR
+  SELECT_CAR,
+  POST_RESERVATION,
+  POST_RESERVATION_SUCCESS,
+  POST_RESERVATION_ERROR,
+  CONFIRM_DATE_LOCATION
 } from "./reservationActions";
 
-function reservations(
+function reservation(
   state = {
     startDate: new Date(),
     endDate: new Date(),
@@ -39,6 +43,11 @@ function reservations(
     car: {
       item: {},
       selected: false
+    },
+    status: {
+      dateLocationPicked: false,
+      pending: false,
+      error: null
     }
   },
   action
@@ -56,11 +65,25 @@ function reservations(
       return { ...state, startCity: { item: action.payload, selected: true } };
     case SET_END_CITY:
       return { ...state, endCity: { item: action.payload, selected: true } };
-    case SET_RESERVATION_CAR:
+    case SELECT_CAR:
       return { ...state, car: { item: action.payload.car, selected: true } };
+    case POST_RESERVATION:
+      return { ...state, status: { ...state.status, pending: true } };
+    case POST_RESERVATION_SUCCESS:
+      return { ...state, status: { ...state.status, pending: false } };
+    case POST_RESERVATION_ERROR:
+      return {
+        ...state,
+        status: { pending: false, error: action.payload.error }
+      };
+    case CONFIRM_DATE_LOCATION:
+      return {
+        ...state,
+        status: { ...state.status, dateLocationPicked: true }
+      };
     default:
       return state;
   }
 }
-const reservationsReducer = reservations;
-export default reservationsReducer;
+const reservationReducer = reservation;
+export default reservationReducer;

@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -10,9 +10,11 @@ import {
   setSortOrder,
   SortOrders
 } from "../../redux/pagination/paginationActions";
+import { selectCar } from "../../redux/reservation/reservationActions";
 import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
+import { Redirect } from "react-router-dom";
 
 class AvailableCarList extends Component {
   componentDidMount() {
@@ -25,16 +27,17 @@ class AvailableCarList extends Component {
   getAvailableCarsPage = page => {
     var pagination = this.props.pagination;
     var sorting = this.props.sorting;
-    var dateLocationInput = this.props.dateLocationInput;
+    var currentReservation = this.props.currentReservation;
     //IF NOT FETCHED
     if (!pagination.pages[page]) {
       this.props.fetchCarPage(
         page,
         sorting.field,
         sorting.order,
-        dateLocationInput.startDate,
-        dateLocationInput.endDate
-        //TODO commented only for testing dateLocationInput.startSpot.id
+        currentReservation.startDate,
+        currentReservation.endDate,
+        currentReservation.startSpot.id
+        //TODO commented only for testing currentReservation.startSpot.id
       );
     }
     //IF ALREADY IN STORE
@@ -45,9 +48,14 @@ class AvailableCarList extends Component {
 
   getFieldSortOptions = () => {
     var options = [];
+    let i = 0;
     for (var sortOption in SortCarsOrderFields) {
       var option = SortCarsOrderFields[sortOption];
-      options.push(<option value={option.value}>{option.display}</option>);
+      options.push(
+        <option key={i++} value={option.value}>
+          {option.display}
+        </option>
+      );
     }
     return options;
   };
@@ -60,10 +68,17 @@ class AvailableCarList extends Component {
   };
 
   render() {
+    if (!this.props.currentReservation.status.dateLocationPicked)
+      return <Redirect to="/"></Redirect>;
     var cars = this.props.cars;
     var pagination = this.props.pagination;
-
-    if (!pagination.pages[0]) return <Typography>Loading...</Typography>;
+    //TODO redirect if date and location not selected
+    if (
+      !pagination.pages[0] ||
+      pagination.pages[pagination.currentPage].fetching
+    ) {
+      return <CircularProgress />;
+    }
 
     var currentPage = pagination.pages[pagination.currentPage];
 
@@ -86,7 +101,10 @@ class AvailableCarList extends Component {
         </Grid>
 
         <Grid item>
-          <CarList cars={currentPage.ids.map(id => cars.items[id])}></CarList>
+          <CarList
+            carSelectionHandler={this.props.selectCar}
+            cars={currentPage.ids.map(id => cars.items[id])}
+          ></CarList>
         </Grid>
         <Grid item>
           <Pagination
@@ -106,7 +124,7 @@ const mapStateToProps = state => {
     cars: state.cars,
     pagination: state.pagination,
     sorting: state.sorting,
-    dateLocationInput: state.reservations
+    currentReservation: state.currentReservation
   };
 };
 
@@ -115,7 +133,8 @@ const mapDispatchToProps = {
   setSortOrder: setSortOrder,
   fetchCarPage: fetchAvailableCarsPage,
   setPage: setCurrentPage,
-  resetPages: resetPagination
+  resetPages: resetPagination,
+  selectCar: selectCar
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AvailableCarList);

@@ -4,12 +4,11 @@ import React from "react";
 import { Field, Form } from "react-final-form";
 import { Redirect } from "react-router-dom";
 import countries from "../../MockData/countries";
-const submit = values => {
-  console.log(values);
-};
+import { connect } from "react-redux";
+import { postReservationForm } from "../../redux/reservation/reservationActions";
 
-export default function ReservationForm(props) {
-  if (!props.location.car) return <Redirect to="/"></Redirect>;
+function ReservationForm(props) {
+  if (!props.reservation.car.selected) return <Redirect to="/"></Redirect>;
   return (
     <div
       style={{
@@ -17,7 +16,7 @@ export default function ReservationForm(props) {
         backgroundColor: "#f4f4f4"
       }}
     >
-      <Form onSubmit={submit} subscription={{ submitting: true }}>
+      <Form onSubmit={props.postForm} subscription={{ submitting: true }}>
         {({ handleSubmit, submitting }) => (
           <form onSubmit={handleSubmit}>
             <Grid container direction="column" spacing={3}>
@@ -175,3 +174,13 @@ export default function ReservationForm(props) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  reservation: state.currentReservation
+});
+
+const mapDispatchToProps = {
+  postForm: postReservationForm
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReservationForm);
