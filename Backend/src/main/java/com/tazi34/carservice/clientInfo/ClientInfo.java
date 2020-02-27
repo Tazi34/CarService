@@ -26,7 +26,9 @@ public class ClientInfo {
 	@OneToOne
 	private Address address;
 
+	public ClientInfo(){
 
+	}
     public ClientInfo(String name, String surname, @Email String email) {
         this.name = name;
         this.surname = surname;

@@ -1,6 +1,7 @@
 package com.tazi34.carservice.car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tazi34.carservice.carlocation.spot.Spot;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,8 +27,10 @@ public class Car {
     private int year;
     @NotBlank
     private String licence;
-    @NotBlank
-    private String location;
+
+    @ManyToOne
+    @JoinColumn(name="spot_id", nullable=false)
+    private Spot spot;
     @NotNull
     @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal price;

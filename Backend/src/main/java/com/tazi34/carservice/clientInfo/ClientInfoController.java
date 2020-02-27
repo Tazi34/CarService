@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookinguserinfos")
+@RequestMapping("/clientinfos")
 public class ClientInfoController {
 
 

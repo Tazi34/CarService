@@ -38,6 +38,7 @@ public class CarController {
             @RequestParam(required = false,name="seats") Integer seats,
             @RequestParam(required = false,name="year") Integer year,
             @RequestParam(required = false,name="make") String make,
+            @RequestParam(required = false,name="spot") Integer spotId,
             //pomijany jesli nie okreslimy dat
             @RequestParam(required = false,name="available", defaultValue = "true") Boolean available,
             @RequestParam(required = false, name="getall", defaultValue = "false") Boolean getAll,
@@ -52,6 +53,9 @@ public class CarController {
             spec = spec.and(CarSpecification.byYear(year));
         if(make!= null)
             spec = spec.and(CarSpecification.byMake(make));
+        if(spotId != null){
+            spec = spec.and(CarSpecification.bySpotId(spotId));
+        }
         if(from != null && to != null){
             Specification<Car> availabilitySpec = carService.getAvailabilitySpec(from,to,available);
             spec = spec.and(availabilitySpec);

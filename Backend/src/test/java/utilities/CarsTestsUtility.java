@@ -14,7 +14,7 @@ public class CarsTestsUtility {
             Car car = new Car();
             car.setMake("TEST");
             car.setLicence("TEST");
-            car.setLocation("TEST");
+
             car.setSeats(5);
             car.setPrice(new BigDecimal(100));
             car.setModel("TEST");
@@ -26,7 +26,7 @@ public class CarsTestsUtility {
         Car car = new Car();
         car.setMake("TEST");
         car.setLicence("TEST");
-        car.setLocation("TEST");
+
         car.setSeats(5);
         car.setPrice(new BigDecimal(100));
         car.setModel("TEST");

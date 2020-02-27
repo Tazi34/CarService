@@ -16,69 +16,122 @@ INSERT INTO public.admins(
     id,email, password)
 VALUES (1004,'email4@email','plain-text-password');
 
+insert into public.cities (id,name) VALUES
+(1,'KATOWICE'),
+(2,'LUBLIN'),
+(3,'BYDGOSZCZ'),
+(4,'SZCZECIN'),
+(5,'GDAŃSK'),
+(6,'POZNAŃ'),
+(7,'WROCŁAW'),
+(8,'ŁÓDŹ'),
+(9,'KRAKÓW'),
+(10,'WARSZAWA');
 
 
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (110, 'KO 54545', 'Legionowo', 'Ford', 'Kowal', 5, 1998, 800.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (111, 'WE 12345', 'Konstancin-Jeziorna', 'Renault', 'Weneusz', 2, 1998, 750.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (112, 'KA 88999', 'Zamość', 'Chevrolet', 'Kaseusz', 2, 1998, 780.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (113, 'KL 56789', 'Warszawa', 'Mazda', 'Klimencja', 5, 1998, 850.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (99, 'WV 996580', 'Poznań', 'Ford', 'E-Series', 1001, 1990, 120.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (102, 'WV 98896', 'Łódź', 'Scion', 'xB', 5, 2018, 6918.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (116, 'WR5630', 'Warsaw', 'Audi', 'A8', 4, 2019, 870.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (117, 'WA4561', 'Warsaw', 'Ford', 'Focus', 5, 2017, 870.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (94, 'WX 79879', 'Warszawa', 'Dodge', 'D350 Club', 2, 1993, 2000.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (119, 'AU 345', 'Warszawa', 'Audi', 'A9', 4, 2020, 1000.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (115, 'WR E124', 'Augustów', 'Audi', 'A8', 5, 2018, 1200.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (95, 'WA 67398', 'Warszawa', 'Suzuki', 'Esteem', 3, 2006, 7479.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (96, 'WA 68799', 'Warszawa', 'Volvo', 'S60', 2, 2017, 2392.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (97, 'WV 79699', 'Poznań', 'Saturn', 'S-Series', 2, 1999, 2253.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (98, 'WA 89957', 'Poznań', 'Volkswagen', 'Jetta', 5, 2013, 301.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (100, 'WC 97998', 'Kraków', 'Dodge', 'Durango', 9, 2003, 9811.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (101, 'WL 89787', 'Poznań', 'Lamborghini', 'Countach', 4, 2012, 5631.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (103, 'WV 97768', 'Łódź', 'Volkswagen', 'Rabbit', 2, 2015, 6299.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (104, 'WX 99899', 'Poznań', 'Chevrolet', 'Camaro', 4, 2016, 6549.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (105, 'WL 77988', 'Kraków', 'BMW', 'M6', 7, 1997, 1810.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (106, 'WC 99988', 'Łódź', 'Mitsubishi', 'Galant', 7, 2006, 1572.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (107, 'WV 99795', 'Łódź', 'Mercury', 'Tracer', 4, 2006, 7909.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (108, 'WV 99887', 'Warszawa', 'Porsche', '911', 7, 2015, 7900.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (109, 'WV 89979', 'Kraków', 'Nissan', '240SX', 2, 2014, 5600.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (114, 'WL 4333', 'Augustów', 'Audi', 'A7', 7, 2018, 1000.00, false);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (118, 'WA3240', 'Gdańsk', 'Audi', 'A8', 4, 2019, 870.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (120, 'XXX', 'Skarżysko-Kamienna', 'Wolksvagen', 'Golf', 4, 2010, 123.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (75, 'WV 98899', 'Poznań', 'Volvo', 'C70', 3, 1990, 130.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (85, 'WC 9899', 'Łódź', 'GMC', 'Rally Wagon G3500', 6, 1990, 7860.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (60, 'WV 98999', 'Kraków', 'Jaguar', 'XK Series', 8, 2004, 3430.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (61, 'WA 69799', 'Poznań', 'Chevrolet', 'Corvette', 8, 2008, 4913.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (62, 'WV 89889', 'Poznań', 'Dodge', 'Durango', 6, 2013, 3741.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (63, 'WL 99889', 'Poznań', 'Mazda', 'MPV', 4, 1996, 2023.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (64, 'WV 88999', 'Warszawa', 'Acura', 'Integra', 3, 2014, 2732.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (65, 'WV 98997', 'Poznań', 'Cadillac', 'Fleetwood', 2, 2019, 7668.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (66, 'WA 89988', 'Kraków', 'Audi', 'V8', 3, 2002, 238.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (67, 'WV 74979', 'Łódź', 'MINI', 'Cooper', 9, 1996, 5609.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (68, 'WV 87996', 'Poznań', 'Dodge', 'Caliber', 2, 2010, 8865.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (69, 'WA 99799', 'Poznań', 'Lincoln', 'Continental Mark VII', 8, 2005, 1979.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (70, 'WC 76787', 'Warszawa', 'Audi', '5000CS Quattro', 6, 1993, 4812.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (71, 'WV 79969', 'Warszawa', 'Lincoln', 'Town Car', 2, 1991, 8763.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (72, 'WV 99986', 'Poznań', 'Toyota', 'Celica', 2, 2008, 2105.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (73, 'WL 98999', 'Kraków', 'GMC', '2500 Club Coupe', 3, 2001, 2177.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (74, 'WA 29698', 'Łódź', 'Volkswagen', 'GTI', 7, 1994, 2803.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (76, 'WA 98988', 'Poznań', 'Ford', 'Windstar', 4, 2008, 6740.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (77, 'WV 86989', 'Warszawa', 'Mercedes-Benz', '300E', 7, 1991, 4818.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (78, 'WA 99688', 'Łódź', 'Volvo', 'C30', 6, 2012, 8021.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (79, 'WA 89889', 'Warszawa', 'Volkswagen', 'Passat', 9, 2015, 9056.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (80, 'WA 87978', 'Warszawa', 'Volkswagen', 'Touareg', 5, 2018, 5277.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (81, 'WA 89889', 'Warszawa', 'Jeep', 'Grand Cherokee', 7, 2008, 6220.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (82, 'WA 49989', 'Kraków', 'Chevrolet', 'Avalanche 2500', 7, 2012, 3445.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (83, 'WA 98999', 'Warszawa', 'Mazda', 'MPV', 5, 1992, 4487.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (84, 'WA 99879', 'Poznań', 'Ford', 'LTD Crown Victoria', 5, 1990, 5229.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (86, 'WV 99889', 'Kraków', 'Oldsmobile', '88', 8, 2011, 2058.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (87, 'WV 96779', 'Łódź', 'Mitsubishi', 'Precis', 4, 2004, 3443.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (88, 'WV 79985', 'Warszawa', 'Buick', 'Estate', 9, 2004, 6647.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (89, 'WL 88995', 'Poznań', 'Volkswagen', 'Passat', 7, 2002, 5763.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (90, 'WA 99999', 'Łódź', 'Dodge', 'Ram Van 3500', 5, 2018, 7975.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (91, 'WV 99889', 'Warszawa', 'Hyundai', 'Entourage', 4, 2009, 8090.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (92, 'WV 85899', 'Kraków', 'Volkswagen', 'Golf', 2, 1992, 1869.00, true);
-INSERT INTO public.cars (id, licence, location, make, model, seats, year, price, is_active) VALUES (93, 'WA 99975', 'Warszawa', 'Ford', 'F150', 8, 2004, 1151.00, true);
+
+insert into public.spot ( name, city_id)  VALUES
+('MICKIEWICZA',1),
+('1 MAJA',1),
+('WIEJSKA',1),
+('DALEKA',1),
+('DERENIOWA',1),
+('DŁUGA',1),
+('CISOWA',2),
+('GALERIA XD',2),
+('CICHA',2),
+('DOLOMITOWA',2),
+('DUŃSKA',2),
+('DOLNA',3),
+('FABRYCZNA',3),
+('GAJOWA',3),
+('GARBARSKA',4),
+('MACZKA',4),
+('BEMA',4),
+('GLINIANA',4),
+('GÓRNA',5),
+('GROCHOWSKA',5),
+('GALERIA XD',6),
+('CICHA',6),
+('DOLOMITOWA',6),
+('DUŃSKA',6),
+('DOLNA',3),
+('GLINIANA',10),
+('GÓRNA',10),
+('GROCHOWSKA',10),
+('JEROZOLIMSKIE',10),
+('MARIOT',10),
+('DOLOMITOWA',8),
+('DUŃSKA',8),
+('DOLNA',8),
+('DERENIOWA',7),
+('DŁUGA',7),
+('CISOWA',7),
+('FABRYCZNA',9),
+('GAJOWA',9),
+('GARBARSKA',9);
+
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (110, 'KO 54545', 1, 'Ford', 'Kowal', 5, 1998, 800.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (111, 'WE 12345', 13, 'Renault', 'Weneusz', 2, 1998, 750.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (112, 'KA 88999', 23, 'Chevrolet', 'Kaseusz', 2, 1998, 780.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (113, 'KL 56789', 15, 'Mazda', 'Klimencja', 5, 1998, 850.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (99, 'WV 996580', 14, 'Ford', 'E-Series', 1001, 1990, 120.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (102, 'WV 98896', 10, 'Scion', 'xB', 5, 2018, 6918.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (116, 'WR5630', 9, 'Audi', 'A8', 4, 2019, 870.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (117, 'WA4561', 5, 'Ford', 'Focus', 5, 2017, 870.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (94, 'WX 79879', 5, 'Dodge', 'D350 Club', 2, 1993, 2000.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (119, 'AU 345', 14, 'Audi', 'A9', 4, 2020, 1000.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (115, 'WR E124', 4, 'Audi', 'A8', 5, 2018, 1200.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (95, 'WA 67398', 7, 'Suzuki', 'Esteem', 3, 2006, 7479.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (96, 'WA 68799', 6, 'Volvo', 'S60', 2, 2017, 2392.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (97, 'WV 79699', 22, 'Saturn', 'S-Series', 2, 1999, 2253.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (98, 'WA 89957', 29, 'Volkswagen', 'Jetta', 5, 2013, 301.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (100, 'WC 97998', 31, 'Dodge', 'Durango', 9, 2003, 9811.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (101, 'WL 89787', 31, 'Lamborghini', 'Countach', 4, 2012, 5631.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (103, 'WV 97768', 31,'Volkswagen', 'Rabbit', 2, 2015, 6299.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (104, 'WX 99899', 31, 'Chevrolet', 'Camaro', 4, 2016, 6549.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (105, 'WL 77988', 31, 'BMW', 'M6', 7, 1997, 1810.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (106, 'WC 99988', 31,'Mitsubishi', 'Galant', 7, 2006, 1572.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (107, 'WV 99795', 31,'Mercury', 'Tracer', 4, 2006, 7909.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (108, 'WV 99887',25, 'Porsche', '911', 7, 2015, 7900.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (109, 'WV 899',25, 'Nissan', '240SX', 2, 2014, 5600.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (114, 'WL 433',25, 'Audi', 'A7', 7, 2018, 1000.00, false);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (118, 'WA32',25, 'Audi', 'A8', 4, 2019, 870.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (120, 'XXX', 5, 'Wolksvagen', 'Golf', 4, 2010, 123.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (75, 'WV 988',25, 'Volvo', 'C70', 3, 1990, 130.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (85, 'WC ',25, 'GMC', 'Rally Wagon G3500', 6, 1990, 7860.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (60, 'WV 98999', 32,'Jaguar', 'XK Series', 8, 2004, 3430.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (61, 'WA 69799', 32,'Chevrolet', 'Corvette', 8, 2008, 4913.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (62, 'WV 89889', 32,'Dodge', 'Durango', 6, 2013, 3741.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (63, 'WL 99889', 32,'Mazda', 'MPV', 4, 1996, 2023.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (64, 'WV 88999', 32, 'Acura', 'Integra', 3, 2014, 2732.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (65, 'WV 98997', 32,'Cadillac', 'Fleetwood', 2, 2019, 7668.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (66, 'WA 89988', 32,'Audi', 'V8', 3, 2002, 238.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (67, 'WV 74979', 35, 'MINI', 'Cooper', 9, 1996, 5609.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (68, 'WV 87996', 1, 'Dodge', 'Caliber', 2, 2010, 8865.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (69, 'WA 99799', 4, 'Lincoln', 'Continental Mark VII', 8, 2005, 1979.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (70, 'WC 76787', 17, 'Audi', '5000CS Quattro', 6, 1993, 4812.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (71, 'WV 79969', 17, 'Lincoln', 'Town Car', 2, 1991, 8763.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (72, 'WV 99986', 11, 'Toyota', 'Celica', 2, 2008, 2105.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (73, 'WL 98999', 11, 'GMC', '2500 Club Coupe', 3, 2001, 2177.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (74, 'WA 29698',11, 'Volkswagen', 'GTI', 7, 1994, 2803.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (76, 'WA 98988', 11, 'Ford', 'Windstar', 4, 2008, 6740.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (77, 'WV 86989', 17, 'Mercedes-Benz', '300E', 7, 1991, 4818.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (78, 'WA 99688',11, 'Volvo', 'C30', 6, 2012, 8021.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (79, 'WA 89889', 17, 'Volkswagen', 'Passat', 9, 2015, 9056.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (80, 'WA 87978', 17, 'Volkswagen', 'Touareg', 5, 2018, 5277.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (81, 'WA 89889', 17, 'Jeep', 'Grand Cherokee', 7, 2008, 6220.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (82, 'WA 49989', 11, 'Chevrolet', 'Avalanche 2500', 7, 2012, 3445.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (83, 'WA 98999', 17, 'Mazda', 'MPV', 5, 1992, 4487.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (84, 'WA 99879', 11, 'Ford', 'LTD Crown Victoria', 5, 1990, 5229.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (86, 'WV 99889', 11, 'Oldsmobile', '88', 8, 2011, 2058.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (87, 'WV 96779', 16, 'Mitsubishi', 'Precis', 4, 2004, 3443.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (88, 'WV 79985', 17, 'Buick', 'Estate', 9, 2004, 6647.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (89, 'WL 88995', 11, 'Volkswagen', 'Passat', 7, 2002, 5763.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (90, 'WA 99999',11, 'Dodge', 'Ram Van 3500', 5, 2018, 7975.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (91, 'WV 99889', 17, 'Hyundai', 'Entourage', 4, 2009, 8090.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (92, 'WV 85899', 11, 'Volkswagen', 'Golf', 2, 1992, 1869.00, true);
+INSERT INTO public.cars (id, licence, spot_id, make, model, seats, year, price, is_active) VALUES (93, 'WA 99975', 17, 'Ford', 'F150', 8, 2004, 1151.00, true);
 
 
 --Add initial address
@@ -140,57 +193,3 @@ INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_i
 INSERT INTO public.status (id, comment, date_from, date_to, type,  client_info_id, car_id, created_at) VALUES (174, 'Bookly reservation', '2020-02-05 13:24:57.03', '2020-02-05 14:24:57.03', 'BOOKED', 5, 95, '2020-02-05 13:27:46.193');
 
 
-insert into public.cities (id,name) VALUES
-(1,'KATOWICE'),
-(2,'LUBLIN'),
-(3,'BYDGOSZCZ'),
-(4,'SZCZECIN'),
-(5,'GDAŃSK'),
-(6,'POZNAŃ'),
-(7,'WROCŁAW'),
-(8,'ŁÓDŹ'),
-(9,'KRAKÓW'),
-(10,'WARSZAWA');
-
-
-
-insert into public.spot ( name, city_id)  VALUES
-('MICKIEWICZA',1),
-('1 MAJA',1),
-('WIEJSKA',1),
-('DALEKA',1),
-('DERENIOWA',1),
-('DŁUGA',1),
-('CISOWA',2),
-('GALERIA XD',2),
-('CICHA',2),
-('DOLOMITOWA',2),
-('DUŃSKA',2),
-('DOLNA',3),
-('FABRYCZNA',3),
-('GAJOWA',3),
-('GARBARSKA',4),
-('MACZKA',4),
-('BEMA',4),
-('GLINIANA',4),
-('GÓRNA',5),
-('GROCHOWSKA',5),
-('GALERIA XD',6),
-('CICHA',6),
-('DOLOMITOWA',6),
-('DUŃSKA',6),
-('DOLNA',3),
-('GLINIANA',10),
-('GÓRNA',10),
-('GROCHOWSKA',10),
-('JEROZOLIMSKIE',10),
-('MARIOT',10),
-('DOLOMITOWA',8),
-('DUŃSKA',8),
-('DOLNA',8),
-('DERENIOWA',7),
-('DŁUGA',7),
-('CISOWA',7),
-('FABRYCZNA',9),
-('GAJOWA',9),
-('GARBARSKA',9);

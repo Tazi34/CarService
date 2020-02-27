@@ -47,8 +47,9 @@ public class CarSpecification {
     }
 
 
-
-
-
-
+    public static Specification<Car> bySpotId(int spotId){
+        return (root,query,criteriaBuilder) -> {
+            return criteriaBuilder.equal(root.get(Car_.spot).get("id"),spotId);
+        };
+    }
 }
