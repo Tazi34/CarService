@@ -1,5 +1,5 @@
 import Axios from "axios";
-
+import { apiURL } from "../../urlAPI";
 //ACTIONS
 export const SET_START_DATE = "SET_START_DATE";
 export const SET_END_DATE = "SET_END_DATE";
@@ -57,9 +57,12 @@ export const confirmDateLocation = payload => ({
 export function postReservationForm(reservation) {
   return function(dispatch) {
     dispatch(postReservation());
-    return Axios.post("/reservations", JSON.stringify(reservation)).then(
+    return Axios.post(apiURL + "/reservations", reservation).then(
       () => dispatch(postReservationSuccess()),
-      error => dispatch(postReservationError(error))
+      error => {
+        console.log(error);
+        dispatch(postReservationError(error));
+      }
     );
   };
 }

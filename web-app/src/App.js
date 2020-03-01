@@ -6,8 +6,10 @@ import "./App.css";
 import AvailableCarList from "./components/car/AvailableCarList";
 import Layout from "./components/UI/Layout";
 import DateLocationCarForm from "./components/reservationForm/DateLocationCarForm";
-import ReservationForm from "./components/reservationForm/ReservationForm";
+import PersonDetailsForm from "./components/reservationForm/PersonDetailsForm";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
+import xd from "./components/UI/xd";
+import GuestReservationFormContainer from "./components/reservationForm/GuestReservationFormContainer";
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -34,8 +36,12 @@ function App(props) {
         <Layout>
           <Switch>
             <Route exact path="/" component={DateLocationCarForm} />
-            <Route path="/cars/apply/:id" component={ReservationForm} />
+            <Route
+              path="/cars/apply/:id"
+              component={GuestReservationFormContainer}
+            />
             <Route path="/cars" component={AvailableCarList} />
+            <Route path="/xd" component={PersonDetailsForm} />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
         </Layout>

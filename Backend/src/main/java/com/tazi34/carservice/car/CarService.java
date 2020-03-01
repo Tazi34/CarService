@@ -17,8 +17,8 @@ import java.util.List;
 @Service
 public class CarService {
 
-    private StatusRepository statusRepository;
-    private CarRepository carRepository;
+    private final StatusRepository statusRepository;
+    private final CarRepository carRepository;
 
     @Autowired
     public CarService(StatusRepository statusRepository, CarRepository carRepository, StatusService statusService) {
@@ -26,16 +26,16 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public Car updateCar(Car car){
-        if(carRepository.existsById(car.getId())) {
+    public Car updateCar(Car car) {
+        if (carRepository.existsById(car.getId())) {
             carRepository.save(car);
             return carRepository.save(car);
         }
         throw new ResourceNotFoundException("Car not found");
     }
 
-    public Car deleteCar(Car car){
-        if(carRepository.existsById(car.getId())) {
+    public Car deleteCar(Car car) {
+        if (carRepository.existsById(car.getId())) {
             car.setActive(false);
             carRepository.save(car);
             return car;
@@ -43,20 +43,21 @@ public class CarService {
         throw new ResourceNotFoundException("Car not found");
     }
 
-    public Specification<Car> getAvailabilitySpec(Date from,Date to,boolean available){
+    public Specification<Car> getAvailabilitySpec(Date from, Date to, boolean available) {
         List<Status> statuses = statusRepository.findAll(
-                StatusSpecifications.isUnavailableOrBooked().and(StatusSpecifications.collidesWithDateSpan(from,to)));
+                StatusSpecifications.isUnavailableOrBooked().and(StatusSpecifications.collidesWithDateSpan(from, to)));
         return available ? CarSpecification.isNotDeniedByStatuses(statuses) : CarSpecification.isDeniedByStatuses(statuses);
     }
 
-    public boolean checkIfAvailable(Car car, Date from, Date to){
-        List<Status> statuses = statusRepository.findAll(StatusSpecifications.byCarId(car.getId()).and(StatusSpecifications.isUnavailableOrBooked()).and(StatusSpecifications.collidesWithDateSpan(from,to)));
+    public boolean checkIfAvailable(Car car, Date from, Date to) {
+        List<Status> statuses = statusRepository.findAll(StatusSpecifications.byCarId(car.getId()).and(StatusSpecifications.isUnavailableOrBooked()).and(StatusSpecifications.collidesWithDateSpan(from, to)));
         return statuses.isEmpty();
     }
 
-    public Car getCar(Long id){
-        if(carRepository.existsById(id)) {
-            return carRepository.findById(id).get();
+    public Car getCar(Long id) {
+        var car = carRepository.findById(id);
+        if (car.isPresent()) {
+            return car.get();
         }
         throw new ResourceNotFoundException("Car not found");
     }

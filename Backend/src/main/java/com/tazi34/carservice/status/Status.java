@@ -1,14 +1,15 @@
 package com.tazi34.carservice.status;
 
+import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
-import com.tazi34.carservice.car.Car;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "status")
@@ -20,7 +21,7 @@ public class Status {
     @NotNull
     @ManyToOne//(fetch=FetchType.LAZY,optional = false)
     private Car car;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private ClientInfo clientInfo;
     private String comment;
     @CreationTimestamp
@@ -38,7 +39,15 @@ public class Status {
     @Enumerated(EnumType.STRING)
     private StatusType type;
 
+    public Status() {
+    }
 
-
-
+    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom, @NotNull Date dateTo, @NotNull StatusType type) {
+        this.car = car;
+        this.clientInfo = clientInfo;
+        this.comment = comment;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.type = type;
+    }
 }

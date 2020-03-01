@@ -1,4 +1,4 @@
-package com.tazi34.carservice.reservation;
+package com.tazi34.carservice.carReservation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tazi34.carservice.clientInfo.ClientInfoDTO;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Value
-public class ReservationData {
+public class CarReservation {
     @NotNull
     private long carId;
     @NotNull

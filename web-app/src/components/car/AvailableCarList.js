@@ -35,8 +35,9 @@ class AvailableCarList extends Component {
         sorting.field,
         sorting.order,
         currentReservation.startDate,
-        currentReservation.endDate,
-        currentReservation.startSpot.id
+        currentReservation.endDate
+
+        //currentReservation.startSpot.id
         //TODO commented only for testing currentReservation.startSpot.id
       );
     }
