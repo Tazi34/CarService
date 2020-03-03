@@ -1,5 +1,6 @@
 package tests.car;
 
+import com.tazi34.carservice.carlocation.spot.Spot;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +36,7 @@ public class CarSpecsTests {
 
     @Before
     public void init(){
+
         carRepository.deleteAll();
     }
 
@@ -57,7 +59,7 @@ public class CarSpecsTests {
     @Test
     public void isDeniedByStatuses_givenNullList_returnsEmptyList(){
         List<Car> allCars = getCarsWithoutId();
-        carRepository.saveAll(getCarsWithoutId());
+        carRepository.saveAll(allCars);
         List<Car> foundCars = carRepository.findAll(isDeniedByStatuses(null));
         assertEquals(0,foundCars.size());
     }

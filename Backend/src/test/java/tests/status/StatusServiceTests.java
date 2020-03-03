@@ -70,8 +70,6 @@ public class StatusServiceTests {
         when(carService.checkIfAvailable(car, carReservation.getFromDate(), carReservation.getToDate())).thenReturn(false);
 
         expectedException.expect(ResponseStatusException.class);
-        expectedException.expectMessage("404 NOT_FOUND \"Car is not available or does not exist.\"");
-
         statusService.saveReservation(carReservation);
     }
 }
