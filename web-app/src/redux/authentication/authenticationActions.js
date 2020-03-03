@@ -1,17 +1,15 @@
 import Axios from "axios";
-import { apiURL } from "../../urlAPI";
+import { apiURL, authUserURL, login } from "../../urlAPI";
 import localStorage from "redux-persist/es/storage";
 
-export const AUTHENTICATED_USER = "AUTHENTICATED_USER";
-export const UNAUTHENTICATED = "UNAUTHENTICATED";
-
+export const localStorageTokenItemName = "userToken";
 export const AUTHENTICATION_ERROR = "AUTHENTICATION_ERROR";
-export const SET_TOKEN = "SET_TOKEN";
 export const SET_USER = "SET_USER";
+export const REMOVE_USER = "REMOVE_USER";
 export const DISCARD_TOKEN = "DISCARD_TOKEN";
-
 export const REQUEST_AUTHENTICATION = "REQUEST_AUTHENTICATION";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
+
 export const requestAuthenticaton = () => ({
   type: REQUEST_AUTHENTICATION
 });
@@ -25,28 +23,66 @@ export const authenticateError = error => ({
   type: AUTHENTICATION_ERROR,
   payload: { error: error }
 });
-
-export const authSetToken = token => ({
-  type: SET_TOKEN,
-  payload: { token: token }
-});
-export const authDiscardToken = () => ({
-  type: DISCARD_TOKEN
-});
-
-export const authSetUser = user => ({
+export const setUser = user => ({
   type: SET_USER,
   payload: { user: user }
 });
 
-export function loginAction(email, password) {
+export const removeUser = payload => ({
+  type: REMOVE_USER,
+  payload: { payload }
+});
+
+export function loginAction({ email, password }) {
   return function(dispatch) {
     dispatch(requestAuthenticaton());
     return Axios.post(apiURL + "/login", { email, password }).then(
-      data => {
+      response => {
+        var token = getToken(response);
         dispatch(authenticateSuccess());
-        dispatch(authSetToken(data));
-        //localStorage.setItem('userToken',data)
+        localStorage.setItem("userToken", token);
+      },
+      error => dispatch(authenticateError(error))
+    );
+  };
+}
+
+const getToken = response => {
+  var authorizationString = response.headers.authorization;
+  return extractToken(authorizationString);
+};
+
+const extractToken = tokenBearerString => {
+  return tokenBearerString.replace("Bearer ", "");
+};
+export const redirectToLogin = history => {
+  history.push(login);
+};
+export const REQUEST_USER = "REQUEST_USER";
+
+export const requestUser = () => ({
+  type: REQUEST_USER
+});
+
+export function fetchUser() {
+  return async function(dispatch) {
+    dispatch(requestUser());
+    var token = await localStorage.getItem(localStorageTokenItemName);
+    return Axios.post(
+      authUserURL,
+      {},
+      {
+        headers: {
+          crossDomain: true,
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer" + token
+        }
+      }
+    ).then(
+      response => {
+        var user = response.data;
+        dispatch(setUser(user));
       },
       error => dispatch(authenticateError(error))
     );
