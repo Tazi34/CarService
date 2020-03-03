@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 export default function LoginWindow(props) {
   console.log(props);
   return (
-    <Form onSubmit={values => props.loginRequest(values)}>
+    <Form onSubmit={values => props.login(values)}>
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Field name="email">
