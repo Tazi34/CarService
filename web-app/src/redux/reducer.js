@@ -8,6 +8,8 @@ import reservationReducer from "./reservation/reservationReducer";
 import cityReducer from "./city/cityReducer";
 import spotReducer from "./city/spot/spotReducer";
 import authenticationReducer from "./authentication/authenticationReducer";
+import registrationReducer from "./registration/registrationReducer";
+
 export default combineReducers({
   cars: carReducer,
   pagination: paginationReducer,
@@ -15,5 +17,6 @@ export default combineReducers({
   currentReservation: reservationReducer,
   cities: cityReducer,
   spots: spotReducer,
-  authentication: authenticationReducer
+  authentication: authenticationReducer,
+  registration: registrationReducer
 });
