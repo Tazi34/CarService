@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -30,7 +29,7 @@ public class AuthenticationController {
     @PostMapping(SecurityConstants.CURRENT_USER_URL)
     public ResponseEntity<UserDTO> getUserFromToken(Authentication authentication, Principal principal) {
         UserDTO user = null;
-        if (authentication != null) user = userService.findByEmail(authentication.getName());
+        if (authentication != null) user = userService.mapUserToDTO(userService.findByEmail(authentication.getName()));
         return ResponseEntity.ok().body(user);
     }
 

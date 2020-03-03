@@ -70,7 +70,9 @@ public class ClientInfoService {
 
         return clientInfoRepository.save(clientInfo);
     }
-
+    public List<ClientInfo> getClientInfosByEmail(String email){
+        return clientInfoRepository.findAllByEmail(email);
+    }
     public ClientInfo getClientInfo(Long id){
         if(clientInfoRepository.existsById(id)) {
             return clientInfoRepository.findById(id).get();

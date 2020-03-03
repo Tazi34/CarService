@@ -1,6 +1,7 @@
 package com.tazi34.carservice.carReservation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoDTO;
 import lombok.Value;
 

@@ -50,4 +50,10 @@ public class Status {
         this.dateTo = dateTo;
         this.type = type;
     }
+    public interface OnlyReservationInfo {
+        Car getCar();
+        ClientInfo getClientInfo();
+        Date getDateFrom();
+        Date getDateTo();
+    }
 }

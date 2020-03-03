@@ -12,6 +12,7 @@ import com.tazi34.carservice.clientInfo.ClientInfoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.expression.spel.CodeFlow;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,7 +43,8 @@ public class StatusService {
         Status status = getStatus(statusID);
 
         CarDTO carDTO = mapper.map(status.getCar(), CarDTO.class);
-        return new ReservationInfo(carDTO, status.getDateFrom(), status.getDateTo());
+        ClientInfoDTO clientInfoDTO = mapper.map(status.getClientInfo(), ClientInfoDTO.class);
+        return new ReservationInfo(carDTO, status.getDateFrom(), status.getDateTo(),clientInfoDTO);
     }
 
     public Status saveReservation(CarReservation carReservation) {
@@ -82,6 +84,7 @@ public class StatusService {
         return true;
     }
 
+
     public List<Status> findCollidingBookedStatuses(Date from, Date to, long carId) {
         return statusRepository.findAll(StatusSpecifications.collidesWithDateSpan(from, to).and(StatusSpecifications.byCarId(carId).and(StatusSpecifications.isType(StatusType.BOOKED))));
     }
@@ -92,6 +95,8 @@ public class StatusService {
         }
         return statuses;
     }
+
+
 
     private Iterable<Status> saveAll(List<Status> statuses) {
         return statusRepository.saveAll(statuses);
