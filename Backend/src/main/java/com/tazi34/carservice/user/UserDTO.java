@@ -1,17 +1,18 @@
 package com.tazi34.carservice.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
 
-import javax.validation.constraints.Email;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Value
-@AllArgsConstructor
 public class UserDTO {
-    @Email
     private final String email;
     private final long id;
 
+    @JsonCreator(mode=JsonCreator.Mode.PROPERTIES)
+    public UserDTO(@JsonProperty("id") long id,@JsonProperty("email") String email) {
+        this.email = email;
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -20,4 +21,7 @@ public class UserDTO {
     public long getId() {
         return id;
     }
+
 }
+
+
