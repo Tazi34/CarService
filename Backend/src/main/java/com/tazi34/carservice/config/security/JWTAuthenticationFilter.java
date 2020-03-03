@@ -3,11 +3,11 @@ package com.tazi34.carservice.config.security;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.tazi34.carservice.user.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -32,7 +32,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
-            User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
+            var inputStream = req.getInputStream();
+            com.tazi34.carservice.user.User creds = new ObjectMapper().readValue(inputStream, com.tazi34.carservice.user.User.class);
 
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getEmail(),
                     creds.getPassword(), new ArrayList<>()));
@@ -49,12 +50,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 JWT.create().withSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).sign(HMAC512(SECRET.getBytes()));
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode object = mapper.createObjectNode();
-        object.put("Authorization", TOKEN_PREFIX + token);
-        PrintWriter wr = res.getWriter();
-        res.setContentType("application/json");
-        wr.print(object);
-        wr.flush();
 
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        res.addHeader("Authorization",TOKEN_PREFIX + token);
+        res.setContentType("application/json");
+
+
     }
 }
