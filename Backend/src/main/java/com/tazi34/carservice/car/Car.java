@@ -29,7 +29,7 @@ public class Car {
     private String licence;
 
     @ManyToOne
-    @JoinColumn(name="spot_id", nullable=false)
+    @JoinColumn(name="spot_id")
     private Spot spot;
     @NotNull
     @DecimalMin(value = "0.0", inclusive = true)
