@@ -1,20 +1,16 @@
 import carReducer from "./car/carsReducer";
 import { combineReducers } from "redux";
-import {
-  paginationReducer,
-  sortingReducer
-} from "./pagination/paginationReducer";
-import reservationReducer from "./reservation/reservationReducer";
+import bookingFormReducer from "./bookingForm/bookingFormReducer";
 import cityReducer from "./city/cityReducer";
 import spotReducer from "./city/spot/spotReducer";
 import authenticationReducer from "./authentication/authenticationReducer";
 import registrationReducer from "./registration/registrationReducer";
+import reservationReducer from "./reservations/reservationReducer";
 
 export default combineReducers({
   cars: carReducer,
-  pagination: paginationReducer,
-  sorting: sortingReducer,
-  currentReservation: reservationReducer,
+  reservations: reservationReducer,
+  bookingForm: bookingFormReducer,
   cities: cityReducer,
   spots: spotReducer,
   authentication: authenticationReducer,
