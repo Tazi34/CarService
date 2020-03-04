@@ -9,6 +9,7 @@ export const REMOVE_USER = "REMOVE_USER";
 export const DISCARD_TOKEN = "DISCARD_TOKEN";
 export const REQUEST_AUTHENTICATION = "REQUEST_AUTHENTICATION";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
+export const LOGOUT = "LOGOUT";
 
 export const requestAuthenticaton = () => ({
   type: REQUEST_AUTHENTICATION
@@ -19,7 +20,7 @@ export const authenticateSuccess = user => ({
     user: user
   }
 });
-export const authenticateError = error => ({
+export const authenticationError = error => ({
   type: AUTHENTICATION_ERROR,
   payload: { error: error }
 });
@@ -33,6 +34,13 @@ export const removeUser = payload => ({
   payload: { payload }
 });
 
+export const logout = () => {
+  localStorage.setItem("userToken", "");
+  return {
+    type: LOGOUT
+  };
+};
+
 export function loginAction({ email, password }) {
   return function(dispatch) {
     dispatch(requestAuthenticaton());
@@ -41,8 +49,13 @@ export function loginAction({ email, password }) {
         var token = getToken(response);
         dispatch(authenticateSuccess());
         localStorage.setItem("userToken", token);
+        Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        dispatch(fetchUser());
       },
-      error => dispatch(authenticateError(error))
+      error => {
+        dispatch(authenticationError(error));
+        localStorage.setItem("userToken", "");
+      }
     );
   };
 }
@@ -68,6 +81,8 @@ export function fetchUser() {
   return async function(dispatch) {
     dispatch(requestUser());
     var token = await localStorage.getItem(localStorageTokenItemName);
+    if (token === "") return;
+
     return Axios.post(
       authUserURL,
       {},
@@ -76,7 +91,7 @@ export function fetchUser() {
           crossDomain: true,
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
-          Authorization: "Bearer" + token
+          Authorization: "Bearer " + token
         }
       }
     ).then(
@@ -84,7 +99,7 @@ export function fetchUser() {
         var user = response.data;
         dispatch(setUser(user));
       },
-      error => dispatch(authenticateError(error))
+      error => dispatch(authenticationError(error))
     );
   };
 }

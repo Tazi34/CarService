@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import {
   RECEIVE_PAGE,
   REQUEST_PAGE,
+  RESET_PAGINATION,
   SET_SORT_FIELD,
   SET_SORT_ORDER,
   SET_SORTING,
@@ -19,6 +20,8 @@ export const createPaginator = () => {
             fetching: true
           }
         };
+      case RESET_PAGINATION:
+        return {};
       case RECEIVE_PAGE:
         return {
           ...pages,
@@ -32,27 +35,35 @@ export const createPaginator = () => {
     }
   };
 
-  const currentPage = (currentPage = 0, action = {}) =>
-    action.type == REQUEST_PAGE ? action.payload.page : currentPage;
-
-  const itemsReducer = (items = {}, action = {}) => {
-    switch (action.type) {
-      case RECEIVE_PAGE:
-        let _items = {};
-        for (let item of action.payload.results) {
-          _items = {
-            ..._items,
-            [item.id]: item
-          };
-        }
-        return {
-          ...items,
-          ..._items
-        };
+  const currentPage = (currentPage = 0, { type, payload }) => {
+    switch (type) {
+      case REQUEST_PAGE:
+        return payload.page;
+      case RESET_PAGINATION:
+        return 0;
       default:
-        return items;
+        return currentPage;
     }
   };
+
+  // const itemsReducer = (items = {}, action = {}) => {
+  //   switch (action.type) {
+  //     case RECEIVE_PAGE:
+  //       let _items = {};
+  //       for (let item of action.payload.results) {
+  //         _items = {
+  //           ..._items,
+  //           [item.id]: item
+  //         };
+  //       }
+  //       return {
+  //         ...items,
+  //         ..._items
+  //       };
+  //     default:
+  //       return items;
+  //   }
+  // };
   function sorting(
     state = { order: SortOrders.NOT_SORTED, field: null },
     action
@@ -76,6 +87,8 @@ export const createPaginator = () => {
     switch (type) {
       case RECEIVE_PAGE:
         return payload.totalPages;
+      case RESET_PAGINATION:
+        return -1;
       default:
         return state;
     }
@@ -84,7 +97,7 @@ export const createPaginator = () => {
   return combineReducers({
     pages,
     currentPage,
-    itemsReducer,
+    // itemsReducer,
     totalPages,
     sorting
   });

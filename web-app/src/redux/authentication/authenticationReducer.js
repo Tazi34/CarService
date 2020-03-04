@@ -4,7 +4,8 @@ import {
   AUTHENTICATION_ERROR,
   SET_USER,
   REMOVE_USER,
-  DISCARD_TOKEN
+  DISCARD_TOKEN,
+  LOGOUT
 } from "./authenticationActions";
 const initialState = {
   isAuthenticated: false,
@@ -22,11 +23,13 @@ export default (state = initialState, { type, payload }) => {
     case AUTHENTICATION_SUCCESS:
       return { ...state, error: {}, isAuthenticated: true };
     case SET_USER:
-      return { ...state, user: payload.user };
+      return { ...state, user: payload.user, isAuthenticated: true };
     case REMOVE_USER:
       return { ...state, user: {} };
     case DISCARD_TOKEN:
       return {};
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }
