@@ -16,19 +16,20 @@ import java.util.List;
 @RequestMapping("/reservations")
 public class CarReservationsController {
     private  StatusService statusService;
+    private ClientInfoService clientInfoService;
     private ReservationService reservationService;
 
     @Autowired
-    public CarReservationsController(StatusService statusService,
+    public CarReservationsController(StatusService statusService, ClientInfoService clientInfoService,
                                      ReservationService reservationService) {
         this.statusService = statusService;
+        this.clientInfoService = clientInfoService;
         this.reservationService = reservationService;
     }
 
     @GetMapping("/user/{email}")
     public ResponseEntity<List<ReservationInfo>> getUserReservations(@PathVariable("email") String email){
         return ResponseEntity.ok().body(reservationService.getUserReservationsByEmail(email));
-
     }
 
     @GetMapping("/{id}")

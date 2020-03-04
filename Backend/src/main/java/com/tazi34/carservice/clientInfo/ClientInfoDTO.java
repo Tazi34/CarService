@@ -1,5 +1,7 @@
 package com.tazi34.carservice.clientInfo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.tazi34.carservice.clientInfo.address.AddressDTO;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -7,12 +9,12 @@ import lombok.Value;
 
 
 public class ClientInfoDTO {
-    public  String name;
-    public  String surname;
-    public  String email;
-    public  String pid;
-    public  String phoneNumber;
-    public  AddressDTO address;
+    public String name;
+    public String surname;
+    public String email;
+    public String pid;
+    public String phoneNumber;
+    public AddressDTO address;
 
     public ClientInfoDTO() {
     }
@@ -26,6 +28,7 @@ public class ClientInfoDTO {
         this.phoneNumber = phoneNumber;
         this.address = address;
     }
+
     public String getName() {
         return name;
     }

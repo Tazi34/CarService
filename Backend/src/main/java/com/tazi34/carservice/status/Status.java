@@ -51,6 +51,7 @@ public class Status {
         this.type = type;
     }
     public interface OnlyReservationInfo {
+        long getId();
         Car getCar();
         ClientInfo getClientInfo();
         Date getDateFrom();

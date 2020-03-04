@@ -44,7 +44,7 @@ public class StatusService {
 
         CarDTO carDTO = mapper.map(status.getCar(), CarDTO.class);
         ClientInfoDTO clientInfoDTO = mapper.map(status.getClientInfo(), ClientInfoDTO.class);
-        return new ReservationInfo(carDTO, status.getDateFrom(), status.getDateTo(),clientInfoDTO);
+        return new ReservationInfo(status.getId(),carDTO, status.getDateFrom(), status.getDateTo(),clientInfoDTO);
     }
 
     public Status saveReservation(CarReservation carReservation) {

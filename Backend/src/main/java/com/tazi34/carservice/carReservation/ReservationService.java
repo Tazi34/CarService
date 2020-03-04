@@ -43,6 +43,6 @@ public class ReservationService {
     private ReservationInfo mapOnlyReservationInfoToReservationInfo(Status.OnlyReservationInfo info){
         var carDTO = modelMapper.map(info.getCar(), CarDTO.class);
         var clientInfoDTO = modelMapper.map(info.getClientInfo(), ClientInfoDTO.class);
-        return new ReservationInfo(carDTO,info.getDateFrom(),info.getDateTo(),clientInfoDTO);
+        return new ReservationInfo(info.getId(),carDTO,info.getDateFrom(),info.getDateTo(),clientInfoDTO);
     }
 }
