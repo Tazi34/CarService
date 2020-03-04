@@ -10,13 +10,21 @@ import {
   setSortOrder,
   SortOrders
 } from "../../redux/pagination/paginationActions";
-import { selectCar } from "../../redux/reservation/reservationActions";
+import { selectCar } from "../../redux/bookingForm/bookingFormActions";
 import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
 import { Redirect } from "react-router-dom";
 
 class AvailableCarList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortingSelected: false
+    };
+    console.log(props);
+  }
+
   componentDidMount() {
     this.getAvailableCarsPage(0);
   }
@@ -60,10 +68,15 @@ class AvailableCarList extends Component {
     }
     return options;
   };
-
-  sortingApplyHandler = () => {
+  sortingSelected = () => {
+    //TODO move sorting selected to redux
     var sorting = this.props.sorting;
-    if (sorting.field && sorting.order !== SortOrders.NOT_SORTED) {
+    this.setState({
+      sortingSelected: sorting.field && sorting.order !== SortOrders.NOT_SORTED
+    });
+  };
+  sortingApplyHandler = () => {
+    if (this.state.sortingSelected) {
       this.props.resetPages();
     }
   };
@@ -97,6 +110,7 @@ class AvailableCarList extends Component {
               orderChanged={this.props.setSortOrder}
               fieldOptions={this.getFieldSortOptions()}
               applyHandler={this.sortingApplyHandler}
+              buttonDisabled={this.state.sortingSelected}
             />
           </Grid>
         </Grid>
@@ -122,10 +136,10 @@ class AvailableCarList extends Component {
 
 const mapStateToProps = state => {
   return {
-    cars: state.cars,
-    pagination: state.pagination,
-    sorting: state.sorting,
-    currentReservation: state.currentReservation
+    cars: state.cars.cars,
+    pagination: state.cars.pagination,
+    sorting: state.cars.pagination.sorting,
+    currentReservation: state.bookingForm
   };
 };
 

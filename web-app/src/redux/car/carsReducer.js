@@ -3,6 +3,8 @@ import {
   RECEIVE_CARS_SUCCESS,
   REQUEST_CARS
 } from "./carActions";
+import { combineReducers } from "redux";
+import { createPaginator } from "../pagination/paginationReducer";
 
 function cars(
   state = {
@@ -20,20 +22,20 @@ function cars(
       return Object.assign({}, state, {
         isFetching: true
       });
-    case RECEIVE_CARS_SUCCESS:
-      var payload = action.payload;
-
-      var byId = payload.cars.map(car => car.id);
-      var _items = {};
+    case RECEIVE_CARS_SUCCESS: {
+      const payload = action.payload;
+      const byId = payload.cars.map(car => car.id);
+      let _items = {};
       payload.cars.forEach(car => (_items = { ..._items, [car.id]: car }));
 
       return Object.assign({}, state, {
         isFetching: false,
-        byId: [...state.byId, byId],
+        byId: [...state.byId, ...byId],
         items: { ...state.items, ..._items },
         lastUpdated: payload.receivedAt,
         fetched: true
       });
+    }
     case RECEIVE_CARS_ERROR:
       return { ...state, error: action.payload.error };
 
@@ -42,6 +44,9 @@ function cars(
   }
 }
 
-const carReducer = cars;
+const carReducer = combineReducers({
+  cars,
+  pagination: createPaginator()
+});
 
 export default carReducer;

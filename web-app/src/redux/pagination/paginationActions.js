@@ -1,3 +1,5 @@
+import { reservationsEndpoint } from "../../urlAPI";
+
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 export const SET_TOTAL_PAGES = "SET_TOTAL_PAGES";
 export const REQUEST_PAGE = "REQUEST_PAGE";
@@ -31,7 +33,7 @@ export function setCurrentPage(page) {
   return { type: SET_CURRENT_PAGE, payload: { page } };
 }
 
-export function setTotalePages(totalPages) {
+export function setTotalPages(totalPages) {
   return { type: SET_TOTAL_PAGES, payload: { totalPages } };
 }
 
@@ -53,3 +55,9 @@ export function receivePage(page, results, totalPages) {
 export function createRequestPageActionCreator(endpoint, resultKey) {
   return page => requestPage(endpoint, resultKey, page);
 }
+
+export const requestReservationsPage = createRequestPageActionCreator(
+  reservationsEndpoint,
+  "reservations"
+);
+export const requestCarsPage = createRequestPageActionCreator("/cars", "cars");
