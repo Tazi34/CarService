@@ -1,4 +1,4 @@
-package tests.reservations;
+package tests.reservations.service;
 
 import com.tazi34.carservice.carReservation.ReservationInfo;
 import com.tazi34.carservice.carReservation.ReservationMapper;

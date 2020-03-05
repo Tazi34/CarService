@@ -3,6 +3,7 @@ package tests.status.service;
 import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
+import com.tazi34.carservice.carReservation.ReservationDateChecker;
 import com.tazi34.carservice.status.StatusRepository;
 import com.tazi34.carservice.status.StatusService;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static utilities.DummyValues.getDummyClientInfoDTO;
@@ -44,25 +46,17 @@ public class SaveReservationTests {
     @Before
     public void init(){
         long mockedCarId = 1;
+        var mockedDateChecker = Mockito.mock(ReservationDateChecker.class);
+        statusService.setReservationDateChecker(mockedDateChecker);
         when(mockedReservation.getCarId()).thenReturn(mockedCarId);
         when(carService.getCar(mockedCarId)).thenReturn(mockedCar);
     }
 
     @Test
-    public void givenReservationWithFromDateBeforeCurrentDate_throwsBadRequest() {
+    public void givenReservationWithInvalidDate_throwsBadRequest() {
         //GIVEN
-        //start date before current date
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, (-1));
-        Date badDate = cal.getTime();
-        cal.add(Calendar.DATE,3);
-        Date endDate = cal.getTime();
-
-
-
-
-        when(mockedReservation.getFromDate()).thenReturn(badDate);
-        when(mockedReservation.getToDate()).thenReturn(endDate);
+        var mockedDateChecker = statusService.getReservationDateChecker();
+        when(mockedDateChecker.checkIfCorrectDate(any(),any())).thenReturn(false);
 
         expectedException.expect(ResponseStatusException.class);
         statusService.saveReservation(mockedReservation);
@@ -70,20 +64,13 @@ public class SaveReservationTests {
 
     @Test
     public void givenReservationWithUnavailableCar_throwsNotFound() {
-        //add date checker or something
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, (1));
-        Date fromDate = cal.getTime();
-        cal.add(Calendar.DATE, (1));
-        Date toDate = cal.getTime();
-
-
-        when(mockedReservation.getFromDate()).thenReturn(fromDate);
-        when(mockedReservation.getToDate()).thenReturn(toDate);
-
-        when(carService.checkIfAvailable(mockedCar, mockedReservation.getFromDate(),mockedReservation.getToDate())).thenReturn(false);
+        var mockedDateChecker = statusService.getReservationDateChecker();
+        when(mockedDateChecker.checkIfCorrectDate(any(),any())).thenReturn(true);
+        when(carService.checkIfAvailable(any(),any(),any())).thenReturn(false);
 
         expectedException.expect(ResponseStatusException.class);
         statusService.saveReservation(mockedReservation);
     }
+
+
 }
