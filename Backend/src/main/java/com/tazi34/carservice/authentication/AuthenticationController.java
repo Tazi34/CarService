@@ -26,16 +26,17 @@ public class AuthenticationController {
         this.encoder = encoder;
     }
 
-    @PostMapping(SecurityConstants.CURRENT_USER_URL)
+    @PostMapping(SecurityConstants.CURRENT_USER_ENDPOINT)
     public ResponseEntity<UserDTO> getUserFromToken(Authentication authentication, Principal principal) {
         UserDTO user = null;
         if (authentication != null) user = userService.mapUserToDTO(userService.findByEmail(authentication.getName()));
         return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping(SecurityConstants.SIGN_UP_URL)
-    public void signUp(@RequestBody User user) {
+    @PostMapping(SecurityConstants.SIGN_UP_ENDPOINT)
+    public ResponseEntity<UserDTO> signUp(@RequestBody User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        userService.save(user);
+        var savedUser = userService.save(user);
+        return ResponseEntity.ok().body(new UserDTO(savedUser.getId(),savedUser.getEmail()));
     }
 }
