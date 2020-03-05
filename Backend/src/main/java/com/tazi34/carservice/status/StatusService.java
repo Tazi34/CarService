@@ -5,14 +5,16 @@ import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarDTO;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
+import com.tazi34.carservice.carReservation.ReservationDateChecker;
 import com.tazi34.carservice.carReservation.ReservationInfo;
+import com.tazi34.carservice.carlocation.spot.SpotService;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoDTO;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.expression.spel.CodeFlow;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,53 +31,60 @@ public class StatusService {
     private final StatusRepository statusRepository;
     private final CarService carService;
     private final ClientInfoService clientInfoService;
+    private final SpotService spotService;
+    private ReservationDateChecker reservationDateChecker = new ReservationDateChecker();
+
 
     //TODO split  class
     @Autowired
     public StatusService(StatusRepository statusRepository, @Lazy CarService carService,
-                         ClientInfoService clientInfoService) {
+                         ClientInfoService clientInfoService, SpotService spotService) {
         this.carService = carService;
         this.statusRepository = statusRepository;
         this.clientInfoService = clientInfoService;
+        this.spotService = spotService;
     }
-
+    public void setReservationDateChecker(ReservationDateChecker reservationDateChecker) {
+        this.reservationDateChecker = reservationDateChecker;
+    }
     public ReservationInfo getReservation(Long statusID) {
         Status status = getStatus(statusID);
 
         CarDTO carDTO = mapper.map(status.getCar(), CarDTO.class);
         ClientInfoDTO clientInfoDTO = mapper.map(status.getClientInfo(), ClientInfoDTO.class);
-        return new ReservationInfo(status.getId(),carDTO, status.getDateFrom(), status.getDateTo(),clientInfoDTO);
+        return new ReservationInfo(status.getId(),carDTO, status.getDateFrom(), status.getDateTo(),clientInfoDTO,status.getStartSpot(),status.getEndSpot());
     }
-
+    //TODO move to reservation service
     public Status saveReservation(CarReservation carReservation) {
         long carId = carReservation.getCarId();
         Car car = carService.getCar(carId);
-        if (!checkIfCorrectDate(carReservation.getFromDate(), carReservation.getToDate())) {
+        if (!reservationDateChecker.checkIfCorrectDate(carReservation.getFromDate(), carReservation.getToDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong date");
         }
 
         if (!carService.checkIfAvailable(car, carReservation.getFromDate(), carReservation.getToDate())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car is not available.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car not available");
         }
 
-        ClientInfoDTO clientInfoDTO = carReservation.getClientInfoDTO();
-        ClientInfo clientInfo = clientInfoService.addClientInfo(clientInfoDTO);
-        Status status = new Status(car, clientInfo, "CarService booking", carReservation.getFromDate(),
-                carReservation.getToDate(), StatusType.BOOKED);
+        //TODO add service for spots
+        var startSpot = spotService.getSpot(carReservation.getStartSpotId());
+        var endSpot = spotService.getSpot(carReservation.getEndSpotId());
 
+        var clientInfo = clientInfoService.updateClientInfo(carReservation.getClientInfo());
+        Status status = new Status(car, clientInfo, "CarService booking", carReservation.getFromDate(),
+                carReservation.getToDate(), StatusType.BOOKED,startSpot,endSpot);
 
         return statusRepository.save(status);
     }
-
     public Status updateStatus(Status status) {
         if (statusRepository.existsById(status.getId())) {
             return statusRepository.save(status);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found.");
     }
-
     private boolean checkIfCorrectDate(Date from, Date to) {
         Calendar cal = Calendar.getInstance();
+        //todo change to constant value
         cal.add(Calendar.MINUTE, (-5));
         Date currentDateToCompare = cal.getTime();
         if (from.before(currentDateToCompare) || from.after(to)) {
@@ -83,25 +92,21 @@ public class StatusService {
         }
         return true;
     }
-
-
+    public List<Status> getClientsStatuses(ClientInfo clientInfo){
+        return statusRepository.findByClientInfo(clientInfo);
+    }
     public List<Status> findCollidingBookedStatuses(Date from, Date to, long carId) {
         return statusRepository.findAll(StatusSpecifications.collidesWithDateSpan(from, to).and(StatusSpecifications.byCarId(carId).and(StatusSpecifications.isType(StatusType.BOOKED))));
     }
-
     private List<Status> changeToBookedType(List<Status> statuses) {
         for (Status s : statuses) {
             s.setType(StatusType.BOOKINGCANCELED);
         }
         return statuses;
     }
-
-
-
     private Iterable<Status> saveAll(List<Status> statuses) {
         return statusRepository.saveAll(statuses);
     }
-
     private void cancelCollidingReservations(Date from, Date to, long carId) {
         List<Status> statusesWhichCollidesWithNewOne = findCollidingBookedStatuses(from, to, carId);
         if (!statusesWhichCollidesWithNewOne.isEmpty()) {
@@ -109,7 +114,6 @@ public class StatusService {
             saveAll(statusesWhichCollidesWithNewOne);
         }
     }
-
     private Status createUnavailableStatus(StatusDTO statusDTO) {
         Car car = carService.getCar(statusDTO.getCarId());
         Status status = new Status();
@@ -119,7 +123,6 @@ public class StatusService {
         status.setCar(car);
         return status;
     }
-
     public Status saveUnavailableStatus(StatusDTO statusDTO) {
         Date from = statusDTO.getDateFrom();
         Date to = statusDTO.getDateTo();
@@ -133,25 +136,20 @@ public class StatusService {
 
         return statusRepository.save(status);
     }
-
-    public boolean cancelReservation(Long id) {
-        Status status = getStatus(id);
-        status.setType(StatusType.BOOKINGCANCELED);
-        statusRepository.save(status);
-        return true;
-    }
-
     public Status deleteStatus(Status status) {
         if (statusRepository.existsById(status.getId())) {
             return status;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found.");
     }
-
     public Status getStatus(Long id) {
         if (statusRepository.existsById(id)) {
             return statusRepository.findById(id).get();
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status not found.");
+    }
+
+    public ReservationDateChecker getReservationDateChecker() {
+        return reservationDateChecker;
     }
 }

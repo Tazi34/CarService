@@ -1,20 +1,15 @@
 package com.tazi34.carservice.carReservation;
 
-import com.tazi34.carservice.car.CarDTO;
-import com.tazi34.carservice.clientInfo.ClientInfoDTO;
+import com.tazi34.carservice.Exceptions.BadRequestException;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
 import com.tazi34.carservice.status.Status;
-import com.tazi34.carservice.status.StatusRepository;
 import com.tazi34.carservice.status.StatusService;
 import com.tazi34.carservice.status.StatusType;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,10 +59,21 @@ public class ReservationService {
         catch(ResourceNotFoundException exception){
             throw new ResourceNotFoundException(exceptionMessage);
         }
-        var type = status.getType();
-        if( type != StatusType.BOOKED && type != StatusType.BOOKINGCANCELED)
+        if(isBooked(status))
             throw new ResourceNotFoundException(exceptionMessage);
 
         return reservationMapper.mapStatusToReservation(status);
     }
+    public void cancelReservation(Long id){
+        var status = statusService.getStatus(id);
+        if(!isBooked(status))
+            throw new BadRequestException("Status type was unavailable.");
+        status.setType(StatusType.BOOKINGCANCELED);
+        statusService.updateStatus(status);
+    }
+    private boolean isBooked(Status status){
+        var type = status.getType();
+        return type == StatusType.BOOKED;
+    }
+
 }
