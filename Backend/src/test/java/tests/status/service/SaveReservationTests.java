@@ -1,16 +1,18 @@
-package tests.status;
+package tests.status.service;
 
 import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
 import com.tazi34.carservice.status.StatusRepository;
 import com.tazi34.carservice.status.StatusService;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,12 +20,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static utilities.DummyValues.getDummyClientInfoDTO;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles("test")
-public class StatusServiceTests {
+public class SaveReservationTests {
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
     @Mock
@@ -33,31 +35,42 @@ public class StatusServiceTests {
     @InjectMocks
     private StatusService statusService;
 
-    @Test
-    public void saveReservation_givenReservationWithFromDateBeforeCurrentDate_throwsBadRequest() {
-        //Create reservation with date before current date
-        Car car = new Car();
-        car.setId(3l);
+    @Mock
+    Car mockedCar;
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, (-1));
-        System.out.println(cal.getTime());
-        Date badDate = cal.getTime();
+    @Mock
+    CarReservation mockedReservation;
 
-        CarReservation carReservation = new CarReservation(car.getId(), 0, 0, getDummyClientInfoDTO(), badDate, null);
-        when(carService.getCar(car.getId())).thenReturn(car);
-
-        expectedException.expect(ResponseStatusException.class);
-        expectedException.expectMessage("400 BAD_REQUEST \"Wrong date\"");
-
-        statusService.saveReservation(carReservation);
+    @Before
+    public void init(){
+        long mockedCarId = 1;
+        when(mockedReservation.getCarId()).thenReturn(mockedCarId);
+        when(carService.getCar(mockedCarId)).thenReturn(mockedCar);
     }
 
     @Test
-    public void saveReservation_givenReservationWithUnavailableCar_throwsNotFound() {
-        Car car = new Car();
-        car.setId(3l);
+    public void givenReservationWithFromDateBeforeCurrentDate_throwsBadRequest() {
+        //GIVEN
+        //start date before current date
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, (-1));
+        Date badDate = cal.getTime();
+        cal.add(Calendar.DATE,3);
+        Date endDate = cal.getTime();
 
+
+
+
+        when(mockedReservation.getFromDate()).thenReturn(badDate);
+        when(mockedReservation.getToDate()).thenReturn(endDate);
+
+        expectedException.expect(ResponseStatusException.class);
+        statusService.saveReservation(mockedReservation);
+    }
+
+    @Test
+    public void givenReservationWithUnavailableCar_throwsNotFound() {
+        //add date checker or something
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, (1));
         Date fromDate = cal.getTime();
@@ -65,11 +78,12 @@ public class StatusServiceTests {
         Date toDate = cal.getTime();
 
 
-        CarReservation carReservation = new CarReservation(car.getId(), 0, 0, getDummyClientInfoDTO(), fromDate, toDate);
-        when(carService.getCar(car.getId())).thenReturn(car);
-        when(carService.checkIfAvailable(car, carReservation.getFromDate(), carReservation.getToDate())).thenReturn(false);
+        when(mockedReservation.getFromDate()).thenReturn(fromDate);
+        when(mockedReservation.getToDate()).thenReturn(toDate);
+
+        when(carService.checkIfAvailable(mockedCar, mockedReservation.getFromDate(),mockedReservation.getToDate())).thenReturn(false);
 
         expectedException.expect(ResponseStatusException.class);
-        statusService.saveReservation(carReservation);
+        statusService.saveReservation(mockedReservation);
     }
 }
