@@ -3,13 +3,24 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
+import LoginContainer from "./components/authentication/LoginContainer";
 import AvailableCarList from "./components/car/AvailableCarList";
+import DateLocationCarForm from "./components/bookingForm/DateLocationForm";
 import Layout from "./components/UI/Layout";
-import DateLocationCarForm from "./components/reservationForm/DateLocationCarForm";
-import PersonDetailsForm from "./components/reservationForm/PersonDetailsForm";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
-import xd from "./components/UI/xd";
-import GuestReservationFormContainer from "./components/reservationForm/GuestReservationFormContainer";
+import ClientDetailsFormContainer from "./components/bookingForm/ClientDetailsFormContainer";
+import AccountForm from "./components/account/AccountForm";
+
+import {
+  fetchUser,
+  logout
+} from "./redux/authentication/authenticationActions";
+import { connect } from "react-redux";
+import Axios from "axios";
+import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
+import { BookingAcceptanceWindow } from "./components/bookingForm/BookingAcceptanceWindow";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -29,19 +40,37 @@ const theme = createMuiTheme({
 });
 
 function App(props) {
+  Axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("userToken")}`;
+  const auth = props.isAuthenticated;
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline>
         {/*Needed to apply background for whole page */}
-        <Layout>
+        <Layout
+          auth={{ isLogged: props.isAuthenticated, logout: props.logout }}
+        >
           <Switch>
             <Route exact path="/" component={DateLocationCarForm} />
-            <Route
+            <PrivateRoute
+              auth={auth}
               path="/cars/apply/:id"
-              component={GuestReservationFormContainer}
+              component={BookingAcceptanceWindow}
             />
             <Route path="/cars" component={AvailableCarList} />
-            <Route path="/xd" component={PersonDetailsForm} />
+            <PrivateRoute
+              auth={auth}
+              path="/details"
+              component={ClientDetailsFormContainer}
+            />
+            <Route path="/login" component={LoginContainer} />
+            <Route path="/register" component={AccountForm} />
+            <PrivateRoute
+              auth={auth}
+              path="/reservations"
+              component={UserReservationsContainer}
+            />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
         </Layout>
@@ -49,4 +78,14 @@ function App(props) {
     </MuiThemeProvider>
   );
 }
-export default App;
+
+const mapDispatchToProps = {
+  getUser: fetchUser,
+  logout: logout
+};
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
