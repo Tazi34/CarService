@@ -11,15 +11,13 @@ import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
 import ClientDetailsFormContainer from "./components/bookingForm/ClientDetailsFormContainer";
 import AccountForm from "./components/account/AccountForm";
 
-import {
-  fetchUser,
-  logout
-} from "./redux/authentication/authenticationActions";
+import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
-import Axios from "axios";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
 import { BookingAcceptanceWindow } from "./components/bookingForm/BookingAcceptanceWindow";
-import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import PrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
+import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
+import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 
 const theme = createMuiTheme({
   palette: {
@@ -40,36 +38,37 @@ const theme = createMuiTheme({
 });
 
 function App(props) {
-  Axios.defaults.headers.common[
-    "Authorization"
-  ] = `Bearer ${localStorage.getItem("userToken")}`;
-  const auth = props.isAuthenticated;
+  //authenticated - token in local storage, but still waiting for user from server
+  if (props.auth.isAuthenticated && props.auth.pending) return null;
+
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline>
         {/*Needed to apply background for whole page */}
         <Layout
-          auth={{ isLogged: props.isAuthenticated, logout: props.logout }}
+          auth={{
+            isAuthenticated: props.auth.isAuthenticated,
+            logout: props.logout
+          }}
         >
           <Switch>
             <Route exact path="/" component={DateLocationCarForm} />
-            <PrivateRoute
-              auth={auth}
+            <AuthorizedPrivateRoute
               path="/cars/apply/:id"
               component={BookingAcceptanceWindow}
             />
             <Route path="/cars" component={AvailableCarList} />
             <PrivateRoute
-              auth={auth}
               path="/details"
               component={ClientDetailsFormContainer}
             />
             <Route path="/login" component={LoginContainer} />
             <Route path="/register" component={AccountForm} />
-            <PrivateRoute
-              auth={auth}
+            <AuthorizedPrivateRoute
               path="/reservations"
               component={UserReservationsContainer}
+              roles={[ROLE_ADMIN, ROLE_USER]}
+              user={props.auth.user}
             />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
@@ -80,12 +79,11 @@ function App(props) {
 }
 
 const mapDispatchToProps = {
-  getUser: fetchUser,
   logout: logout
 };
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.authentication.isAuthenticated
+    auth: state.authentication
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

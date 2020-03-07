@@ -11,16 +11,7 @@ const validationSchema = yup.object().shape({
   email: string()
     .email("Please enter correct email address.")
     .required("Required"),
-  password: string()
-    .matches(
-      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-      {
-        message:
-          "Min 8 Characters. One Uppercase. One Lowercase. One Number and One Special Character",
-        excludeEmptyString: true
-      }
-    )
-    .required("No password provided"),
+  password: string().required("No password provided"),
   passwordConfirmation: string()
     .oneOf([ref("password"), null], "Passwords must match")
     .required("Required")

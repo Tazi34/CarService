@@ -1,4 +1,4 @@
-import { Button, FormControl, Select, Container } from "@material-ui/core";
+import { Button, Container, FormControl, Select } from "@material-ui/core";
 import React from "react";
 import { SortOrders } from "../../redux/pagination/paginationActions";
 
@@ -32,7 +32,11 @@ export default function SortingPanel(props) {
           <option value={SortOrders.DESC}>{SortOrders.DESC}</option>
         </Select>
       </FormControl>
-      <Button variant="contained" onClick={() => props.applyHandler()}>
+      <Button
+        variant="contained"
+        disabled={props.buttonDisabled}
+        onClick={() => props.applyHandler()}
+      >
         Apply
       </Button>
     </Container>

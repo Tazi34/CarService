@@ -1,21 +1,23 @@
 import {
-  SET_START_DATE,
+  CONFIRM_DATE_LOCATION,
+  POST_RESERVATION,
+  POST_RESERVATION_ERROR,
+  POST_RESERVATION_SUCCESS,
+  SELECT_CAR,
+  SET_END_CITY,
   SET_END_DATE,
   SET_END_SPOT,
-  SET_START_SPOT,
   SET_START_CITY,
-  SET_END_CITY,
-  SELECT_CAR,
-  POST_RESERVATION,
-  POST_RESERVATION_SUCCESS,
-  POST_RESERVATION_ERROR,
-  CONFIRM_DATE_LOCATION
-} from "./reservationActions";
+  SET_START_DATE,
+  SET_START_SPOT
+} from "./bookingFormActions";
+import { combineReducers } from "redux";
+import clientDetailsReducer from "./clientDetails/clientDetailsReducer";
 
 function reservation(
   state = {
     startDate: new Date(),
-    endDate: new Date(),
+    endDate: new Date(new Date().getTime() + 86400000),
     startSpot: {
       id: -1,
       name: ""
@@ -52,6 +54,7 @@ function reservation(
   },
   action
 ) {
+  //TODO split into different reducers
   switch (action.type) {
     case SET_START_DATE:
       return { ...state, startDate: action.payload.date };
@@ -85,5 +88,9 @@ function reservation(
       return state;
   }
 }
-const reservationReducer = reservation;
-export default reservationReducer;
+
+const bookingFormReducer = combineReducers({
+  reservation,
+  clientDetails: clientDetailsReducer
+});
+export default bookingFormReducer;
