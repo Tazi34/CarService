@@ -1,7 +1,5 @@
 package com.tazi34.carservice.carReservation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoDTO;
 import lombok.Value;
 
@@ -16,9 +14,9 @@ public class CarReservation {
     private long startSpotId;
     @NotNull
     private long endSpotId;
-    @JsonProperty("clientInfo")
+
     @NotNull
-    private ClientInfoDTO clientInfoDTO;
+    private ClientInfoDTO clientInfo;
     @NotNull
     private Date fromDate;
     @NotNull
