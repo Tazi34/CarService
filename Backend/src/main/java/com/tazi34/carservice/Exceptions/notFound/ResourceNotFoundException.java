@@ -1,4 +1,4 @@
-package com.tazi34.carservice.Exceptions.notFound;
+package com.tazi34.carservice.exceptions.notFound;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
