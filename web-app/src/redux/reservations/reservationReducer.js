@@ -1,10 +1,11 @@
 import {
+  CANCEL_RESERVATION_ERROR,
+  CANCEL_RESERVATION_SUCCESS,
   RECEIVE_RESERVATIONS_ERROR,
   RECEIVE_RESERVATIONS_SUCCESS,
-  REQUEST_RESERVATIONS,
-  REQUEST_RESERVATIONS_PAGE
+  REQUEST_RESERVATION_CANCELLATION,
+  REQUEST_RESERVATIONS
 } from "./reservationsActions";
-import { createPaginator } from "../pagination/paginationReducer";
 import { combineReducers } from "redux";
 
 const initialState = {
@@ -19,7 +20,13 @@ const initialState = {
 const reservations = (state = initialState, { type, payload }) => {
   switch (type) {
     case REQUEST_RESERVATIONS: {
-      return { ...state, isFetching: true, fetched: false };
+      return {
+        ...state,
+        isFetching: true,
+        fetched: false,
+        byId: [],
+        items: {}
+      };
     }
     case RECEIVE_RESERVATIONS_SUCCESS: {
       const byId = payload.reservations.map(res => res.id);
@@ -35,6 +42,15 @@ const reservations = (state = initialState, { type, payload }) => {
         lastUpdated: payload.receivedAt,
         fetched: true
       };
+    }
+    case REQUEST_RESERVATION_CANCELLATION: {
+      return { ...state, error: {} };
+    }
+    case CANCEL_RESERVATION_ERROR: {
+      return { ...state, error: payload.error };
+    }
+    case CANCEL_RESERVATION_SUCCESS: {
+      return state;
     }
     case RECEIVE_RESERVATIONS_ERROR:
       return { ...state, error: payload.error };

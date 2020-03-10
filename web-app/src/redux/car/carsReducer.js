@@ -27,7 +27,7 @@ function cars(
       const byId = payload.cars.map(car => car.id);
       let _items = {};
       payload.cars.forEach(car => (_items = { ..._items, [car.id]: car }));
-
+      //todo zmien na {...state}
       return Object.assign({}, state, {
         isFetching: false,
         byId: [...state.byId, ...byId],
@@ -36,9 +36,9 @@ function cars(
         fetched: true
       });
     }
+
     case RECEIVE_CARS_ERROR:
       return { ...state, error: action.payload.error };
-
     default:
       return state;
   }

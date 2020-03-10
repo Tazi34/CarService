@@ -1,33 +1,54 @@
 import {
-  REQUEST_AUTHENTICATION,
-  AUTHENTICATION_SUCCESS,
   AUTHENTICATION_ERROR,
-  SET_USER,
-  REMOVE_USER,
+  AUTHENTICATION_SUCCESS,
   DISCARD_TOKEN,
-  LOGOUT
+  LOGOUT,
+  REMOVE_USER,
+  REQUEST_AUTHENTICATION,
+  REQUEST_USER,
+  SET_USER
 } from "./authenticationActions";
+
 const initialState = {
   isAuthenticated: false,
   token: "",
   error: {},
-  user: {}
+  user: null,
+  pending: false
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case REQUEST_AUTHENTICATION:
-      return state;
+      return { ...state };
     case AUTHENTICATION_ERROR:
-      return { ...state, ...payload, token: "", isAuthenticated: false };
+      return {
+        ...state,
+        ...payload,
+        token: "",
+        isAuthenticated: false,
+        pending: false,
+        user: null
+      };
     case AUTHENTICATION_SUCCESS:
-      return { ...state, error: {}, isAuthenticated: true };
+      return { ...state, error: {}, isAuthenticated: true, pending: false };
     case SET_USER:
-      return { ...state, user: payload.user, isAuthenticated: true };
+      return {
+        ...state,
+        user: payload.user,
+        isAuthenticated: true,
+        pending: false
+      };
     case REMOVE_USER:
-      return { ...state, user: {} };
+      return { ...state, user: null };
     case DISCARD_TOKEN:
       return {};
+    case REQUEST_USER:
+      return {
+        ...state,
+        pending: true
+      };
+
     case LOGOUT:
       return initialState;
     default:

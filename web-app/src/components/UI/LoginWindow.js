@@ -1,10 +1,9 @@
 import React from "react";
-import { Form, Field } from "react-final-form";
+import { Field, Form } from "react-final-form";
 import { TextField } from "mui-rff";
 import { Button } from "@material-ui/core";
 
 export default function LoginWindow(props) {
-  console.log(props);
   return (
     <Form onSubmit={values => props.login(values)}>
       {({ handleSubmit }) => (

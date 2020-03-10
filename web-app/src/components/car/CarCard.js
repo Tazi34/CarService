@@ -107,7 +107,6 @@ function CarCard(props) {
           color="primary"
           onClick={() => {
             props.carSelectionHandler(car);
-            history.push(`/cars/apply/${car.id}`);
           }}
         >
           BOOK

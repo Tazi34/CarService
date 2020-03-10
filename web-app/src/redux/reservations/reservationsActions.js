@@ -1,14 +1,13 @@
-import {
-  apiURL,
-  buildUrl,
-  reservationsEndpoint,
-  userReservationsURL
-} from "../../urlAPI";
+import { reservationsURL, userReservationsURL } from "../../urlAPI";
 import Axios from "axios";
 
 export const REQUEST_RESERVATIONS = "REQUEST_RESERVATIONS";
 export const RECEIVE_RESERVATIONS_SUCCESS = "RECEIVE_RESERVATIONS_SUCCESS";
 export const RECEIVE_RESERVATIONS_ERROR = "RECEIVE_RESERVATIONS_ERROR";
+export const REQUEST_RESERVATION_CANCELLATION =
+  "REQUEST_RESERVATION_CANCELLATION";
+export const CANCEL_RESERVATION_SUCCESS = "CANCEL_RESERVATION_SUCCESS";
+export const CANCEL_RESERVATION_ERROR = "CANCEL_RESERVATION_ERROR";
 
 export const receiveReservationsSuccess = data => ({
   type: RECEIVE_RESERVATIONS_SUCCESS,
@@ -32,5 +31,24 @@ export const fetchUsersReservations = email => {
       },
       error => dispatch(receiveReservationsError(error))
     );
+  };
+};
+export const deleteReservationRequest = id => ({
+  type: REQUEST_RESERVATION_CANCELLATION,
+  payload: { id }
+});
+export const cancelReservationError = error => ({
+  type: CANCEL_RESERVATION_ERROR,
+  payload: { error }
+});
+export const cancelReservationSuccess = () => ({
+  type: CANCEL_RESERVATION_SUCCESS
+});
+export const cancelReservation = id => {
+  return dispatch => {
+    dispatch(deleteReservationRequest());
+    return Axios.delete(`${reservationsURL}/${id}`)
+      .then(response => dispatch(cancelReservationSuccess()))
+      .catch(err => dispatch(cancelReservationError(err)));
   };
 };

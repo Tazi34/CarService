@@ -12,6 +12,7 @@ export const POST_RESERVATION = "POST_RESERVATION";
 export const POST_RESERVATION_SUCCESS = "POST_RESERVATION_SUCCESS";
 export const POST_RESERVATION_ERROR = "POST_RESERVATION_ERROR";
 export const CONFIRM_DATE_LOCATION = "CONFIRM_DATE_LOCATION";
+
 export const selectCar = car => ({
   type: SELECT_CAR,
   payload: { car: car }
@@ -50,19 +51,21 @@ export const postReservationError = error => ({
 export const postReservationSuccess = () => ({
   type: POST_RESERVATION_SUCCESS
 });
-export const confirmDateLocation = payload => ({
+export const confirmDateLocation = () => ({
   type: CONFIRM_DATE_LOCATION
 });
 
 export function postReservationForm(reservation) {
-  return function(dispatch) {
+  return async function(dispatch) {
     dispatch(postReservation());
-    return Axios.post(apiURL + "/reservations", reservation).then(
-      () => dispatch(postReservationSuccess()),
-      error => {
-        console.log(error);
+    return Axios.post(apiURL + "/reservations", reservation)
+      .then(response => {
+        dispatch(postReservationSuccess());
+        return response.status;
+      })
+      .catch(error => {
         dispatch(postReservationError(error));
-      }
-    );
+        return error.request.status;
+      });
   };
 }

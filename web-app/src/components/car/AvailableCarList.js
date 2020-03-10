@@ -7,8 +7,7 @@ import {
   resetPagination,
   setCurrentPage,
   setSortField,
-  setSortOrder,
-  SortOrders
+  setSortOrder
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/bookingForm/bookingFormActions";
 import SortingPanel from "../UI/SortingPanel";
@@ -17,21 +16,20 @@ import { SortCarsOrderFields } from "./FieldsConst";
 import { Redirect } from "react-router-dom";
 
 class AvailableCarList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sortingSelected: false
-    };
-    console.log(props);
-  }
-
   componentDidMount() {
     this.getAvailableCarsPage(0);
   }
+
   componentDidUpdate() {
     if (!this.props.pagination.pages[0]) this.getAvailableCarsPage(0);
   }
 
+  carSelectionHandler = car => {
+    if (this.props.authenticated) {
+      this.props.selectCar(car);
+      this.props.history.push(`/cars/apply/${car.id}`);
+    } else this.props.history.push("/login");
+  };
   getAvailableCarsPage = page => {
     var pagination = this.props.pagination;
     var sorting = this.props.sorting;
@@ -68,17 +66,9 @@ class AvailableCarList extends Component {
     }
     return options;
   };
-  sortingSelected = () => {
-    //TODO move sorting selected to redux
-    var sorting = this.props.sorting;
-    this.setState({
-      sortingSelected: sorting.field && sorting.order !== SortOrders.NOT_SORTED
-    });
-  };
+
   sortingApplyHandler = () => {
-    if (this.state.sortingSelected) {
-      this.props.resetPages();
-    }
+    this.props.resetPages();
   };
 
   render() {
@@ -110,14 +100,14 @@ class AvailableCarList extends Component {
               orderChanged={this.props.setSortOrder}
               fieldOptions={this.getFieldSortOptions()}
               applyHandler={this.sortingApplyHandler}
-              buttonDisabled={this.state.sortingSelected}
+              buttonDisabled={false}
             />
           </Grid>
         </Grid>
 
         <Grid item>
           <CarList
-            carSelectionHandler={this.props.selectCar}
+            carSelectionHandler={this.carSelectionHandler}
             cars={currentPage.ids.map(id => cars.items[id])}
           ></CarList>
         </Grid>
@@ -139,7 +129,8 @@ const mapStateToProps = state => {
     cars: state.cars.cars,
     pagination: state.cars.pagination,
     sorting: state.cars.pagination.sorting,
-    currentReservation: state.bookingForm
+    currentReservation: state.bookingForm.reservation,
+    authenticated: state.authentication.isAuthenticated
   };
 };
 
