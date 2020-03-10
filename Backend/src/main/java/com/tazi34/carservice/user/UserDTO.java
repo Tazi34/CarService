@@ -1,17 +1,24 @@
 package com.tazi34.carservice.user;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tazi34.carservice.authorization.roles.Role;
+
+import java.util.Collection;
 
 public class UserDTO {
     private final String email;
     private final long id;
+    private final Collection<Role> roles;
 
-    @JsonCreator(mode=JsonCreator.Mode.PROPERTIES)
-    public UserDTO(@JsonProperty("id") long id,@JsonProperty("email") String email) {
+
+    public UserDTO(long id, String email, Collection<Role> roles) {
         this.email = email;
         this.id = id;
+        this.roles = roles;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
     public String getEmail() {

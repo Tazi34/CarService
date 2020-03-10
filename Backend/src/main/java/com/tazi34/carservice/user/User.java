@@ -1,6 +1,6 @@
 package com.tazi34.carservice.user;
 
-import com.tazi34.carservice.privileges.Role;
+import com.tazi34.carservice.authorization.roles.Role;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +23,8 @@ public class User {
     @NotNull
     @Column
     private String password;
+
+    private boolean enabled;
 
 
     public User() {

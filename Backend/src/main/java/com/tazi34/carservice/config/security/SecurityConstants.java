@@ -5,7 +5,9 @@ public class SecurityConstants {
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String SIGN_UP_URL = "/auth/sign-up";
-    public static final String CURRENT_USER_URL = "/auth/current";
+    public static final String SIGN_UP_ENDPOINT = "/auth/sign-up";
+    public static final String CURRENT_USER_ENDPOINT = "/auth/current";
     public static final String CLIENT_URL = "http://localhost:3000/login";
+    public static final String[] ANONYMOUS_ENDPOINTS = new String[]{"/sign-up", "/cars", "/cities",
+            CURRENT_USER_ENDPOINT, "/reservations"};
 }
