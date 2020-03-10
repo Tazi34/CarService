@@ -1,19 +1,21 @@
 package tests.authentication.service;
 
-import com.tazi34.carservice.Exceptions.UserAlreadyExistsException;
 import com.tazi34.carservice.authentication.AuthenticationService;
+import com.tazi34.carservice.exceptions.UserAlreadyExistsException;
 import com.tazi34.carservice.user.User;
 import com.tazi34.carservice.user.UserService;
-
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,37 +24,46 @@ public class RegisterUserTests {
 
     @Mock
     UserService userService;
-
     @InjectMocks
     AuthenticationService authenticationService;
+    @Mock
+    User mockedUser;
 
+    @Before
+    public void init() {
+        var id = 1l;
+        var testEmail = "test@mail.com";
+        var testPassword = "password";
+
+        when(mockedUser.getEmail()).thenReturn(testEmail);
+        when(mockedUser.getId()).thenReturn(id);
+        when(mockedUser.getPassword()).thenReturn(testPassword);
+    }
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-
     @Test
     public void givenExistingUser_throwUserAlreadyExistsException(){
         var mockedUser = mock(User.class);
-        when(userService.userExists(mockedUser)).thenReturn(true);
+        when(userService.userExists(mockedUser.getEmail())).thenReturn(true);
 
         expectedException.expect(UserAlreadyExistsException.class);
         authenticationService.registerUser(mockedUser);
     }
-
     @Test
     public void givenNonExistingUser_returnNewUser(){
-        var mockedUser = mock(User.class);
-        var testEmail = "test@mail.com";
-        var id = 1l;
-        when(userService.userExists(mockedUser)).thenReturn(false);
-        when(mockedUser.getEmail()).thenReturn(testEmail);
-        when(mockedUser.getId()).thenReturn(id);
-        when(userService.save(mockedUser)).thenReturn(mockedUser);
+        when(userService.userExists(mockedUser.getEmail())).thenReturn(false);
+        //returns same object that was passed to method
+        when(userService.save(any())).then(AdditionalAnswers.returnsFirstArg());
 
         var registeredUser = authenticationService.registerUser(mockedUser);
 
         Assert.assertNotNull(registeredUser);
-        Assert.assertEquals(testEmail,registeredUser.getEmail());
-        Assert.assertEquals(id, registeredUser.getId());
+        Assert.assertEquals(mockedUser.getEmail(), registeredUser.getEmail());
     }
 
+    @Test
+    public void createUser_givenUser_returnsUserWithEncodedPassword() {
+        var createdUser = authenticationService.createUser(mockedUser);
+        Assert.assertNotEquals(mockedUser.getPassword(), createdUser.getPassword());
+    }
 }

@@ -4,6 +4,7 @@ import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
 import com.tazi34.carservice.carReservation.ReservationDateChecker;
+import com.tazi34.carservice.exceptions.BadRequestException;
 import com.tazi34.carservice.status.StatusRepository;
 import com.tazi34.carservice.status.StatusService;
 import org.junit.Before;
@@ -14,17 +15,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static utilities.DummyValues.getDummyClientInfoDTO;
 
 @RunWith(SpringRunner.class)
 public class SaveReservationTests {
@@ -58,7 +53,7 @@ public class SaveReservationTests {
         var mockedDateChecker = statusService.getReservationDateChecker();
         when(mockedDateChecker.checkIfCorrectDate(any(),any())).thenReturn(false);
 
-        expectedException.expect(ResponseStatusException.class);
+        expectedException.expect(BadRequestException.class);
         statusService.saveReservation(mockedReservation);
     }
 
