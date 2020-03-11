@@ -62,23 +62,7 @@ class DateLocationForm extends Component {
   mapIdToSpot = id => {
     return this.props.spots.items[id];
   };
-  submit = async () => {
-    const booking = this.props.reservation;
-
-    // try {
-    //   await validate({
-    //     startDate: booking.startDate,
-    //     endDate: booking.endDate,
-    //     startSpot: booking.startSpot.name,
-    //     endSpot: booking.endSpot.name,
-    //     selectedStartCity: booking.startCity.selected,
-    //     selectedEndCity: booking.endCity.selected
-    //   });
-    // } catch (error) {
-    //   alert("Validation error");
-    //   return;
-    // }
-
+  submit = () => {
     this.props.confirmSelection();
     this.props.history.push("/cars");
   };
@@ -140,7 +124,10 @@ class DateLocationForm extends Component {
                       Spot
                     </MenuItem>
                     {startCity.item.spots.map(spot => (
-                      <MenuItem value={spot.id}> {spot.name} </MenuItem>
+                      <MenuItem key={spot.id} value={spot.id}>
+                        {" "}
+                        {spot.name}{" "}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -305,14 +292,14 @@ class DateLocationForm extends Component {
   }
 }
 
-const mapStateToprops = state => {
+const mapStateToProps = state => {
   return {
     reservation: state.bookingForm.reservation,
     cities: state.cities,
     spots: state.spots
   };
 };
-const mapDispatchToprops = {
+const mapDispatchToProps = {
   setStartDate: setStartDate,
   setStartSpot: setStartSpot,
   setEndDate: setEndDate,
@@ -327,5 +314,5 @@ export default compose(
   withStyles(styles, {
     name: "DateLocation"
   }),
-  connect(mapStateToprops, mapDispatchToprops)
+  connect(mapStateToProps, mapDispatchToProps)
 )(DateLocationForm);

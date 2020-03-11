@@ -1,0 +1,12 @@
+import Car1 from "../images/cars/sampleCar.png";
+import Car2 from "../images/cars/sampleCar2.jpg";
+import Car3 from "../images/cars/sampleCar3.jpg";
+import Car5 from "../images/cars/sampleCar5.jpg";
+import Car6 from "../images/cars/sampleCar6.jpg";
+import Car7 from "../images/cars/sampleCar7.jpg";
+import Car8 from "../images/cars/sampleCar8.jpg";
+import Car9 from "../images/cars/sampleCar9.jpg";
+import Car10 from "../images/cars/sampleCar10.jpg";
+import Car4 from "../images/cars/sampleCar4.jpg";
+
+export default [Car1, Car2, Car3, Car4, Car5, Car6, Car7, Car8, Car9, Car10];

@@ -60,6 +60,9 @@ const useStyles = makeStyles(theme => ({
       width: 200
     }
   },
+  navItem: {
+    color: "white"
+  },
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -96,9 +99,6 @@ export default function NavBar(props) {
     handleMobileMenuClose();
   };
 
-  const handleLogin = () => {
-    history.push("/login");
-  };
   const redirect = url => {
     history.push(url);
   };
@@ -120,13 +120,25 @@ export default function NavBar(props) {
     return (
       <div>
         <Button
+          className={classes.navItem}
           color={"secondary"}
           onClick={() => redirect(reservationsEndpoint)}
         >
           Reservations
         </Button>
-        <Button color={"secondary"} onClick={handleLogout}>
+        <Button
+          color={"secondary"}
+          className={classes.navItem}
+          onClick={handleLogout}
+        >
           Logout
+        </Button>
+        <Button
+          color={"secondary"}
+          className={classes.navItem}
+          onClick={() => redirect("/admin/cars")}
+        >
+          AdminCars
         </Button>
       </div>
     );
@@ -134,7 +146,11 @@ export default function NavBar(props) {
   const guestNavBarItems = () => {
     return (
       <div>
-        <Button color={"secondary"} onClick={() => redirect(login)}>
+        <Button
+          color={"secondary"}
+          onClick={() => redirect(login)}
+          className={classes.navItem}
+        >
           Login
         </Button>
       </div>

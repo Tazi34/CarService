@@ -13,7 +13,6 @@ import { selectCar } from "../../redux/bookingForm/bookingFormActions";
 import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
-import { Redirect } from "react-router-dom";
 
 class AvailableCarList extends Component {
   componentDidMount() {
@@ -72,10 +71,11 @@ class AvailableCarList extends Component {
   };
 
   render() {
-    if (!this.props.currentReservation.status.dateLocationPicked)
-      return <Redirect to="/"></Redirect>;
-    var cars = this.props.cars;
-    var pagination = this.props.pagination;
+    //TODO Only for testing
+    // if (!this.props.currentReservation.status.dateLocationPicked)
+    //   return <Redirect to="/"></Redirect>;
+    const cars = this.props.cars;
+    const pagination = this.props.pagination;
     //TODO redirect if date and location not selected
     if (
       !pagination.pages[0] ||
@@ -84,7 +84,7 @@ class AvailableCarList extends Component {
       return <CircularProgress />;
     }
 
-    var currentPage = pagination.pages[pagination.currentPage];
+    const currentPage = pagination.pages[pagination.currentPage];
 
     return (
       <Grid
