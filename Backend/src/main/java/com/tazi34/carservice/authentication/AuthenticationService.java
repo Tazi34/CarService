@@ -45,6 +45,7 @@ public class AuthenticationService {
         roleRepository.save(userRole);
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setEmail(user.getEmail());
+        newUser.setEnabled(true);
         return newUser;
     }
 
