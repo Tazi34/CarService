@@ -3,11 +3,11 @@ package com.tazi34.carservice.car;
 
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusRepository;
-import com.tazi34.carservice.status.StatusService;
 import com.tazi34.carservice.status.StatusSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,11 +21,12 @@ public class CarService {
     private final CarRepository carRepository;
 
     @Autowired
-    public CarService(StatusRepository statusRepository, CarRepository carRepository, StatusService statusService) {
+    public CarService(StatusRepository statusRepository, CarRepository carRepository) {
         this.statusRepository = statusRepository;
         this.carRepository = carRepository;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Car updateCar(Car car) {
         if (carRepository.existsById(car.getId())) {
             carRepository.save(car);
@@ -34,6 +35,7 @@ public class CarService {
         throw new ResourceNotFoundException("Car not found");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Car deleteCar(Car car) {
         if (carRepository.existsById(car.getId())) {
             car.setActive(false);
