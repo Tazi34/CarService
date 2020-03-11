@@ -6,6 +6,7 @@ import com.tazi34.carservice.exceptions.duplicateEntity.DuplicateUserMailExcepti
 import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,21 +33,24 @@ public class UserService implements UserDetailsService {
         this.authService = authorizationService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public UserDTO deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id).get();
-            userRepository.delete(user);
-            return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
-        }
-        throw new ResourceNotFoundException(User.class);
+        var user = findUser(id);
+        userRepository.delete(user);
+        return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
     }
 
+    public User findUser(long id) {
+        var optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else throw new ResourceNotFoundException(User.class);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public UserDTO getUser(Long id) {
-        if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id).get();
+        User user = findUser(id);
             return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
-        }
-        throw new ResourceNotFoundException(User.class);
     }
 
     public User findByEmail(String email) {
@@ -56,6 +60,7 @@ public class UserService implements UserDetailsService {
         return users.get(0);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserDTO> getAllUsers() {
         return mapUsersToDTOs(userRepository.findAll());
     }
@@ -63,25 +68,26 @@ public class UserService implements UserDetailsService {
     //for authentication
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = findByEmail(email);
-        if (user == null) throw new UsernameNotFoundException(email);
+        User user;
+        try {
+            user = findByEmail(email);
+        } catch (ResourceNotFoundException exception) {
+            throw new UsernameNotFoundException(email);
+        }
         var authorities = authService.getUserAuthorities(user);
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 user.isEnabled(), true, true, true, authorities);
     }
 
     private List<UserDTO> mapUsersToDTOs(List<User> users) {
-        return users.stream().map((user) -> mapUserToDTO(user)).collect(Collectors.toList());
+        return users.stream().map(this::mapUserToDTO).collect(Collectors.toList());
     }
-
     private UserDTO mapUserToDTO(User user) {
         return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
     }
-
     public User save(User user) {
         return userRepository.save(user);
     }
-
     public boolean userExists(String email) {
         return !userRepository.findAllByEmail(email).isEmpty();
     }
