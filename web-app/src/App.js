@@ -19,6 +19,7 @@ import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
+import LogoutPage from "./components/account/LogoutPage";
 
 const theme = createMuiTheme({
   typography: {
@@ -62,7 +63,7 @@ function App(props) {
         {/*Needed to apply background for whole page */}
         <Layout
           auth={{
-            isAuthenticated: props.auth.isAuthenticated,
+            user: props.auth.user,
             logout: props.logout
           }}
         >
@@ -93,6 +94,7 @@ function App(props) {
               roles={[ROLE_ADMIN, ROLE_USER]}
               user={props.auth.user}
             />
+            <Route path={"/logout"} component={LogoutPage} />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
         </Layout>
