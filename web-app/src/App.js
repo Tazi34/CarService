@@ -18,7 +18,7 @@ import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateR
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/Home";
 import Background from "./images/vintageCarBackground.jpg";
-import CarsTable from "./components/admin/cars/CarsTable";
+import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 
 const theme = createMuiTheme({
   typography: {
@@ -83,7 +83,7 @@ function App(props) {
               path="/admin/cars"
               roles={[ROLE_ADMIN]}
               user={props.auth.user}
-              component={CarsTable}
+              component={CarsTableContainer}
             />
             <Route path="/login" component={LoginContainer} />
             <Route path="/register" component={AccountForm} />
