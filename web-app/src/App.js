@@ -13,13 +13,13 @@ import AccountForm from "./components/account/AccountForm";
 import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
-import { BookingAcceptanceWindow } from "./components/bookingForm/BookingAcceptanceWindow";
 import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 import LogoutPage from "./components/account/LogoutPage";
+import ReservationSummary from "./components/UI/ReservationSummary";
 
 const theme = createMuiTheme({
   typography: {
@@ -72,7 +72,7 @@ function App(props) {
             <AuthorizedPrivateRoute
               user={props.auth.user}
               path="/cars/apply/:id"
-              component={BookingAcceptanceWindow}
+              component={ReservationSummary}
             />
             <Route path="/cars" component={AvailableCarList} />
             <AuthorizedPrivateRoute
