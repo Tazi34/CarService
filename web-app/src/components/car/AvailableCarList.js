@@ -1,4 +1,4 @@
-import { CircularProgress, Grid } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -53,10 +53,10 @@ class AvailableCarList extends Component {
   };
 
   getFieldSortOptions = () => {
-    var options = [];
+    let options = [];
     let i = 0;
-    for (var sortOption in SortCarsOrderFields) {
-      var option = SortCarsOrderFields[sortOption];
+    for (let sortOption in SortCarsOrderFields) {
+      let option = SortCarsOrderFields[sortOption];
       options.push(
         <option key={i++} value={option.value}>
           {option.display}
@@ -87,39 +87,25 @@ class AvailableCarList extends Component {
     const currentPage = pagination.pages[pagination.currentPage];
 
     return (
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        alignContent="center"
-      >
-        <Grid item container justify="flex-end" direction="row">
-          <Grid item>
-            <SortingPanel
-              fieldChanged={this.props.setSortField}
-              orderChanged={this.props.setSortOrder}
-              fieldOptions={this.getFieldSortOptions()}
-              applyHandler={this.sortingApplyHandler}
-              buttonDisabled={false}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid item>
-          <CarList
-            carSelectionHandler={this.carSelectionHandler}
-            cars={currentPage.ids.map(id => cars.items[id])}
-          ></CarList>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={pagination.totalPages}
-            onChange={(event, page) => {
-              this.getAvailableCarsPage(page - 1);
-            }}
-          ></Pagination>
-        </Grid>
-      </Grid>
+      <div style={{ width: "80%", margin: "auto" }}>
+        <SortingPanel
+          fieldChanged={this.props.setSortField}
+          orderChanged={this.props.setSortOrder}
+          fieldOptions={this.getFieldSortOptions()}
+          applyHandler={this.sortingApplyHandler}
+          buttonDisabled={false}
+        />
+        <CarList
+          carSelectionHandler={this.carSelectionHandler}
+          cars={currentPage.ids.map(id => cars.items[id])}
+        ></CarList>
+        <Pagination
+          count={pagination.totalPages}
+          onChange={(event, page) => {
+            this.getAvailableCarsPage(page - 1);
+          }}
+        ></Pagination>
+      </div>
     );
   }
 }

@@ -15,9 +15,9 @@ function CarList(props) {
     );
 
   return (
-    <Grid container spacing={5} justify="center" alignContent={"center"}>
+    <Grid container spacing={4} justify="center" alignContent={"center"}>
       {props.cars.map(car => (
-        <Grid item key={car.id} xs={"auto"}>
+        <Grid item key={car.id} xs={12} sm={"auto"} lg={4} xl={3} md={6}>
           <CarCard carSelectionHandler={props.carSelectionHandler} car={car} />
         </Grid>
       ))}

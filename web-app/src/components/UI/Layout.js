@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import NavBar from "./navbar/NavBar";
 import Footer from "./Footer";
 
@@ -7,18 +7,11 @@ import Footer from "./Footer";
 
 function Layout(props) {
   return (
-    <Box>
+    <>
       <NavBar auth={props.auth} />
-      <Container
-        style={{
-          margin: "auto",
-          width: "80%"
-        }}
-      >
-        {props.children}
-      </Container>
+      <Container maxWidth={false}>{props.children}</Container>
       <Footer />
-    </Box>
+    </>
   );
 }
 

@@ -77,7 +77,9 @@ export function fetchAvailableCarsPage(
             receivePage(
               response.data.number,
               response.data.content,
-              response.data.totalPages
+              response.data.totalPages,
+              response.data.totalElements,
+              response.data.size
             )
           );
         },

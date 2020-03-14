@@ -20,19 +20,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     background: "white",
     borderRadius: "4px",
-    minWidth: 300,
+    minWidth: "300px",
     boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
     "&:hover": {
       boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
-    },
-    [theme.breakpoints.up("sm")]: {
-      minWidth: 450
-    },
-    [theme.breakpoints.up("lg")]: {
-      minWidth: 550
-    },
-    [theme.breakpoints.up("md")]: {
-      minWidth: 500
     }
   },
   title: {
@@ -68,12 +59,7 @@ function CarCard(props) {
       />
 
       <CardContent>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-          className={classes.title}
-        >
+        <Typography gutterBottom component="h2" className={classes.title}>
           {car.make + " " + car.model}
         </Typography>
         <Typography>{car.price}</Typography>
