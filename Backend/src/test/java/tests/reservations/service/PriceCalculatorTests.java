@@ -2,7 +2,7 @@ package tests.reservations.service;
 
 import com.tazi34.carservice.Exceptions.IncorrectDateSpanException;
 import com.tazi34.carservice.car.Car;
-import com.tazi34.carservice.carReservation.PriceCalculator;
+import com.tazi34.carservice.carReservation.price.PriceCalculator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

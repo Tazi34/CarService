@@ -1,4 +1,4 @@
-package com.tazi34.carservice.carReservation;
+package com.tazi34.carservice.carReservation.price;
 
 import com.tazi34.carservice.Exceptions.IncorrectDateSpanException;
 import com.tazi34.carservice.car.Car;
