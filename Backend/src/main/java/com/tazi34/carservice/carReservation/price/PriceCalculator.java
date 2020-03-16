@@ -1,7 +1,7 @@
 package com.tazi34.carservice.carReservation.price;
 
-import com.tazi34.carservice.Exceptions.IncorrectDateSpanException;
 import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.exceptions.IncorrectDateSpanException;
 
 import java.math.BigDecimal;
 import java.util.Date;

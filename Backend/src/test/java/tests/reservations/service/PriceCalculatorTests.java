@@ -1,10 +1,9 @@
 package tests.reservations.service;
 
-import com.tazi34.carservice.Exceptions.IncorrectDateSpanException;
 import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.carReservation.price.PriceCalculator;
+import com.tazi34.carservice.exceptions.IncorrectDateSpanException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class PriceCalculatorTests {
 
-    PriceCalculator priceCalculator;
+    PriceCalculator priceCalculator = new PriceCalculator();
 
     @Mock
     Date startDate;
@@ -28,10 +27,6 @@ public class PriceCalculatorTests {
     @Mock
     Car car;
 
-    @Before
-    public void init() {
-        priceCalculator = new PriceCalculator();
-    }
 
     @Test(expected = IncorrectDateSpanException.class)
     public void givenStartDateGreaterThanEndDate_throwsException() {
