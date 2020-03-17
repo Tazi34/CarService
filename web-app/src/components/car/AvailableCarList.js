@@ -1,4 +1,4 @@
-import { CircularProgress, Grid } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -13,7 +13,6 @@ import { selectCar } from "../../redux/bookingForm/bookingFormActions";
 import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
-import { Redirect } from "react-router-dom";
 
 class AvailableCarList extends Component {
   componentDidMount() {
@@ -54,10 +53,10 @@ class AvailableCarList extends Component {
   };
 
   getFieldSortOptions = () => {
-    var options = [];
+    let options = [];
     let i = 0;
-    for (var sortOption in SortCarsOrderFields) {
-      var option = SortCarsOrderFields[sortOption];
+    for (let sortOption in SortCarsOrderFields) {
+      let option = SortCarsOrderFields[sortOption];
       options.push(
         <option key={i++} value={option.value}>
           {option.display}
@@ -72,10 +71,11 @@ class AvailableCarList extends Component {
   };
 
   render() {
-    if (!this.props.currentReservation.status.dateLocationPicked)
-      return <Redirect to="/"></Redirect>;
-    var cars = this.props.cars;
-    var pagination = this.props.pagination;
+    //TODO Only for testing
+    // if (!this.props.currentReservation.status.dateLocationPicked)
+    //   return <Redirect to="/"></Redirect>;
+    const cars = this.props.cars;
+    const pagination = this.props.pagination;
     //TODO redirect if date and location not selected
     if (
       !pagination.pages[0] ||
@@ -84,42 +84,28 @@ class AvailableCarList extends Component {
       return <CircularProgress />;
     }
 
-    var currentPage = pagination.pages[pagination.currentPage];
+    const currentPage = pagination.pages[pagination.currentPage];
 
     return (
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        alignContent="center"
-      >
-        <Grid item container justify="flex-end" direction="row">
-          <Grid item>
-            <SortingPanel
-              fieldChanged={this.props.setSortField}
-              orderChanged={this.props.setSortOrder}
-              fieldOptions={this.getFieldSortOptions()}
-              applyHandler={this.sortingApplyHandler}
-              buttonDisabled={false}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid item>
-          <CarList
-            carSelectionHandler={this.carSelectionHandler}
-            cars={currentPage.ids.map(id => cars.items[id])}
-          ></CarList>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={pagination.totalPages}
-            onChange={(event, page) => {
-              this.getAvailableCarsPage(page - 1);
-            }}
-          ></Pagination>
-        </Grid>
-      </Grid>
+      <div style={{ width: "80%", margin: "auto" }}>
+        <SortingPanel
+          fieldChanged={this.props.setSortField}
+          orderChanged={this.props.setSortOrder}
+          fieldOptions={this.getFieldSortOptions()}
+          applyHandler={this.sortingApplyHandler}
+          buttonDisabled={false}
+        />
+        <CarList
+          carSelectionHandler={this.carSelectionHandler}
+          cars={currentPage.ids.map(id => cars.items[id])}
+        ></CarList>
+        <Pagination
+          count={pagination.totalPages}
+          onChange={(event, page) => {
+            this.getAvailableCarsPage(page - 1);
+          }}
+        ></Pagination>
+      </div>
     );
   }
 }

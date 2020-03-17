@@ -1,14 +1,10 @@
 package com.tazi34.carservice.clientInfo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import com.tazi34.carservice.clientInfo.address.AddressDTO;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
 
 
 public class ClientInfoDTO {
+    public Long id;
     public String name;
     public String surname;
     public String email;
@@ -19,14 +15,23 @@ public class ClientInfoDTO {
     public ClientInfoDTO() {
     }
 
-    public ClientInfoDTO(String name, String surname, String email, String pid, String phoneNumber,
+    public ClientInfoDTO(long id, String name, String surname, String email, String pid, String phoneNumber,
                          AddressDTO address) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.pid = pid;
         this.phoneNumber = phoneNumber;
         this.address = address;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -2,7 +2,6 @@ package com.tazi34.carservice.carReservation;
 
 import com.tazi34.carservice.clientInfo.ClientInfoService;
 import com.tazi34.carservice.status.StatusService;
-import com.tazi34.carservice.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,16 +33,17 @@ public class CarReservationsController {
 
     @GetMapping("/{id}")
     public ResponseEntity getReservation(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(statusService.getReservation(id));
+        return ResponseEntity.ok().body(reservationService.getReservationInfo(id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity cancelReservation(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(statusService.cancelReservation(id));
+        reservationService.cancelReservation(id);
+        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping
     public ResponseEntity postReservation(@RequestBody @NotNull @Valid CarReservation carReservation) {
-        return ResponseEntity.ok().body(statusService.saveReservation(carReservation).getId());
+        return ResponseEntity.ok().body(statusService.saveReservation(carReservation));
     }
 }

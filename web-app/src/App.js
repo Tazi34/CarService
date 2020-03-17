@@ -5,7 +5,6 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import LoginContainer from "./components/authentication/LoginContainer";
 import AvailableCarList from "./components/car/AvailableCarList";
-import DateLocationCarForm from "./components/bookingForm/DateLocationForm";
 import Layout from "./components/UI/Layout";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
 import ClientDetailsFormContainer from "./components/bookingForm/ClientDetailsFormContainer";
@@ -15,11 +14,18 @@ import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
 import { BookingAcceptanceWindow } from "./components/bookingForm/BookingAcceptanceWindow";
-import PrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
 import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
+import Home from "./components/UI/Home";
+import Background from "./images/vintageCarBackground.jpg";
+import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
+import LogoutPage from "./components/account/LogoutPage";
 
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: "Lato, sans-serif",
+    fontSize: 18
+  },
   palette: {
     primary: {
       main: "#121212"
@@ -27,13 +33,23 @@ const theme = createMuiTheme({
 
     secondary: {
       main: "#01579b"
-    },
-    background: {
-      default: "#303030"
     }
   },
   status: {
     danger: "orange"
+  },
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        body: {
+          backgroundImage: `url(${Background})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover"
+        }
+      }
+    }
   }
 });
 
@@ -47,20 +63,28 @@ function App(props) {
         {/*Needed to apply background for whole page */}
         <Layout
           auth={{
-            isAuthenticated: props.auth.isAuthenticated,
+            user: props.auth.user,
             logout: props.logout
           }}
         >
           <Switch>
-            <Route exact path="/" component={DateLocationCarForm} />
+            <Route exact path="/" component={Home} />
             <AuthorizedPrivateRoute
+              user={props.auth.user}
               path="/cars/apply/:id"
               component={BookingAcceptanceWindow}
             />
             <Route path="/cars" component={AvailableCarList} />
-            <PrivateRoute
+            <AuthorizedPrivateRoute
               path="/details"
+              user={props.auth.user}
               component={ClientDetailsFormContainer}
+            />
+            <AuthorizedPrivateRoute
+              path="/admin/cars"
+              roles={[ROLE_ADMIN]}
+              user={props.auth.user}
+              component={CarsTableContainer}
             />
             <Route path="/login" component={LoginContainer} />
             <Route path="/register" component={AccountForm} />
@@ -70,6 +94,7 @@ function App(props) {
               roles={[ROLE_ADMIN, ROLE_USER]}
               user={props.auth.user}
             />
+            <Route path={"/logout"} component={LogoutPage} />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
         </Layout>

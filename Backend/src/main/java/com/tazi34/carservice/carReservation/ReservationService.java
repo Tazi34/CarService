@@ -1,7 +1,7 @@
 package com.tazi34.carservice.carReservation;
 
-import com.tazi34.carservice.Exceptions.BadRequestException;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
+import com.tazi34.carservice.exceptions.BadRequestException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
 import com.tazi34.carservice.status.StatusType;
@@ -25,26 +25,19 @@ public class ReservationService {
         this.statusService = statusService;
         this.clientInfoService = clientInfoService;
     }
-    public ReservationMapper getReservationMapper() {
-        return reservationMapper;
-    }
     public void setReservationMapper(ReservationMapper reservationMapper) {
         this.reservationMapper = reservationMapper;
     }
 
 
     public List<ReservationInfo> getUserReservationsByEmail(String email) {
-        if (email == null) throw new RuntimeException("Email was null");
+        if (email == null) throw new RuntimeException("Email can't be null");
 
         var clientInfo = clientInfoService.getClientInfoByEmail(email);
         if (clientInfo == null) throw new ResourceNotFoundException("Client info not found");
         List<Status> clientsStatuses = statusService.getClientsStatuses(clientInfo);
-
         if (clientsStatuses.isEmpty()) return new ArrayList<ReservationInfo>();
-
-        var reservationInfos = mapStatusesToReservations(clientsStatuses);
-
-        return reservationInfos;
+        return mapStatusesToReservations(clientsStatuses);
     }
     private List<ReservationInfo> mapStatusesToReservations(List<Status> statuses) {
         return statuses.stream().map(status -> reservationMapper.mapStatusToReservation(status)).collect(Collectors.toList());
@@ -59,15 +52,14 @@ public class ReservationService {
         catch(ResourceNotFoundException exception){
             throw new ResourceNotFoundException(exceptionMessage);
         }
-        if(isBooked(status))
+        if (!isBooked(status))
             throw new ResourceNotFoundException(exceptionMessage);
 
         return reservationMapper.mapStatusToReservation(status);
     }
     public void cancelReservation(Long id){
         var status = statusService.getStatus(id);
-        if(!isBooked(status))
-            throw new BadRequestException("Status type was unavailable.");
+        if(!isBooked(status)) throw new BadRequestException("Wrong status type. Must be of type BOOKED");
         status.setType(StatusType.BOOKINGCANCELED);
         statusService.updateStatus(status);
     }
@@ -75,5 +67,6 @@ public class ReservationService {
         var type = status.getType();
         return type == StatusType.BOOKED;
     }
+
 
 }

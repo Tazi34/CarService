@@ -1,7 +1,7 @@
 package tests.reservations.service;
 
-import com.tazi34.carservice.Exceptions.BadRequestException;
 import com.tazi34.carservice.carReservation.ReservationService;
+import com.tazi34.carservice.exceptions.BadRequestException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
 import com.tazi34.carservice.status.StatusType;
@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.HttpClientErrorException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

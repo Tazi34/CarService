@@ -29,7 +29,7 @@ class ClientDetailsFormContainer extends Component {
   render() {
     const bookingForm = this.props.bookingForm;
     const reservation = bookingForm.reservation;
-    if (reservation.car.selected) return <Redirect to="/"></Redirect>;
+    if (!reservation.car.selected) return <Redirect to="/"></Redirect>;
     if (bookingForm.clientDetails.isFetching) return <CircularProgress />;
 
     return (

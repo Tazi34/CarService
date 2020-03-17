@@ -1,5 +1,6 @@
 package com.tazi34.carservice.clientInfo;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,22 +23,33 @@ public class ClientInfoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientInfo> getClientInfo(@PathVariable("id") Long id){
+    public ResponseEntity<ClientInfo> getClientInfo(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(clientInfoService.getClientInfo(id));
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<ClientInfoDTO> getClientByEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok().body(clientInfoService.getClientInfoDTOByEmail(email));
+    }
+
     @GetMapping("")
-    public ResponseEntity<List<ClientInfo>> getAllClientInfos(){
+
+    public ResponseEntity<List<ClientInfo>> getAllClientInfos() {
         return ResponseEntity.ok().body(clientInfoRepository.findAll());
     }
 
     @DeleteMapping("")
-    public ResponseEntity deleteClientInfo(@RequestBody @Valid ClientInfo clientInfo){
+    public ResponseEntity deleteClientInfo(@RequestBody @Valid ClientInfo clientInfo) {
         return ResponseEntity.ok().body(clientInfoService.deleteClientInfo(clientInfo));
     }
+
     @PatchMapping("")
-    public ResponseEntity<ClientInfo> updateClientInfo(@RequestBody @Valid ClientInfo clientInfo){
+    public ResponseEntity<ClientInfo> updateClientInfo(@RequestBody @Valid ClientInfoDTO clientInfoDTO) {
+        ModelMapper mapper = new ModelMapper();
+        var clientInfo = mapper.map(clientInfoDTO, ClientInfo.class);
         return ResponseEntity.ok().body(clientInfoService.updateClientInfo(clientInfo));
     }
+
     @PutMapping(path = "")
     public ResponseEntity<ClientInfo> updateWholeClientInfo(@RequestBody @Valid ClientInfo updatedClientInfo) {
         return ResponseEntity.ok().body(clientInfoRepository.save(updatedClientInfo));
@@ -45,6 +57,6 @@ public class ClientInfoController {
 
     @PostMapping("")
     public ResponseEntity<ClientInfo> addClientInfo(@RequestBody @Valid ClientInfo clientInfo) {
-            return ResponseEntity.ok().body(clientInfoRepository.save(clientInfo));
+        return ResponseEntity.ok().body(clientInfoRepository.save(clientInfo));
     }
 }

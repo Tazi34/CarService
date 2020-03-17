@@ -45,7 +45,9 @@ public class StatusDTO {
         return comment;
     }
 
-
+    public void setCarId(Long carId) {
+        this.carId = carId;
+    }
 
     public Date getDateFrom() {
         return dateFrom;

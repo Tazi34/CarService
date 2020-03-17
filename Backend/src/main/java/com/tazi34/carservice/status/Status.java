@@ -1,6 +1,7 @@
 package com.tazi34.carservice.status;
 
 import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.carlocation.spot.Spot;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,22 +40,26 @@ public class Status {
     @Enumerated(EnumType.STRING)
     private StatusType type;
 
-    public Status() {
-    }
+    @ManyToOne
+    private Spot startSpot;
+    @ManyToOne
+    private Spot endSpot;
 
-    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom, @NotNull Date dateTo, @NotNull StatusType type) {
+    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom,
+                  @NotNull Date dateTo, @NotNull StatusType type, Spot startSpot, Spot endSpot) {
         this.car = car;
         this.clientInfo = clientInfo;
         this.comment = comment;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.type = type;
+        this.startSpot = startSpot;
+        this.endSpot = endSpot;
     }
-    public interface OnlyReservationInfo {
-        long getId();
-        Car getCar();
-        ClientInfo getClientInfo();
-        Date getDateFrom();
-        Date getDateTo();
+
+    public Status() {
+
     }
+
+
 }

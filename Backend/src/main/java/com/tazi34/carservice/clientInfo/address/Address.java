@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotBlank
     private String city;
     @NotBlank

@@ -4,16 +4,17 @@ const addParam = (url, key, value) => {
   return `${url}&${key}=${value}`;
 };
 
-export function buildUrl(
+export function buildUrl({
   endpoint,
   pageNo,
   sortField,
   sortOrder,
   from,
   to,
-  spot
-) {
-  var url = apiURL;
+  spot,
+  size
+}) {
+  let url = apiURL;
   url += endpoint + "?";
 
   if (from) url = addParam(url, "from", from);
@@ -21,7 +22,7 @@ export function buildUrl(
   if (pageNo) url = addParam(url, "page", pageNo);
   if (sortOrder && sortField) url += `&sort=${sortField},${sortOrder}`;
   if (spot) url = addParam(url, "spot", spot);
-
+  if (size) url = addParam(url, "size", size);
   return url;
 }
 

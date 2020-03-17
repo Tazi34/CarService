@@ -23,18 +23,20 @@ export default function AuthorizedPrivateRoute({
             />
           );
         }
-        const userRoles = user.roles.map(role => role.name);
-        const isInRoles = userRoles.some(role => roles.includes(role));
-        //logged but not authorized
-        if (!isInRoles) {
-          return (
-            <Redirect
-              to={{
-                pathname: "/",
-                state: { from: props.location }
-              }}
-            />
-          );
+        if (roles) {
+          const userRoles = user.roles.map(role => role.name);
+          const isInRoles = userRoles.some(role => roles.includes(role));
+          //logged but not authorized
+          if (!isInRoles) {
+            return (
+              <Redirect
+                to={{
+                  pathname: "/",
+                  state: { from: props.location }
+                }}
+              />
+            );
+          }
         }
         //authorized
         return <Component {...props} />;

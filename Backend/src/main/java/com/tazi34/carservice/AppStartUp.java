@@ -37,6 +37,7 @@ public class AppStartUp implements ApplicationListener<ApplicationReadyEvent> {
             User admin = new User();
             admin.setEmail(adminMail);
             admin.setPassword(encoder.encode("admin"));
+            admin.setEnabled(true);
             var roles = new ArrayList<Role>();
             var adminRole = roleRepository.findByName(AuthorizationConstants.ROLE_ADMIN);
             var userRole = roleRepository.findByName(AuthorizationConstants.ROLE_USER);

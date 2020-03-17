@@ -9,7 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class CarServiceApplication {
     public static void main(String[] args) {
+
         SpringApplication.run(CarServiceApplication.class, args);
+
     }
 
     @Bean

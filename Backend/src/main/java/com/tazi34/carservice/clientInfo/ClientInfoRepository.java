@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface ClientInfoRepository extends JpaRepository<ClientInfo, Long> {
-	
-	List<ClientInfo> findAllByEmail(String email);
+
+    List<ClientInfo> findAllByEmail(String email);
 }

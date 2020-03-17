@@ -1,15 +1,22 @@
-import { reservationsEndpoint } from "../../urlAPI";
-
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 export const SET_TOTAL_PAGES = "SET_TOTAL_PAGES";
 export const REQUEST_PAGE = "REQUEST_PAGE";
 export const RECEIVE_PAGE = "RECEIVE_PAGE";
 export const RESET_PAGINATION = "RESET_PAGINATION";
+export const SET_RESULT_PAGE = "SET_RESULT_PAGE";
 
 export const SET_SORT_FIELD = "SET_SORT_FIELD";
 export const SET_SORT_ORDER = "SET_SORT_ORDER";
 export const SET_SORTING = "SET_SORTING";
-
+export const SET_TOTAL_ELEMENTS = "SET_TOTAL_ELEMENTS";
+export const setTotalElements = totalElements => ({
+  type: SET_TOTAL_ELEMENTS,
+  payload: { totalElements }
+});
+export const setPageResult = (page, results) => ({
+  type: SET_RESULT_PAGE,
+  payload: { page, results }
+});
 export const SortFields = {
   NONE: "NONE"
 };
@@ -18,6 +25,7 @@ export const SortOrders = {
   NOT_SORTED: "NOT_SORTED",
   DESC: "DESC"
 };
+
 export function setSortField(sortField) {
   return { type: SET_SORT_FIELD, payload: { sortField } };
 }
@@ -25,9 +33,16 @@ export function setSortField(sortField) {
 export function setSortOrder(sortOrder) {
   return { type: SET_SORT_ORDER, payload: { sortOrder } };
 }
+
 export function setSorting(sortField, sortOrder) {
   return { type: SET_SORTING, payload: { sortField, sortOrder } };
 }
+
+export const SET_PAGE_SIZE = "SET_PAGE_SIZE";
+export const setPageSize = pageSize => ({
+  type: SET_PAGE_SIZE,
+  payload: { pageSize }
+});
 
 export function setCurrentPage(page) {
   return { type: SET_CURRENT_PAGE, payload: { page } };
@@ -48,16 +63,22 @@ export function resetPagination() {
   return { type: RESET_PAGINATION };
 }
 
-export function receivePage(page, results, totalPages) {
-  return { type: RECEIVE_PAGE, payload: { page, results, totalPages } };
+export function receivePage(
+  page,
+  results,
+  totalPages,
+  totalElements,
+  pageSize
+) {
+  return dispatch => {
+    dispatch(setPageResult(page, results));
+    dispatch(setCurrentPage(page));
+    dispatch(setTotalPages(totalPages));
+    dispatch(setTotalElements(totalElements));
+    dispatch(setPageSize(pageSize));
+  };
 }
 
 export function createRequestPageActionCreator(endpoint, resultKey) {
   return page => requestPage(endpoint, resultKey, page);
 }
-
-export const requestReservationsPage = createRequestPageActionCreator(
-  reservationsEndpoint,
-  "reservations"
-);
-export const requestCarsPage = createRequestPageActionCreator("/cars", "cars");

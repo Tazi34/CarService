@@ -1,6 +1,7 @@
 package com.tazi34.carservice.clientInfo;
 
 import com.tazi34.carservice.clientInfo.address.Address;
+import com.tazi34.carservice.user.User;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
@@ -15,19 +16,22 @@ import javax.validation.constraints.NotNull;
 public class ClientInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotBlank
     private String name;
     @NotBlank
     private String surname;
     @Email
     @NotNull
+    @Column(unique = true)
     private String email;
 
     private String pid;
 
     private String phoneNumber;
 
+    @OneToOne
+    private User user;
     @OneToOne
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Address address;

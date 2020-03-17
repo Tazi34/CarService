@@ -1,11 +1,15 @@
 import { combineReducers } from "redux";
 import {
-  RECEIVE_PAGE,
   REQUEST_PAGE,
   RESET_PAGINATION,
+  SET_CURRENT_PAGE,
+  SET_PAGE_SIZE,
+  SET_RESULT_PAGE,
   SET_SORT_FIELD,
   SET_SORT_ORDER,
   SET_SORTING,
+  SET_TOTAL_ELEMENTS,
+  SET_TOTAL_PAGES,
   SortOrders
 } from "./paginationActions";
 
@@ -22,7 +26,7 @@ export const createPaginator = () => {
         };
       case RESET_PAGINATION:
         return {};
-      case RECEIVE_PAGE:
+      case SET_RESULT_PAGE:
         return {
           ...pages,
           [action.payload.page]: {
@@ -37,12 +41,28 @@ export const createPaginator = () => {
 
   const currentPage = (currentPage = 0, { type, payload }) => {
     switch (type) {
-      case REQUEST_PAGE:
+      case SET_CURRENT_PAGE:
         return payload.page;
       case RESET_PAGINATION:
         return 0;
       default:
         return currentPage;
+    }
+  };
+  const pageSize = (pageSize = 10, { type, payload }) => {
+    switch (type) {
+      case SET_PAGE_SIZE:
+        return payload.pageSize;
+      default:
+        return pageSize;
+    }
+  };
+  const totalElements = (totalElements = 0, { type, payload }) => {
+    switch (type) {
+      case SET_TOTAL_ELEMENTS:
+        return payload.totalElements;
+      default:
+        return totalElements;
     }
   };
 
@@ -85,7 +105,7 @@ export const createPaginator = () => {
   }
   const totalPages = (state = -1, { type, payload }) => {
     switch (type) {
-      case RECEIVE_PAGE:
+      case SET_TOTAL_PAGES:
         return payload.totalPages;
       case RESET_PAGINATION:
         return -1;
@@ -98,7 +118,9 @@ export const createPaginator = () => {
     pages,
     currentPage,
     // itemsReducer,
+    totalElements,
     totalPages,
-    sorting
+    sorting,
+    pageSize
   });
 };
