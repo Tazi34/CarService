@@ -13,26 +13,27 @@ import AccountForm from "./components/account/AccountForm";
 import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
-import { BookingAcceptanceWindow } from "./components/bookingForm/BookingAcceptanceWindow";
 import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 import LogoutPage from "./components/account/LogoutPage";
+import ReservationSummary from "./components/reservations/reservationSummary/ReservationSummary";
+import { green, red } from "@material-ui/core/colors";
+import { loginPage, reservationSummaryPage } from "./urlAPI";
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: "Lato, sans-serif",
-    fontSize: 18
+    fontFamily: "Lato, sans-serif"
   },
   palette: {
     primary: {
-      main: "#121212"
+      main: green["700"]
     },
-
+    danger: red,
     secondary: {
-      main: "#01579b"
+      main: green["500"]
     }
   },
   status: {
@@ -71,8 +72,8 @@ function App(props) {
             <Route exact path="/" component={Home} />
             <AuthorizedPrivateRoute
               user={props.auth.user}
-              path="/cars/apply/:id"
-              component={BookingAcceptanceWindow}
+              path={reservationSummaryPage}
+              component={ReservationSummary}
             />
             <Route path="/cars" component={AvailableCarList} />
             <AuthorizedPrivateRoute
@@ -86,7 +87,7 @@ function App(props) {
               user={props.auth.user}
               component={CarsTableContainer}
             />
-            <Route path="/login" component={LoginContainer} />
+            <Route path={loginPage} component={LoginContainer} />
             <Route path="/register" component={AccountForm} />
             <AuthorizedPrivateRoute
               path="/reservations"

@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 //TODO EMPTY LIST INFO
-import CarCard from "./CarCard";
+import CarCard from "./card/CarCard";
+import CarCardBookActions from "./card/CarCardBookActions";
 
 function CarList(props) {
   if (props.cars.length === 0)
@@ -18,7 +19,7 @@ function CarList(props) {
     <Grid container spacing={4} justify="center" alignContent={"center"}>
       {props.cars.map(car => (
         <Grid item key={car.id} xs={12} sm={"auto"} lg={4} xl={3} md={6}>
-          <CarCard carSelectionHandler={props.carSelectionHandler} car={car} />
+          <CarCard car={car} actions={CarCardBookActions} />
         </Grid>
       ))}
     </Grid>

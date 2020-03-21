@@ -1,0 +1,124 @@
+// @flow
+import * as React from "react";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Grid from "@material-ui/core/Grid";
+import { LocationSummary } from "./LocationSummary";
+import Typography from "@material-ui/core/Typography";
+import { PriceSummary } from "./PriceSummary";
+import { CarSummary } from "./carSummary/CarSummary";
+import { grey } from "@material-ui/core/colors";
+import Box from "@material-ui/core/Box";
+import { ReturnButton } from "../../UI/ReturnButton";
+import { RedirectButton } from "../../UI/RedirectButton";
+import { detailsPage } from "../../../urlAPI";
+
+const useStyles = makeStyles({
+  root: {
+    margin: "50px auto 0",
+    maxWidth: "1200px",
+    padding: "10px 0 10px 0",
+    borderRadius: 10,
+    border: "solid 1px #f4f4f4",
+    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)"
+  },
+  grid: {
+    padding: 0
+  },
+  gridItem: {
+    margin: 0,
+    padding: 0,
+    width: "100%"
+  },
+  button: {
+    width: "150px",
+    margin: "0 10px"
+  },
+  backButton: {
+    color: "white",
+    backgroundColor: grey.A400
+  }
+});
+const car = {
+  id: 99,
+  doors: 5,
+  model: "E-Series",
+  make: "Ford",
+  seats: 5,
+  year: 1990,
+  licence: "WV 996580",
+  spot: {
+    id: 14,
+    name: "GAJOWA"
+  },
+  price: 120.0,
+  active: true
+};
+export default function ReservationSummary(props) {
+  const classes = useStyles();
+  return (
+    <Box bgcolor={"background.default"} className={classes.root}>
+      <Grid
+        className={classes.grid}
+        container
+        direction={"column"}
+        justify="center"
+        alignItems={"center"}
+        spacing={1}
+      >
+        <Typography variant={"h4"}>YOUR RESERVATION</Typography>
+
+        <Grid item className={classes.gridItem}>
+          <Typography variant={"h6"} align={"center"}>
+            CAR DETAILS
+          </Typography>
+          <CarSummary car={car} />
+        </Grid>
+
+        <Grid item className={classes.gridItem}>
+          <Typography variant={"h6"} align={"center"}>
+            DATE AND LOCATION
+          </Typography>
+          <LocationSummary title={"START DATE"} />
+        </Grid>
+        <Grid item className={classes.gridItem}>
+          <LocationSummary title={"END DATE"} />
+        </Grid>
+
+        <Grid item className={classes.gridItem}>
+          <Typography variant={"h6"} align={"center"}>
+            SUMMARY
+          </Typography>
+          <PriceSummary />
+        </Grid>
+
+        <Grid
+          item
+          container
+          justify={"center"}
+          direction={"row"}
+          className={classes.gridItem}
+        >
+          <Grid item>
+            <RedirectButton
+              className={classes.button}
+              variant={"contained"}
+              color={"primary"}
+              to={detailsPage}
+            >
+              Confirm
+            </RedirectButton>
+          </Grid>
+          <Grid item>
+            <ReturnButton
+              variant={"contained"}
+              color={"secondary"}
+              className={`${classes.button} ${classes.backButton}`}
+            >
+              Back
+            </ReturnButton>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

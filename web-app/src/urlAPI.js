@@ -26,7 +26,12 @@ export function buildUrl({
   return url;
 }
 
-export const login = "/login";
+//WEB PAGE
+export const detailsPage = "/details";
+export const loginPage = "/login";
+export const reservationSummaryPage = "/reservation/summary";
+
+//API
 export const authUserURL = apiURL + "/auth/current";
 export const signUpURL = apiURL + "/auth/sign-up";
 export const citiesURL = apiURL + "/cities";

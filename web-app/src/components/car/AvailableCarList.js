@@ -23,16 +23,10 @@ class AvailableCarList extends Component {
     if (!this.props.pagination.pages[0]) this.getAvailableCarsPage(0);
   }
 
-  carSelectionHandler = car => {
-    if (this.props.authenticated) {
-      this.props.selectCar(car);
-      this.props.history.push(`/cars/apply/${car.id}`);
-    } else this.props.history.push("/login");
-  };
   getAvailableCarsPage = page => {
-    var pagination = this.props.pagination;
-    var sorting = this.props.sorting;
-    var currentReservation = this.props.currentReservation;
+    const pagination = this.props.pagination;
+    const sorting = this.props.sorting;
+    const currentReservation = this.props.currentReservation;
     //IF NOT FETCHED
     if (!pagination.pages[page]) {
       this.props.fetchCarPage(
