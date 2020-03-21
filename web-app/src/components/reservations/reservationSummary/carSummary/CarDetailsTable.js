@@ -6,8 +6,7 @@ import { NameValueTableRow } from "../../../UI/NameValueTableRow";
 
 const useStyles = makeStyles({
   root: {
-    padding: 10,
-    textAlign: "right"
+    padding: 10
   }
 });
 

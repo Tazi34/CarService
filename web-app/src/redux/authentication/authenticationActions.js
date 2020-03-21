@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { apiURL, authUserURL, login } from "../../urlAPI";
+import { apiURL, authUserURL, loginPage } from "../../urlAPI";
 import localStorage from "redux-persist/es/storage";
 
 export const localStorageTokenItemName = "userToken";
@@ -68,7 +68,7 @@ const extractToken = tokenBearerString => {
   return tokenBearerString.replace("Bearer ", "");
 };
 export const redirectToLogin = history => {
-  history.push(login);
+  history.push(loginPage);
 };
 export const REQUEST_USER = "REQUEST_USER";
 

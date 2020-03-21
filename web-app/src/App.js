@@ -19,20 +19,21 @@ import Home from "./components/UI/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 import LogoutPage from "./components/account/LogoutPage";
-import ReservationSummary from "./components/UI/ReservationSummary";
+import ReservationSummary from "./components/reservations/reservationSummary/ReservationSummary";
+import { green, red } from "@material-ui/core/colors";
+import { loginPage, reservationSummaryPage } from "./urlAPI";
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: "Lato, sans-serif",
-    fontSize: 18
+    fontFamily: "Lato, sans-serif"
   },
   palette: {
     primary: {
-      main: "#121212"
+      main: green["700"]
     },
-
+    danger: red,
     secondary: {
-      main: "#01579b"
+      main: green["500"]
     }
   },
   status: {
@@ -71,7 +72,7 @@ function App(props) {
             <Route exact path="/" component={Home} />
             <AuthorizedPrivateRoute
               user={props.auth.user}
-              path="/cars/apply/:id"
+              path={reservationSummaryPage}
               component={ReservationSummary}
             />
             <Route path="/cars" component={AvailableCarList} />
@@ -86,7 +87,7 @@ function App(props) {
               user={props.auth.user}
               component={CarsTableContainer}
             />
-            <Route path="/login" component={LoginContainer} />
+            <Route path={loginPage} component={LoginContainer} />
             <Route path="/register" component={AccountForm} />
             <AuthorizedPrivateRoute
               path="/reservations"
