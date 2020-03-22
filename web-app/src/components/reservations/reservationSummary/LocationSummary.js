@@ -22,7 +22,7 @@ export function LocationSummary(props) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography component="h8" variant="h8" className={classes.title}>
+        <Typography component="h6" variant="h6" className={classes.title}>
           <Box color={"secondary.main"}>{props.title}</Box>
         </Typography>
 
