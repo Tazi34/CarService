@@ -7,7 +7,7 @@ import { CarCardContent } from "./CarCardContent";
 const useStyles = makeStyles(theme => ({
   root: {
     minWidth: "275px",
-    borderRadius: "4px",
+    maxWidth: "400px",
     boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
     "&:hover": {
       boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   image: {
     width: "100%",
-    minHeight: "300px",
-    height: "auto"
+    height: "400px"
   }
 }));
 
@@ -31,12 +30,12 @@ function CarCard(props) {
 
   return (
     <Card className={classes.root}>
-      {/*//TODO sprawdz ak dziala cardmedia*/}
-      <CardMedia
-        className={classes.image}
-        image={carImages[Math.floor(Math.random() * carImages.length)]}
-        title={car.make + " " + car.model}
-      />
+      <CardMedia title={car.make + " " + car.model}>
+        <img
+          className={classes.image}
+          src={carImages[Math.floor(Math.random() * carImages.length)]}
+        />
+      </CardMedia>
       <CarCardContent car={car} />
       {CardActions && <CardActions />}
     </Card>
