@@ -27,6 +27,7 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: "Lato, sans-serif"
   },
+  background: "#f4f4f4",
   palette: {
     primary: {
       main: green["700"]
