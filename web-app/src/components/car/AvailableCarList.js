@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, createStyles, withStyles } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -13,6 +13,31 @@ import { selectCar } from "../../redux/bookingForm/bookingFormActions";
 import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
+import { compose } from "recompose";
+
+const useStyles = createStyles(theme => ({
+  root: {
+    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+    "&:hover": {
+      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+    },
+    margin: "10px auto",
+
+    [theme.breakpoints.up("xs")]: {
+      maxWidth: "90%"
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "80%"
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "70%"
+    }
+  },
+  image: {
+    minHeight: "300px",
+    height: "auto"
+  }
+}));
 
 class AvailableCarList extends Component {
   componentDidMount() {
@@ -23,16 +48,10 @@ class AvailableCarList extends Component {
     if (!this.props.pagination.pages[0]) this.getAvailableCarsPage(0);
   }
 
-  carSelectionHandler = car => {
-    if (this.props.authenticated) {
-      this.props.selectCar(car);
-      this.props.history.push(`/cars/apply/${car.id}`);
-    } else this.props.history.push("/login");
-  };
   getAvailableCarsPage = page => {
-    var pagination = this.props.pagination;
-    var sorting = this.props.sorting;
-    var currentReservation = this.props.currentReservation;
+    const pagination = this.props.pagination;
+    const sorting = this.props.sorting;
+    const currentReservation = this.props.currentReservation;
     //IF NOT FETCHED
     if (!pagination.pages[page]) {
       this.props.fetchCarPage(
@@ -74,6 +93,7 @@ class AvailableCarList extends Component {
     //TODO Only for testing
     // if (!this.props.currentReservation.status.dateLocationPicked)
     //   return <Redirect to="/"></Redirect>;
+    const { classes } = this.props;
     const cars = this.props.cars;
     const pagination = this.props.pagination;
     //TODO redirect if date and location not selected
@@ -87,7 +107,7 @@ class AvailableCarList extends Component {
     const currentPage = pagination.pages[pagination.currentPage];
 
     return (
-      <div style={{ width: "80%", margin: "auto" }}>
+      <div className={classes.root}>
         <SortingPanel
           fieldChanged={this.props.setSortField}
           orderChanged={this.props.setSortOrder}
@@ -129,4 +149,7 @@ const mapDispatchToProps = {
   selectCar: selectCar
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AvailableCarList);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(useStyles)
+)(AvailableCarList);
