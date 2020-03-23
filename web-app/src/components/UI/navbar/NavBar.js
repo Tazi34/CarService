@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { Redirect } from "react-router-dom/";
 import { useHistory } from "react-router";
-
+import MenuIcon from "@material-ui/icons/Menu";
 import { GuestLinks } from "./GuestLinks";
 import { UserLinks } from "./UserLinks";
 import { LoginLogoutLink } from "./LoginLogoutLink";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import { NavBarDrawer } from "./NavBarDrawer";
 
 const navBarBreakPoint = 1100;
 
@@ -19,23 +18,15 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
   title: {
     cursor: "pointer",
-    display: "none",
-    fontFamily: "Urban Jungle",
-    [theme.breakpoints.up("300")]: {
-      display: "block"
-    }
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: 200
+    display: "block",
+    margin: "auto",
+    [theme.breakpoints.down(450)]: {
+      fontSize: "2em"
+    },
+    [theme.breakpoints.down(300)]: {
+      display: "none"
     }
   },
   navItem: {
@@ -69,46 +60,36 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       paddingTop: "10px"
     }
+  },
+  menuButton: {
+    margin: "auto",
+    padding: "30px 30px"
   }
 }));
 
 export default function NavBar(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const authenticated = props.auth.user ? true : false;
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [drawer, setDrawer] = useState(false);
 
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
+  const handleHomeClick = () => {
+    //needed for reload effect
+    if (history.location.pathname === "/") history.go(0);
+    else history.push("/");
   };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = event => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   const renderNavBarItems = () => {
-    const user = props.auth.user;
-    const authenticated = user != null;
-
     return (
-      <Grid container spacing={4}>
+      <>
         {authenticated && <UserLinks />}
         <GuestLinks />
         <LoginLogoutLink auth={authenticated} />
-      </Grid>
+      </>
     );
+  };
+  const closeDrawer = () => {
+    setDrawer(false);
   };
 
   return (
@@ -118,26 +99,23 @@ export default function NavBar(props) {
           <Typography
             className={classes.title}
             variant="h4"
-            onClick={() => {
-              if (history.location.pathname === "/") history.go(0);
-              else history.push("/");
-            }}
+            onClick={handleHomeClick}
           >
             <Box color={"primary.contrastText"}> CarServices</Box>
           </Typography>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            {renderNavBarItems()}
+          <div className={classes.sectionDesktop}>{renderNavBarItems()}</div>
+          <div className={classes.sectionMobile}>
             <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            />
+              className={classes.menuButton}
+              onClick={() => setDrawer(true)}
+            >
+              <MenuIcon />
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
+      <NavBarDrawer open={drawer} auth={authenticated} onClose={closeDrawer} />
     </div>
   );
 }

@@ -12,17 +12,17 @@ const useStyles = makeStyles(theme => ({
     direction: "column",
     margin: "auto"
   },
-  gridItem: {},
-  dateLocation: {
-    order: 1,
-    [theme.breakpoints.down("xs")]: {
-      order: 2
+  mobileSection: {
+    display: "none",
+    maxWidth: 500,
+    margin: "auto",
+    marginTop: 70,
+    [theme.breakpoints.down(1100)]: {
+      display: "block"
     }
   },
-  welcomeWindow: {
-    order: 2,
-    [theme.breakpoints.down("sm")]: {
-      order: 1,
+  desktopSection: {
+    [theme.breakpoints.down(1100)]: {
       display: "none"
     }
   }
@@ -32,31 +32,40 @@ export default function Home(props) {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      direction={"row"}
-      className={classes.root}
-      justify={"flex-end"}
-      spacing={6}
-    >
-      <Grid
-        item
-        className={`${classes.gridItem} ${classes.dateLocation}`}
-        xs={"auto"}
-      >
+    <>
+      <div className={classes.desktopSection}>
+        <Grid
+          container
+          direction={"row"}
+          className={classes.root}
+          justify={"flex-end"}
+          spacing={6}
+        >
+          <Grid
+            item
+            className={`${classes.gridItem} ${classes.dateLocation}`}
+            xs={"auto"}
+          >
+            <DateLocationForm
+              history={props.history}
+              className={classes.dateLocation}
+            ></DateLocationForm>
+          </Grid>
+          <Grid
+            item
+            className={`${classes.gridItem} ${classes.welcomeWindow}`}
+            xs={7}
+          >
+            <WelcomeWindow />
+          </Grid>
+        </Grid>
+      </div>
+      <div className={classes.mobileSection}>
         <DateLocationForm
           history={props.history}
-          className={classes.dateForm}
+          className={classes.dateLocation}
         ></DateLocationForm>
-      </Grid>
-
-      <Grid
-        item
-        className={`${classes.gridItem} ${classes.welcomeWindow}`}
-        xs={7}
-      >
-        <WelcomeWindow />
-      </Grid>
-    </Grid>
+      </div>
+    </>
   );
 }
