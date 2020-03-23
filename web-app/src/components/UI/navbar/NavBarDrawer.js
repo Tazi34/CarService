@@ -10,7 +10,10 @@ const useStyles = makeStyles(theme => ({
   list: {
     margin: "auto",
     width: "100%",
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.9)",
+
+    backgroundImage:
+      'url("https://www.transparenttextures.com/patterns/always-grey.png")',
     height: "100vh"
   }
 }));

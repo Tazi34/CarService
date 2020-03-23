@@ -7,7 +7,7 @@ import { WelcomeWindow } from "./WelcomeWindow";
 const useStyles = makeStyles(theme => ({
   root: {
     position: "relative",
-    transform: "translateY(50%)",
+    transform: "translateY(30%)",
     top: "50%",
     direction: "column",
     margin: "auto"

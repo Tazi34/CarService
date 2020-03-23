@@ -44,11 +44,15 @@ const validate = async values => {
 };
 const styles = theme => ({
   root: {
-    borderRadius: 3,
+    borderRadius: 5,
     minWidth: "200px",
     margin: "auto",
     padding: "20px",
-    border: "1px solid black"
+    border: "1px solid black",
+    [theme.breakpoints.down("xs")]: {
+      padding: "10px",
+      boxShadow: "10px"
+    }
   }
 });
 
