@@ -44,7 +44,7 @@ function CarCard(props) {
         />
       </CardMedia>
       <CarCardContent car={car} />
-      {CardActions && <CardActions />}
+      {CardActions && <CardActions {...props} />}
     </Card>
   );
 }

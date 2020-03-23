@@ -12,11 +12,11 @@ const BookCarButton = props => {
     const car = props.car;
     let redirectDirectory;
     if (props.authenticated) {
-      props.selectCar(car);
       redirectDirectory = reservationSummaryPage;
     } else {
       redirectDirectory = loginPage;
     }
+    props.selectCar(car);
     history.push(redirectDirectory);
   };
   return (
