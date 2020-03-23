@@ -1,17 +1,16 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
 import { TextField } from "mui-rff";
-import { Box, Button, Paper } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { PasswordField } from "./PasswordField";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    maxWidth: 400,
-    height: 600,
-    borderRadius: 5,
-    padding: "20px 30px 20px 30px"
+    height: "100%",
+    padding: "0 30px"
   },
   title: {
     padding: "10px 0 20px 0"
@@ -20,7 +19,8 @@ const useStyles = makeStyles(theme => ({
     margin: "10px auto"
   },
   button: {
-    margin: "5px 10px"
+    marginTop: "20px",
+    marginBottom: "10px"
   }
 }));
 
@@ -28,7 +28,7 @@ export default function LoginWindow(props) {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.container}>
+    <Box bgcolor={"background.default"} className={classes.container}>
       <Form onSubmit={values => props.login(values)}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit} style={{ height: "100%" }}>
@@ -67,25 +67,29 @@ export default function LoginWindow(props) {
                 )}
               </Field>
 
-              <Box display={"flex"}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  className={classes.button}
-                >
-                  Login
-                </Button>
-                <Button
-                  className={classes.button}
-                  fullWidth
-                  variant="outlined"
-                  onClick={props.register}
-                >
-                  SIGN UP
-                </Button>
-              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                    type="submit"
+                    className={classes.button}
+                  >
+                    Login
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    className={classes.button}
+                    fullWidth
+                    variant="outlined"
+                    onClick={props.register}
+                  >
+                    SIGN UP
+                  </Button>
+                </Grid>
+              </Grid>
               <Typography className={classes.field}>
                 Forgot password?
               </Typography>
@@ -94,6 +98,6 @@ export default function LoginWindow(props) {
           </form>
         )}
       </Form>
-    </Paper>
+    </Box>
   );
 }
