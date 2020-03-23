@@ -1,6 +1,6 @@
 import { loginAction } from "../../redux/authentication/authenticationActions";
 import React from "react";
-import LoginWindow from "../UI/LoginWindow";
+import LoginWindow from "../login/LoginWindow";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
