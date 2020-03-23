@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles(theme => ({
   container: {
     height: "100%",
-    padding: "0 30px"
+    padding: "20px 30px"
   },
   title: {
     padding: "10px 0 20px 0"
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   field: {
     margin: "10px auto"
   },
-  button: {
+  buttonContainer: {
     marginTop: "20px",
     marginBottom: "10px"
   }
@@ -67,25 +67,19 @@ export default function LoginWindow(props) {
                 )}
               </Field>
 
-              <Grid container spacing={2}>
+              <Grid container spacing={2} className={classes.buttonContainer}>
                 <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
                     color="primary"
                     variant="contained"
                     type="submit"
-                    className={classes.button}
                   >
                     Login
                   </Button>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Button
-                    className={classes.button}
-                    fullWidth
-                    variant="outlined"
-                    onClick={props.register}
-                  >
+                  <Button fullWidth variant="outlined" onClick={props.register}>
                     SIGN UP
                   </Button>
                 </Grid>
