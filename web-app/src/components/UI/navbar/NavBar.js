@@ -11,6 +11,9 @@ import { GuestLinks } from "./GuestLinks";
 import { UserLinks } from "./UserLinks";
 import { LoginLogoutLink } from "./LoginLogoutLink";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+
+const navBarBreakPoint = 1100;
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -22,13 +25,10 @@ const useStyles = makeStyles(theme => ({
   title: {
     cursor: "pointer",
     display: "none",
-    fontFamily: "Playfair Display",
+    fontFamily: "Urban Jungle",
     [theme.breakpoints.up("300")]: {
       display: "block"
     }
-  },
-  inputRoot: {
-    color: "inherit"
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
@@ -43,18 +43,32 @@ const useStyles = makeStyles(theme => ({
   },
   sectionDesktop: {
     display: "none",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up(navBarBreakPoint)]: {
       display: "flex"
     }
   },
   sectionMobile: {
     display: "flex",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up(navBarBreakPoint)]: {
       display: "none"
     }
   },
-  bar: {
-    padding: "20px"
+  toolBar: {
+    flexWrap: "wrap"
+  },
+
+  appBar: {
+    backgroundColor: "transparent",
+    maxWidth: "1400px",
+    margin: "auto",
+    boxShadow: "none",
+    paddingTop: "40px",
+    [theme.breakpoints.down("md")]: {
+      paddingTop: "20px"
+    },
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: "10px"
+    }
   }
 }));
 
@@ -99,18 +113,17 @@ export default function NavBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.bar}>
-        <Toolbar>
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar className={classes.toolBar}>
           <Typography
             className={classes.title}
             variant="h4"
-            noWrap
             onClick={() => {
               if (history.location.pathname === "/") history.go(0);
               else history.push("/");
             }}
           >
-            CarServices
+            <Box color={"primary.contrastText"}> CarServices</Box>
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
