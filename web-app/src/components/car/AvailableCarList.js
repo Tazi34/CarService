@@ -21,17 +21,7 @@ const useStyles = createStyles(theme => ({
     "&:hover": {
       boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
     },
-    margin: "10px auto",
-
-    [theme.breakpoints.up("xs")]: {
-      maxWidth: "90%"
-    },
-    [theme.breakpoints.up("md")]: {
-      maxWidth: "80%"
-    },
-    [theme.breakpoints.up("lg")]: {
-      maxWidth: "70%"
-    }
+    margin: "10px auto"
   },
   image: {
     minHeight: "300px",

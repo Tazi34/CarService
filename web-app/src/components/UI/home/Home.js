@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     transform: "translateY(50%)",
     top: "50%",
-    width: "80%",
     direction: "column",
     margin: "auto"
   },
