@@ -1,24 +1,27 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import * as React from "react";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
 
 const style = makeStyles(theme => ({
-  button: {
-    margin: "auto",
+  link: {
+    margin: "auto 30px",
     color: "white",
-    fontFamily: "Playfair Display; serif",
     "&:hover": {
-      textDecoration: "underline"
-    }
+      color: theme.palette.primary.main,
+      textDecoration: "none"
+    },
+    textDecoration: "none"
   }
 }));
 
 export function NavBarLink(props) {
   const classes = style();
+
   return (
-    <Button component={Link} to={props.to} className={classes.button}>
-      {props.children}
-    </Button>
+    <Link component={RouterLink} to={props.to} className={classes.link}>
+      <Typography>{props.children}</Typography>
+    </Link>
   );
 }

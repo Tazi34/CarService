@@ -7,10 +7,10 @@ export function GuestLinks(props) {
   return (
     <>
       <NavBarLink component={Link} to={"/contact"} style={{ color: "white" }}>
-        Contact
+        CONTACT
       </NavBarLink>
       <NavBarLink component={Link} to={"/about"} style={{ color: "white" }}>
-        About
+        ABOUT
       </NavBarLink>
     </>
   );

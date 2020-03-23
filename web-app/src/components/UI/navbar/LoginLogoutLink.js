@@ -6,11 +6,11 @@ import { NavBarLink } from "./NavBarLink";
 export function LoginLogoutLink(props) {
   return props.auth ? (
     <NavBarLink component={Link} to={"/logout"}>
-      Logout
+      LOGOUT
     </NavBarLink>
   ) : (
     <NavBarLink component={Link} to={"/login"}>
-      Login
+      LOGIN
     </NavBarLink>
   );
 }
