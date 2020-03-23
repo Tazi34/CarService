@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
 import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
-import Home from "./components/UI/Home";
+import Home from "./components/UI/home/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 import LogoutPage from "./components/account/LogoutPage";
@@ -44,7 +44,10 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       "@global": {
         body: {
-          backgroundImage: `url(${Background})`,
+          backgroundImage: ` linear-gradient(
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ),url(${Background})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
           backgroundAttachment: "fixed",
