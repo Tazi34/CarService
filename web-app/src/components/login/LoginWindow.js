@@ -8,7 +8,7 @@ import { PasswordField } from "./PasswordField";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    maxWidth: 500,
+    maxWidth: 400,
     height: 600,
     borderRadius: 5,
     padding: "20px 30px 20px 30px"
