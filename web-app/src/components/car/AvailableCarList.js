@@ -14,6 +14,7 @@ import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
 import { compose } from "recompose";
+import { reservationSummaryPage } from "../../urlAPI";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -74,7 +75,10 @@ class AvailableCarList extends Component {
     }
     return options;
   };
-
+  carSelectionHandler = car => {
+    this.props.selectCar(car);
+    this.props.history.push(reservationSummaryPage);
+  };
   sortingApplyHandler = () => {
     this.props.resetPages();
   };
@@ -106,7 +110,7 @@ class AvailableCarList extends Component {
           buttonDisabled={false}
         />
         <CarList
-          carSelectionHandler={this.carSelectionHandler}
+          handleCarSelect={this.carSelectionHandler}
           cars={currentPage.ids.map(id => cars.items[id])}
         ></CarList>
         <Pagination

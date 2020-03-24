@@ -42,7 +42,11 @@ function CarList(props) {
           lg={4}
           xl={3}
         >
-          <CarCard car={car} actions={CarCardBookActions} />
+          <CarCard
+            car={car}
+            handleCarSelect={props.handleCarSelect}
+            actions={CarCardBookActions}
+          />
         </Grid>
       ))}
     </Grid>

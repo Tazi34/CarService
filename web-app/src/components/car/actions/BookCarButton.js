@@ -1,41 +1,17 @@
 import React from "react";
-import { connect } from "react-redux";
-import { selectCar } from "../../../redux/bookingForm/bookingFormActions";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router";
-import { loginPage, reservationSummaryPage } from "../../../urlAPI";
 
 const BookCarButton = props => {
-  const history = useHistory();
-
-  const handleCarSelection = () => {
-    const car = props.car;
-    let redirectDirectory;
-    if (props.authenticated) {
-      redirectDirectory = reservationSummaryPage;
-    } else {
-      redirectDirectory = loginPage;
-    }
-    props.selectCar(car);
-    history.push(redirectDirectory);
-  };
   return (
     <Button
       variant="contained"
       size="small"
       color="primary"
-      onClick={handleCarSelection}
+      onClick={() => props.handleCarSelect(props.car)}
     >
       BOOK
     </Button>
   );
 };
 
-const mapStateToProps = state => ({
-  authenticated: state.authentication.isAuthenticated
-});
-const mapDispatchToProps = {
-  selectCar: selectCar
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BookCarButton);
+export default BookCarButton;
