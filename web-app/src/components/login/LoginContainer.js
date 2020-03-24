@@ -1,5 +1,5 @@
 import { loginAction } from "../../redux/authentication/authenticationActions";
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import LoginWindow from "./LoginWindow";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
@@ -28,23 +28,43 @@ const styles = theme => ({
   }
 });
 
-class LoginContainer extends Component {
-  // const handleLoginSuccess = () => {};
-  //
-  // const handleLoginError = error => {};
-  //
-  // const handleLogin = userCredentials => {
-  //   props.tryLogin(userCredentials, handleLoginSuccess, handleLoginError);
-  // };
-  render() {
-    const { classes, user } = this.props;
+class LoginContainer extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirectPage: "/",
+      redirect: !props.authenticated
+    };
+  }
 
-    if (user) {
-      return <Redirect to={"/"} />;
+  handleLoginSuccess = () => {
+    const { history } = this.props;
+
+    // user accessed /login as first page
+  };
+
+  handleLoginError = error => {
+    alert("error");
+  };
+
+  handleLogin = userCredentials => {
+    this.props.tryLogin(
+      userCredentials,
+      this.handleLoginSuccess,
+      this.handleLoginError
+    );
+  };
+  handleRegisterRedirection = () => this.props.history.push("/register");
+
+  render() {
+    const { classes, authenticated, location } = this.props;
+    const previousPage = location.state;
+    const redirectLink = previousPage ? previousPage.from : "/";
+
+    if (authenticated) {
+      return <Redirect to={redirectLink} />;
     }
 
-    const handleRegisterRedirection = () =>
-      this.props.history.push("/register");
     return (
       <Grid container className={classes.root} justify={"center"}>
         <Grid item md={6} lg={6} className={classes.carousel}>
@@ -53,8 +73,8 @@ class LoginContainer extends Component {
         <Grid item xs={10} md={4} lg={4}>
           <Box className={classes.fullHeight}>
             <LoginWindow
-              login={this.props.login}
-              register={handleRegisterRedirection}
+              login={this.handleLogin}
+              register={this.handleRegisterRedirection}
             ></LoginWindow>
           </Box>
         </Grid>
@@ -64,12 +84,11 @@ class LoginContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.authentication.user,
-  auth: state.authentication
+  authenticated: state.authentication.isAuthenticated
 });
 
 const mapDispatchToProps = {
-  login: loginAction
+  tryLogin: loginAction
 };
 
 export default compose(

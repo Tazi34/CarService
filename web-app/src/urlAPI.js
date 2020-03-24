@@ -30,7 +30,7 @@ export function buildUrl({
 export const detailsPage = "/details";
 export const loginPage = "/login";
 export const reservationSummaryPage = "/reservation/summary";
-
+export const logoutPage = "/logout";
 //API
 export const loginURL = apiURL + "/login";
 export const authUserURL = apiURL + "/auth/current";

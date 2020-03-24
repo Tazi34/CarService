@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom";
 import { Redirect } from "react-router";
 import React from "react";
+import { loginPage } from "../../urlAPI";
 
 export default function AuthorizedPrivateRoute({
   component: Component,
@@ -17,8 +18,8 @@ export default function AuthorizedPrivateRoute({
           return (
             <Redirect
               to={{
-                pathname: "/login",
-                state: { from: props.location }
+                pathname: loginPage,
+                state: { from: props.location.pathname }
               }}
             />
           );
