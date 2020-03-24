@@ -1,18 +1,21 @@
 import Axios from "axios";
 
+const authorizationHeader = "Authorization";
+const tokenLocalStorageKey = "userToken";
+
 const appendAuthorizationTokenToRequests = token => {
-  Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  Axios.defaults.headers.common[authorizationHeader] = `Bearer ${token}`;
 };
 const removeTokenFromRequestHeaders = () => {
-  Axios.defaults.headers.common["Authorization"] = ``;
+  Axios.defaults.headers.common[authorizationHeader] = ``;
 };
 
 const addTokenToLocalStorage = token => {
-  localStorage.setItem("userToken", token);
+  localStorage.setItem(tokenLocalStorageKey, token);
 };
 
 const removeTokenFromLocalStorage = () => {
-  localStorage.removeItem("userToken");
+  localStorage.removeItem(tokenLocalStorageKey);
 };
 
 export const addAuthorizationToken = token => {
