@@ -8,7 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -28,6 +30,9 @@ public class Status {
     @CreationTimestamp
     private Date createdAt;
 
+    @DecimalMin(value = "0.0", inclusive = true)
+    private BigDecimal priceTotal;
+
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date dateFrom;
@@ -45,8 +50,7 @@ public class Status {
     @ManyToOne
     private Spot endSpot;
 
-    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom,
-                  @NotNull Date dateTo, @NotNull StatusType type, Spot startSpot, Spot endSpot) {
+    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom, @NotNull Date dateTo, @NotNull StatusType type, Spot startSpot, Spot endSpot, BigDecimal priceTotal) {
         this.car = car;
         this.clientInfo = clientInfo;
         this.comment = comment;
@@ -55,6 +59,7 @@ public class Status {
         this.type = type;
         this.startSpot = startSpot;
         this.endSpot = endSpot;
+        this.priceTotal = priceTotal;
     }
 
     public Status() {

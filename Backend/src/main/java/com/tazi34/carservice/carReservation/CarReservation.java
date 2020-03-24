@@ -4,6 +4,7 @@ import com.tazi34.carservice.clientInfo.ClientInfoDTO;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Value
@@ -15,6 +16,8 @@ public class CarReservation {
     @NotNull
     private long endSpotId;
 
+    @NotNull
+    private BigDecimal priceTotal;
     @NotNull
     private ClientInfoDTO clientInfo;
     @NotNull

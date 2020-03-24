@@ -19,8 +19,7 @@ public class ReservationMapper {
         var carDTO = modelMapper.map(status.getCar(), CarDTO.class);
         var clientInfoDTO = modelMapper.map(status.getClientInfo(), ClientInfoDTO.class);
         var isCanceled = isCanceled(status);
-        var reservation = new ReservationInfo(status.getId(), carDTO, status.getDateFrom(), status.getDateTo(),
-                clientInfoDTO, status.getStartSpot(), status.getEndSpot(), isCanceled);
+        var reservation = new ReservationInfo(status.getId(), carDTO, status.getDateFrom(), status.getDateTo(), clientInfoDTO, status.getStartSpot(), status.getEndSpot(), isCanceled, status.getPriceTotal());
         reservation.isCancelable = isCancelable(status);
         return reservation;
 

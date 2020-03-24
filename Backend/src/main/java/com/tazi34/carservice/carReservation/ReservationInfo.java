@@ -5,6 +5,7 @@ import com.tazi34.carservice.car.CarDTO;
 import com.tazi34.carservice.carlocation.spot.Spot;
 import com.tazi34.carservice.clientInfo.ClientInfoDTO;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ReservationInfo {
@@ -23,9 +24,9 @@ public class ReservationInfo {
     public Boolean canceled;
     public final Spot startSpot;
     public final Spot endSpot;
+    public BigDecimal priceTotal;
 
-    public ReservationInfo(long id, CarDTO carDTO, Date dateFrom, Date dateTo, ClientInfoDTO clientInfoDTO,
-                           Spot startSpot, Spot endSpot, Boolean canceled) {
+    public ReservationInfo(long id, CarDTO carDTO, Date dateFrom, Date dateTo, ClientInfoDTO clientInfoDTO, Spot startSpot, Spot endSpot, Boolean canceled, BigDecimal priceTotal) {
         this.id = id;
         this.startSpot = startSpot;
         this.endSpot = endSpot;
@@ -34,5 +35,6 @@ public class ReservationInfo {
         this.dateTo = dateTo;
         this.clientInfoDTO = clientInfoDTO;
         this.canceled = canceled;
+        this.priceTotal = priceTotal;
     }
 }

@@ -61,8 +61,7 @@ public class StatusService {
         var endSpot = spotService.getSpot(carReservation.getEndSpotId());
 
         var clientInfo = clientInfoService.updateClientInfo(carReservation.getClientInfo());
-        Status status = new Status(car, clientInfo, "CarService booking", carReservation.getFromDate(),
-                carReservation.getToDate(), StatusType.BOOKED,startSpot,endSpot);
+        Status status = new Status(car, clientInfo, "CarService booking", carReservation.getFromDate(), carReservation.getToDate(), StatusType.BOOKED, startSpot, endSpot, carReservation.getPriceTotal());
 
         return statusRepository.save(status);
     }
