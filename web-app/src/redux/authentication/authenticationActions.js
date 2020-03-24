@@ -1,6 +1,10 @@
 import Axios from "axios";
 import { apiURL, authUserURL, loginPage } from "../../urlAPI";
 import localStorage from "redux-persist/es/storage";
+import {
+  addAuthorizationToken,
+  removeAuthorizationToken
+} from "./tokenService";
 
 export const localStorageTokenItemName = "userToken";
 export const AUTHENTICATION_ERROR = "AUTHENTICATION_ERROR";
@@ -35,31 +39,34 @@ export const removeUser = payload => ({
 });
 
 export const logout = () => {
-  localStorage.removeItem("userToken");
+  removeAuthorizationToken();
   return {
     type: LOGOUT
   };
 };
 
-export function loginAction({ email, password }) {
+export function loginAction(userCredentials, onSuccess, onError) {
+  const { email, password } = userCredentials;
+
   return function(dispatch) {
     dispatch(requestAuthentication());
     return Axios.post(apiURL + "/login", { email, password }).then(
       response => {
-        const token = getToken(response);
-        localStorage.setItem("userToken", token);
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const token = getAuthorizationTokenFromResponse(response);
+        addAuthorizationToken(token);
         dispatch(fetchUser());
+        return onSuccess();
       },
       error => {
         dispatch(authenticationError(error));
-        localStorage.removeItem("userToken");
+        removeAuthorizationToken();
+        return onError();
       }
     );
   };
 }
 
-const getToken = response => {
+const getAuthorizationTokenFromResponse = response => {
   const authorizationString = response.headers.authorization;
   return extractToken(authorizationString);
 };
