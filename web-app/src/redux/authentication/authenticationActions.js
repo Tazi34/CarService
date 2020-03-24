@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { apiURL, authUserURL, loginPage } from "../../urlAPI";
+import { authUserURL, loginPage, loginURL } from "../../urlAPI";
 import localStorage from "redux-persist/es/storage";
 import {
   addAuthorizationToken,
@@ -50,7 +50,7 @@ export function loginAction(userCredentials, onSuccess, onError) {
 
   return function(dispatch) {
     dispatch(requestAuthentication());
-    return Axios.post(apiURL + "/login", { email, password }).then(
+    return Axios.post(loginURL, { email, password }).then(
       response => {
         const token = getAuthorizationTokenFromResponse(response);
         addAuthorizationToken(token);

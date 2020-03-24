@@ -32,6 +32,7 @@ export const loginPage = "/login";
 export const reservationSummaryPage = "/reservation/summary";
 
 //API
+export const loginURL = apiURL + "/login";
 export const authUserURL = apiURL + "/auth/current";
 export const signUpURL = apiURL + "/auth/sign-up";
 export const citiesURL = apiURL + "/cities";
