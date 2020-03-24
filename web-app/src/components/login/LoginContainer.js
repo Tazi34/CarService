@@ -29,30 +29,18 @@ const styles = theme => ({
 });
 
 class LoginContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirectPage: "/",
-      redirect: !props.authenticated
-    };
-  }
-
-  handleLoginSuccess = () => {
-    const { history } = this.props;
-
-    // user accessed /login as first page
-  };
-
   handleLoginError = error => {
     alert("error");
   };
+  handleSuccess = () => {
+    alert("success");
+  };
 
   handleLogin = userCredentials => {
-    this.props.tryLogin(
-      userCredentials,
-      this.handleLoginSuccess,
-      this.handleLoginError
-    );
+    this.props.tryLogin(userCredentials, {
+      onSuccess: this.handleSuccess,
+      onError: this.handleLoginError
+    });
   };
   handleRegisterRedirection = () => this.props.history.push("/register");
 

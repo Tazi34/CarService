@@ -45,7 +45,7 @@ export const logout = () => {
   };
 };
 
-export function loginAction(userCredentials, onSuccess, onError) {
+export function loginAction(userCredentials, { onSuccess, onError }) {
   const { email, password } = userCredentials;
 
   return function(dispatch) {
@@ -55,12 +55,12 @@ export function loginAction(userCredentials, onSuccess, onError) {
         const token = getAuthorizationTokenFromResponse(response);
         addAuthorizationToken(token);
         dispatch(fetchUser());
-        return onSuccess();
+        if (typeof onSuccess !== "undefined") onSuccess();
       },
       error => {
         dispatch(authenticationError(error));
         removeAuthorizationToken();
-        return onError();
+        if (typeof onError !== "undefined") onError(error);
       }
     );
   };
