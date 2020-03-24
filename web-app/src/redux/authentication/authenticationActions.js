@@ -45,7 +45,8 @@ export const logout = () => {
   };
 };
 
-export function loginAction(userCredentials, { onSuccess, onError }) {
+export function loginAction(userCredentials, loginHandlers) {
+  const { onSuccess, onError } = loginHandlers;
   const { email, password } = userCredentials;
 
   return function(dispatch) {

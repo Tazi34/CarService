@@ -2,13 +2,12 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { NavBarLink } from "./NavBarLink";
 import { useHistory } from "react-router";
-import { loginPage } from "../../../urlAPI";
-import { logout } from "../../../redux/authentication/authenticationActions";
+import { loginPage, logoutPage } from "../../../urlAPI";
 
 export function LoginLogoutLink(props) {
   const history = useHistory();
   return props.auth ? (
-    <NavBarLink component={Link} to={logout}>
+    <NavBarLink component={Link} to={logoutPage}>
       LOGOUT
     </NavBarLink>
   ) : (
