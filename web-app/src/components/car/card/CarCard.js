@@ -1,8 +1,9 @@
-import { Card, CardActions, CardMedia, makeStyles } from "@material-ui/core";
+import { Card, CardMedia, makeStyles } from "@material-ui/core";
 
 import React from "react";
 import { transparentCars } from "../../../images/carImages";
 import { CarCardContent } from "./CarCardContent";
+import CarCardBookActions from "./CarCardBookActions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 function CarCard(props) {
   const classes = useStyles();
   const car = props.car;
-  const CardActions = props.actions;
 
   if (!car) return null;
 
@@ -44,7 +44,7 @@ function CarCard(props) {
         />
       </CardMedia>
       <CarCardContent car={car} />
-      {CardActions && <CardActions {...props} />}
+      <CarCardBookActions car={car} handleCarSelect={props.handleCarSelect} />
     </Card>
   );
 }

@@ -1,14 +1,15 @@
 import { loginAction } from "../../redux/authentication/authenticationActions";
-import React from "react";
+import React, { PureComponent } from "react";
 import LoginWindow from "./LoginWindow";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import Box from "@material-ui/core/Box";
 import { LoginCarousel } from "./LoginCarousel";
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import { compose } from "recompose";
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     margin: "auto",
     paddingTop: "100px"
@@ -25,40 +26,60 @@ const useStyles = makeStyles(theme => ({
   fullHeight: {
     height: "100%"
   }
-}));
+});
 
-function LoginContainer(props) {
-  const classes = useStyles();
+class LoginContainer extends PureComponent {
+  handleLoginError = error => {
+    alert("error");
+  };
+  handleSuccess = () => {
+    alert("success");
+  };
 
-  if (props.user) {
-    return <Redirect to={"/"} />;
+  handleLogin = userCredentials => {
+    this.props.tryLogin(userCredentials, {
+      onSuccess: this.handleSuccess,
+      onError: this.handleLoginError
+    });
+  };
+  handleRegisterRedirection = () => this.props.history.push("/register");
+
+  render() {
+    const { classes, authenticated, location } = this.props;
+    const previousPage = location.state;
+    const redirectLink = previousPage ? previousPage.from : "/";
+
+    if (authenticated) {
+      return <Redirect to={redirectLink} />;
+    }
+
+    return (
+      <Grid container className={classes.root} justify={"center"}>
+        <Grid item md={6} lg={6} className={classes.carousel}>
+          <LoginCarousel className={classes.fullHeight} />
+        </Grid>
+        <Grid item xs={10} md={4} lg={4}>
+          <Box className={classes.fullHeight}>
+            <LoginWindow
+              login={this.handleLogin}
+              register={this.handleRegisterRedirection}
+            ></LoginWindow>
+          </Box>
+        </Grid>
+      </Grid>
+    );
   }
-
-  const handleRegisterRedirection = () => props.history.push("/register");
-  return (
-    <Grid container className={classes.root} justify={"center"}>
-      <Grid item md={6} lg={6} className={classes.carousel}>
-        <LoginCarousel className={classes.fullHeight} />
-      </Grid>
-      <Grid item xs={10} md={4} lg={4}>
-        <Box className={classes.fullHeight}>
-          <LoginWindow
-            login={props.login}
-            register={handleRegisterRedirection}
-          ></LoginWindow>
-        </Box>
-      </Grid>
-    </Grid>
-  );
 }
 
 const mapStateToProps = state => ({
-  user: state.authentication.user,
-  auth: state.authentication
+  authenticated: state.authentication.isAuthenticated
 });
 
 const mapDispatchToProps = {
-  login: loginAction
+  tryLogin: loginAction
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles)
+)(LoginContainer);
