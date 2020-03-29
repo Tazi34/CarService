@@ -24,6 +24,26 @@ public class AuthorizationService {
         this.roleRepository = roleRepository;
     }
 
+    public Collection<? extends GrantedAuthority> getUserAuthorities(User user) {
+        return getAuthorities(user.getRoles());
+    }
+
+
+    private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges, List<String> roles) {
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        for (String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
+        }
+
+        return authorities;
+    }
+
+
     private List<String> getPrivileges(Collection<Role> roles) {
 
         List<String> privileges = new ArrayList<>();
@@ -42,20 +62,5 @@ public class AuthorizationService {
                 roles.stream().map(el -> el.getName()).collect(Collectors.toList()));
     }
 
-    public List<GrantedAuthority> getGrantedAuthorities(List<String> privileges, List<String> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
-        }
-        for (String privilege : privileges) {
-            authorities.add(new SimpleGrantedAuthority(privilege));
-        }
-        return authorities;
-    }
 
-    public Collection<? extends GrantedAuthority> getUserAuthorities(User user) {
-
-
-        return getAuthorities(user.getRoles());
-    }
 }

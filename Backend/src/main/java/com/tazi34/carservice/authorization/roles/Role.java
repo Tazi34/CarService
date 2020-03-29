@@ -17,7 +17,6 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,11 +26,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
     private Collection<User> users;
-
-    public Role(String name) {
-        this.name = name;
-    }
-
 
     @ManyToMany
     @JoinTable(name = "roles_privileges", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
