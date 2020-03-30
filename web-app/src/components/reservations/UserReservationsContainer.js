@@ -4,8 +4,7 @@ import {
   cancelReservation,
   fetchUsersReservations
 } from "../../redux/reservations/reservationsActions";
-
-import { ReservationsList } from "./ReservationsList";
+import { ReservationsTable } from "./reservationsTable/ReservationsTable";
 
 class UserReservationsContainer extends Component {
   componentDidMount() {
@@ -17,8 +16,8 @@ class UserReservationsContainer extends Component {
     const items = reservations.byId.map(id => reservations.items[id]);
     if (!reservations.fetched) return null;
     return (
-      <ReservationsList
-        deleteReservationHandler={this.props.cancelReservation}
+      <ReservationsTable
+        title={"Your recent reservations"}
         reservations={items}
       />
     );

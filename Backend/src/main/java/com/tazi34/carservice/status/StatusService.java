@@ -5,6 +5,7 @@ import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
 import com.tazi34.carservice.carReservation.ReservationDateChecker;
+import com.tazi34.carservice.carReservation.price.PriceCalculator;
 import com.tazi34.carservice.carlocation.spot.SpotService;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
@@ -12,6 +13,7 @@ import com.tazi34.carservice.exceptions.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +31,7 @@ public class StatusService {
     private final CarService carService;
     private final ClientInfoService clientInfoService;
     private final SpotService spotService;
+    private final PriceCalculator priceCalculator = new PriceCalculator();
     private ReservationDateChecker reservationDateChecker = new ReservationDateChecker();
 
 
@@ -60,9 +63,17 @@ public class StatusService {
         var startSpot = spotService.getSpot(carReservation.getStartSpotId());
         var endSpot = spotService.getSpot(carReservation.getEndSpotId());
 
+        var startDate = carReservation.getFromDate();
+        var endDate = carReservation.getToDate();
+        var price = priceCalculator.CalculateReservationPrice(car, startDate, endDate);
+
+        //TODO add tests
+        if (price != carReservation.getPriceTotal())
+            throw new RuntimeException("Price from client doesnt match value calculated on server");
+
         var clientInfo = clientInfoService.updateClientInfo(carReservation.getClientInfo());
-        Status status = new Status(car, clientInfo, "CarService booking", carReservation.getFromDate(),
-                carReservation.getToDate(), StatusType.BOOKED,startSpot,endSpot);
+        Status status = new Status(car, clientInfo, "CarService booking", startDate, endDate, StatusType.BOOKED,
+                startSpot, endSpot, price);
 
         return statusRepository.save(status);
     }
@@ -80,7 +91,7 @@ public class StatusService {
         return !from.before(currentDateToCompare) && !from.after(to);
     }
     public List<Status> getClientsStatuses(ClientInfo clientInfo){
-        return statusRepository.findByClientInfo(clientInfo);
+        return statusRepository.findByClientInfo(clientInfo, Sort.by("dateFrom").descending());
     }
     public List<Status> findCollidingBookedStatuses(Date from, Date to, long carId) {
         return statusRepository.findAll(StatusSpecifications.collidesWithDateSpan(from, to).and(StatusSpecifications.byCarId(carId).and(StatusSpecifications.isType(StatusType.BOOKED))));
