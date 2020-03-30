@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { apiURL } from "../../urlAPI";
+import { apiURL, reservationsURL } from "../../urlAPI";
 //ACTIONS
 export const SET_START_DATE = "SET_START_DATE";
 export const SET_END_DATE = "SET_END_DATE";
@@ -58,7 +58,7 @@ export const confirmDateLocation = () => ({
 export function postReservationForm(reservation) {
   return async function(dispatch) {
     dispatch(postReservation());
-    return Axios.post(apiURL + "/reservations", reservation)
+    return Axios.post(reservationsURL, reservation)
       .then(response => {
         dispatch(postReservationSuccess());
         return response.status;
