@@ -7,7 +7,6 @@ import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
     margin: "10px auto",
     backgroundColor: "#f4f4f4",
     textAlign: "center"

@@ -16,10 +16,7 @@ const useStyles = makeStyles({
   root: {
     margin: "50px auto 0",
     maxWidth: "1200px",
-    padding: "10px 0 10px 0",
-    borderRadius: 10,
-    border: "solid 1px #f4f4f4",
-    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)"
+    padding: 10
   },
   grid: {
     padding: 0
@@ -30,8 +27,8 @@ const useStyles = makeStyles({
     width: "100%"
   },
   button: {
-    width: "150px",
-    margin: "0 10px"
+    minWidth: "150px",
+    margin: 10
   },
   backButton: {
     color: "white",
@@ -65,7 +62,9 @@ export default function ReservationSummary(props) {
         alignItems={"center"}
         spacing={1}
       >
-        <Typography variant={"h4"}>YOUR RESERVATION</Typography>
+        <Typography variant={"h4"} align={"center"}>
+          YOUR RESERVATION
+        </Typography>
 
         <Grid item className={classes.gridItem}>
           <Typography variant={"h6"} align={"center"}>
@@ -100,6 +99,7 @@ export default function ReservationSummary(props) {
         >
           <Grid item>
             <RedirectButton
+              fullWidth
               className={classes.button}
               variant={"contained"}
               color={"primary"}
@@ -110,6 +110,7 @@ export default function ReservationSummary(props) {
           </Grid>
           <Grid item>
             <ReturnButton
+              fullWidth
               variant={"contained"}
               color={"secondary"}
               className={`${classes.button} ${classes.backButton}`}
