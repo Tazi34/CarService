@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { string } from "yup";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
+import { ReturnButton } from "../UI/ReturnButton";
 
 const validationSchema = yup.object().shape({
   firstName: string().required("Required"),
@@ -39,7 +40,19 @@ const validate = async values => {
 };
 
 const useStyles = makeStyles(theme => ({
-  root: {}
+  root: {
+    maxWidth: 1000,
+    marginTop: 50,
+    padding: "30px 30px"
+  },
+  button: {
+    minWidth: 200
+  },
+  returnButton: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
+  }
 }));
 
 export default function ClientDetailsForm(props) {
@@ -65,7 +78,7 @@ export default function ClientDetailsForm(props) {
   return (
     <Paper className={classes.root}>
       <Form
-        onSubmit={props.onSubmit}
+        onSubmit={() => alert("XD")}
         subscription={{ submitting: true }}
         initialValues={initialValues}
         //todo enable validation
@@ -147,7 +160,7 @@ export default function ClientDetailsForm(props) {
                   <Select
                     name="country"
                     label="Country"
-                    formControlProps={{ margin: "normal" }}
+                    variant={"outlined"}
                     data={countries}
                   />
                 </Grid>
@@ -203,27 +216,26 @@ export default function ClientDetailsForm(props) {
                   )}
                 </Field>
               </Grid>
-              <Grid item container>
-                <Grid item xs={12} sm={6}>
+              <Grid item container justify={"center"} spacing={4}>
+                <Grid item>
                   <Button
                     disabled={submitting}
                     type="submit"
                     color="primary"
                     variant="contained"
-                    fullWidth
+                    className={classes.button}
                   >
                     Submit
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Button
-                    fullWidth
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => history.goBack()}
+                <Grid item>
+                  <ReturnButton
+                    className={`${classes.button} ${classes.returnButton}`}
+                    variant={"outlined"}
+                    color={"secondary"}
                   >
                     Back
-                  </Button>
+                  </ReturnButton>
                 </Grid>
               </Grid>
             </Grid>
