@@ -7,6 +7,8 @@ import { useHistory } from "react-router";
 
 import * as yup from "yup";
 import { string } from "yup";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Paper from "@material-ui/core/Paper";
 
 const validationSchema = yup.object().shape({
   firstName: string().required("Required"),
@@ -36,7 +38,12 @@ const validate = async values => {
   }
 };
 
+const useStyles = makeStyles(theme => ({
+  root: {}
+}));
+
 export default function ClientDetailsForm(props) {
+  const classes = useStyles();
   const history = useHistory();
   const clientDetails = props.clientDetails;
   let initialValues = { email: props.email };
@@ -56,12 +63,7 @@ export default function ClientDetailsForm(props) {
   }
 
   return (
-    <div
-      style={{
-        padding: "3px",
-        backgroundColor: "#f4f4f4"
-      }}
-    >
+    <Paper className={classes.root}>
       <Form
         onSubmit={props.onSubmit}
         subscription={{ submitting: true }}
@@ -73,12 +75,11 @@ export default function ClientDetailsForm(props) {
           <form onSubmit={handleSubmit}>
             <Grid container direction="column" spacing={3}>
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="firstName">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="First Name"
                         variant="outlined"
                         name={props.input.name}
@@ -86,12 +87,11 @@ export default function ClientDetailsForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="lastName">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Last Name"
                         variant="outlined"
                         name={props.input.name}
@@ -106,7 +106,6 @@ export default function ClientDetailsForm(props) {
                   {props => (
                     <TextField
                       fullWidth
-                      /*required*/
                       label="Personal ID number"
                       variant="outlined"
                       name={props.input.name}
@@ -115,7 +114,7 @@ export default function ClientDetailsForm(props) {
                 </Field>
               </Grid>
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="street">
                     {props => (
                       <TextField
@@ -128,7 +127,7 @@ export default function ClientDetailsForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="houseNumber">
                     {props => (
                       <TextField
@@ -144,7 +143,7 @@ export default function ClientDetailsForm(props) {
               </Grid>
 
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Select
                     name="country"
                     label="Country"
@@ -152,11 +151,10 @@ export default function ClientDetailsForm(props) {
                     data={countries}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="city">
                     {props => (
                       <TextField
-                        /*required*/
                         fullWidth
                         label="City"
                         variant="outlined"
@@ -167,12 +165,11 @@ export default function ClientDetailsForm(props) {
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={3}>
+                <Grid item xs={12} sm={4}>
                   <Field name="postalCode">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Postal code"
                         variant="outlined"
                         name={props.input.name}
@@ -180,12 +177,11 @@ export default function ClientDetailsForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={12} sm={8}>
                   <Field name="phoneNumber">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Phone number"
                         variant="outlined"
                         name={props.input.name}
@@ -199,7 +195,6 @@ export default function ClientDetailsForm(props) {
                   {props => (
                     <TextField
                       fullWidth
-                      /*required*/
                       label="Email"
                       variant="outlined"
                       name={props.input.name}
@@ -208,28 +203,33 @@ export default function ClientDetailsForm(props) {
                   )}
                 </Field>
               </Grid>
-              <Grid item>
-                <Button
-                  disabled={submitting}
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                >
-                  Submit
-                </Button>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
+              <Grid item container>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    disabled={submitting}
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    fullWidth
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => history.goBack()}
+                  >
+                    Back
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </form>
         )}
       </Form>
-    </div>
+    </Paper>
   );
 }
