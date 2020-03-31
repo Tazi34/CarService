@@ -4,6 +4,9 @@ export const apiURL = "http://localhost:8080";
 export const carsEndpoint = "/cars";
 export const carsURL = apiURL + carsEndpoint;
 
+export const getPriceEndpoint = (carId, startDate, endDate) => {
+  return `${priceEndpoint}/?carId=${carId}&startDate=${startDate}&endDate=${endDate}`;
+};
 export const priceEndpoint = "/price";
 export const priceURL = apiURL + "/price";
 
