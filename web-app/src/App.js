@@ -18,7 +18,6 @@ import Home from "./components/UI/home/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 import LogoutPage from "./components/account/LogoutPage";
-import ReservationSummary from "./components/reservations/reservationSummary/ReservationSummary";
 import { green, red } from "@material-ui/core/colors";
 import {
   adminCarsPage,
@@ -30,6 +29,7 @@ import {
   reservationsPage,
   reservationSummaryPage
 } from "./utilities/urls/pages";
+import ReservationSummaryContainer from "./components/reservations/reservationSummary/ReservationSummaryContainer";
 
 const theme = createMuiTheme({
   typography: {
@@ -85,7 +85,7 @@ function App(props) {
             <AuthorizedPrivateRoute
               user={props.auth.user}
               path={reservationSummaryPage}
-              component={ReservationSummary}
+              component={ReservationSummaryContainer}
             />
             <Route path={carsPage} component={AvailableCarList} />
             <AuthorizedPrivateRoute
