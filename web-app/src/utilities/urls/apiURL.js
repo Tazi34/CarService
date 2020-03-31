@@ -4,6 +4,14 @@ export const apiURL = "http://localhost:8080";
 export const carsEndpoint = "/cars";
 export const carsURL = apiURL + carsEndpoint;
 
+export const getPriceEndpoint = (carId, startDate, endDate) => {
+  const startDateISO = new Date(startDate).toISOString();
+  const endDateISO = new Date(endDate).toISOString();
+  return `${priceURL}/?carId=${carId}&startDate=${startDateISO}&endDate=${endDateISO}`;
+};
+export const priceEndpoint = "/price";
+export const priceURL = apiURL + priceEndpoint;
+
 export const loginURL = apiURL + "/login";
 export const authUserURL = apiURL + "/auth/current";
 export const signUpURL = apiURL + "/auth/sign-up";

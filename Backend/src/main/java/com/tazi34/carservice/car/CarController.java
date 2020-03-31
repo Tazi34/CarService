@@ -30,7 +30,6 @@ public class CarController {
     }
 
 
-
     @GetMapping()
     public Page<Car> getCars(
             @RequestParam(name= "from",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date from,
@@ -46,6 +45,8 @@ public class CarController {
             Pageable pageable
     ){
 
+        //TODO refactor
+        //TODO move logic to service
         Specification<Car> spec = Specification.where(null);
         if(seats != null)
             spec = spec.and(CarSpecification.bySeats(seats));

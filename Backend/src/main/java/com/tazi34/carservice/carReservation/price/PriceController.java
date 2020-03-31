@@ -2,6 +2,7 @@ package com.tazi34.carservice.carReservation.price;
 
 import com.tazi34.carservice.car.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,10 @@ public class PriceController {
 
     @GetMapping
     public ResponseEntity<BigDecimal> getPrice(@RequestParam("carId") Long carId,
-                                               @RequestParam("startDate") Date startDate,
-                                               @RequestParam("endDate") Date endDate) {
+                                               @RequestParam("startDate") @DateTimeFormat(iso =
+                                                       DateTimeFormat.ISO.DATE) Date startDate, @RequestParam(
+                                                               "endDate") @DateTimeFormat(iso =
+            DateTimeFormat.ISO.DATE) Date endDate) {
         return ResponseEntity.ok().body(priceCalculator.CalculateReservationPrice(carService.getCar(carId), startDate
                 , endDate));
     }

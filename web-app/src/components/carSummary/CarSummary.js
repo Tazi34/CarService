@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import sampleCar from "../../../../images/cars/carWhiteBackGround.jpg";
+import sampleCar from "../../images/cars/carWhiteBackGround.jpg";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { CarDetailsTable } from "./CarDetailsTable";
 

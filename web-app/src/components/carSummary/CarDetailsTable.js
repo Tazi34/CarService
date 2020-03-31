@@ -2,7 +2,7 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableContainer } from "@material-ui/core";
-import { NameValueTableRow } from "../../../UI/NameValueTableRow";
+import { NameValueTableRow } from "../UI/NameValueTableRow";
 
 const useStyles = makeStyles({
   root: {

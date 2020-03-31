@@ -22,9 +22,11 @@ export const selectCar = car => ({
 export function setStartDate(date) {
   return { type: SET_START_DATE, payload: { date: date } };
 }
+
 export function setEndDate(date) {
   return { type: SET_END_DATE, payload: { date: date } };
 }
+
 export const setStartCity = payload => ({
   type: SET_START_CITY,
   payload
@@ -37,6 +39,7 @@ export const setEndCity = payload => ({
 export function setEndSpot(spot) {
   return { type: SET_END_SPOT, payload: { spot: spot } };
 }
+
 export function setStartSpot(spot) {
   return { type: SET_START_SPOT, payload: { spot: spot } };
 }

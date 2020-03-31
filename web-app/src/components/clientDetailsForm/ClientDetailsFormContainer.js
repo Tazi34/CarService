@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import ClientDetailsForm from "./ClientDetailsForm";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { postReservationForm } from "../../redux/bookingForm/bookingFormActions";
-import { fetchClientDetails } from "../../redux/bookingForm/clientDetails/clientDetailsActions";
+import { postReservationForm } from "../../redux/bookingForm/bookingActions";
+import { fetchClientDetails } from "../../redux/clientDetails/clientDetailsActions";
 import { CircularProgress } from "@material-ui/core";
+import { reservationsPage } from "../../utilities/urls/pages";
 
 class ClientDetailsFormContainer extends Component {
   componentDidMount() {
@@ -22,7 +23,7 @@ class ClientDetailsFormContainer extends Component {
     );
 
     const status = await this.props.postForm(requestReservationData);
-    if (status === 200) this.props.history.replace("/reservations");
+    if (status === 200) this.props.history.replace(reservationsPage);
     else alert("ERROR");
   };
 
