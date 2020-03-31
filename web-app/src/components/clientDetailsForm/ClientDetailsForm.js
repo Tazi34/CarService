@@ -1,43 +1,11 @@
 import { Button, Grid } from "@material-ui/core";
-import { Select, TextField } from "mui-rff";
+import { TextField } from "mui-rff";
 import React from "react";
 import { Field, Form } from "react-final-form";
-import countries from "./countries";
-import { useHistory } from "react-router";
-
-import * as yup from "yup";
-import { string } from "yup";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import { ReturnButton } from "../UI/ReturnButton";
-
-const validationSchema = yup.object().shape({
-  firstName: string().required("Required"),
-  lastName: string().required("Required"),
-  email: string()
-    .email()
-    .required("Required"),
-  pid: string().required("Required"),
-  street: string().required("Required"),
-  houseNumber: string().required("Required"),
-  country: string().required("Required"),
-  city: string().required("Required"),
-  postalCode: string().required("Required")
-});
-
-const validate = async values => {
-  try {
-    await validationSchema.validate(values, { abortEarly: false });
-  } catch (err) {
-    return err.inner.reduce(
-      (formError, innerError) => ({
-        ...formError,
-        [innerError.path]: innerError.message
-      }),
-      {}
-    );
-  }
-};
+import { validate } from "./validation";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,9 +25,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function ClientDetailsForm(props) {
   const classes = useStyles();
-  const history = useHistory();
   const clientDetails = props.clientDetails;
   let initialValues = { email: props.email };
+
   if (clientDetails) {
     initialValues = {
       ...initialValues,
@@ -78,13 +46,11 @@ export default function ClientDetailsForm(props) {
   return (
     <Paper className={classes.root}>
       <Form
-        onSubmit={() => alert("XD")}
-        subscription={{ submitting: true }}
+        onSubmit={props.onSubmit}
         initialValues={initialValues}
-        //todo enable validation
-        validate={null}
+        validate={validate}
       >
-        {({ handleSubmit, submitting }) => (
+        {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Grid container direction="column" spacing={3}>
               <Grid item container direction="row" spacing={2}>
@@ -145,7 +111,6 @@ export default function ClientDetailsForm(props) {
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="House number"
                         variant="outlined"
                         name={props.input.name}
@@ -157,12 +122,16 @@ export default function ClientDetailsForm(props) {
 
               <Grid item container direction="row" spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <Select
-                    name="country"
-                    label="Country"
-                    variant={"outlined"}
-                    data={countries}
-                  />
+                  <Field name="country">
+                    {props => (
+                      <TextField
+                        fullWidth
+                        label="Country"
+                        variant="outlined"
+                        name={props.input.name}
+                      />
+                    )}
+                  </Field>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Field name="city">
@@ -219,7 +188,6 @@ export default function ClientDetailsForm(props) {
               <Grid item container justify={"center"} spacing={4}>
                 <Grid item>
                   <Button
-                    disabled={submitting}
                     type="submit"
                     color="primary"
                     variant="contained"
