@@ -4,6 +4,9 @@ export const apiURL = "http://localhost:8080";
 export const carsEndpoint = "/cars";
 export const carsURL = apiURL + carsEndpoint;
 
+export const priceEndpoint = "/price";
+export const priceURL = apiURL + "/price";
+
 export const loginURL = apiURL + "/login";
 export const authUserURL = apiURL + "/auth/current";
 export const signUpURL = apiURL + "/auth/sign-up";
