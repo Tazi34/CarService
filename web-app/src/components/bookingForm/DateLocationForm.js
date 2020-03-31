@@ -24,7 +24,7 @@ import {
   setStartCity,
   setStartDate,
   setStartSpot
-} from "../../redux/bookingForm/bookingFormActions";
+} from "../../redux/bookingForm/bookingActions";
 import * as yup from "yup";
 import { boolean, string } from "yup";
 import Paper from "@material-ui/core/Paper";

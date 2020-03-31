@@ -10,9 +10,14 @@ import {
   SET_START_CITY,
   SET_START_DATE,
   SET_START_SPOT
-} from "./bookingFormActions";
+} from "./bookingActions";
 import { combineReducers } from "redux";
 import clientDetailsReducer from "../clientDetails/clientDetailsReducer";
+import {
+  REQUEST_TOTAL_RESERVATION_PRICE,
+  REQUEST_TOTAL_RESERVATION_PRICE_ERROR,
+  REQUEST_TOTAL_RESERVATION_PRICE_SUCCESS
+} from "./priceActions";
 
 function reservation(
   state = {
@@ -45,6 +50,11 @@ function reservation(
     car: {
       item: {},
       selected: false
+    },
+    totalPrice: {
+      price: 0,
+      fetching: false,
+      error: null
     },
     status: {
       dateLocationPicked: false,
@@ -84,13 +94,43 @@ function reservation(
         ...state,
         status: { ...state.status, dateLocationPicked: true }
       };
+    case REQUEST_TOTAL_RESERVATION_PRICE: {
+      return {
+        ...state,
+        totalPrice: {
+          price: 0,
+          fetching: true,
+          error: null
+        }
+      };
+    }
+    case REQUEST_TOTAL_RESERVATION_PRICE_SUCCESS: {
+      return {
+        ...state,
+        totalPrice: {
+          price: action.payload.price,
+          fetching: false,
+          error: null
+        }
+      };
+    }
+    case REQUEST_TOTAL_RESERVATION_PRICE_ERROR: {
+      return {
+        ...state,
+        totalPrice: {
+          price: -1,
+          fetching: false,
+          error: action.payload.error
+        }
+      };
+    }
     default:
       return state;
   }
 }
 
-const bookingFormReducer = combineReducers({
+const bookingReducer = combineReducers({
   reservation,
   clientDetails: clientDetailsReducer
 });
-export default bookingFormReducer;
+export default bookingReducer;

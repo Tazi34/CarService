@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ClientDetailsForm from "./ClientDetailsForm";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { postReservationForm } from "../../redux/bookingForm/bookingFormActions";
+import { postReservationForm } from "../../redux/bookingForm/bookingActions";
 import { fetchClientDetails } from "../../redux/clientDetails/clientDetailsActions";
 import { CircularProgress } from "@material-ui/core";
 import { reservationsPage } from "../../utilities/urls/pages";
