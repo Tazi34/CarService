@@ -9,10 +9,11 @@ import {
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/bookingForm/bookingActions";
 import CarList from "./CarList";
-import { SortCarsOrderFields } from "./FieldsConst";
+import { CarsSortOrderOptions } from "./FieldsConst";
 import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
 import SortingBar from "../sortingBar/SortingBar";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -63,8 +64,9 @@ class AvailableCarList extends Component {
 
   render() {
     //TODO Only for testing
-    // if (!this.props.currentReservation.status.dateLocationPicked)
+    // if (!this.props.currentReservation.status.dateLocationPicked){
     //   return <Redirect to="/"></Redirect>;
+    //}
     const { classes, cars, pagination } = this.props;
 
     //TODO redirect if date and location not selected
@@ -78,10 +80,10 @@ class AvailableCarList extends Component {
     const currentPage = pagination.pages[pagination.currentPage];
 
     return (
-      <div className={classes.root}>
+      <Paper className={classes.root}>
         <SortingBar
           onSubmit={this.sortingApplyHandler}
-          options={SortCarsOrderFields}
+          options={CarsSortOrderOptions}
         ></SortingBar>
         <CarList
           handleCarSelect={this.carSelectionHandler}
@@ -93,7 +95,7 @@ class AvailableCarList extends Component {
             this.getAvailableCarsPage(page - 1);
           }}
         ></Pagination>
-      </div>
+      </Paper>
     );
   }
 }
