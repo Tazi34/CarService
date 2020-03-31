@@ -1,5 +1,8 @@
 //API
-export const apiURL = "http://localhost:8080";
+export const apiURL =
+  process.env.NODE_ENV === "production"
+    ? "https://tazi34-car-service.herokuapp.com"
+    : "http://localhost:8080";
 
 export const carsEndpoint = "/cars";
 export const carsURL = apiURL + carsEndpoint;
