@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { NavBarLink } from "./NavBarLink";
 import { useHistory } from "react-router";
-import { loginPage, logoutPage } from "../../../urlAPI";
+import { loginPage, logoutPage } from "../../../utilities/urls/pages";
 
 export function LoginLogoutLink(props) {
   const history = useHistory();

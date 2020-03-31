@@ -14,7 +14,7 @@ import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
 import { compose } from "recompose";
-import { reservationSummaryPage } from "../../urlAPI";
+import { reservationSummaryPage } from "../../utilities/urls/pages";
 
 const useStyles = createStyles(theme => ({
   root: {

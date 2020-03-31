@@ -1,5 +1,6 @@
 import Axios from "axios";
-import { apiURL, reservationsURL } from "../../urlAPI";
+import { reservationsURL } from "../../utilities/urls/apiURL";
+
 //ACTIONS
 export const SET_START_DATE = "SET_START_DATE";
 export const SET_END_DATE = "SET_END_DATE";
