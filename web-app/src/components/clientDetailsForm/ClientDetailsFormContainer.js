@@ -73,6 +73,7 @@ const prepareData = (userInfo, reservation, clientDetailsFromServer) => {
         houseNumber: userInfo.houseNumber
       }
     },
+    priceTotal: reservation.totalPrice.price,
     fromDate: reservation.startDate,
     toDate: reservation.endDate
   };
