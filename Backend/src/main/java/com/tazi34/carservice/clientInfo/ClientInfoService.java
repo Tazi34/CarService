@@ -70,10 +70,28 @@ public class ClientInfoService {
     }
 
     public ClientInfo updateClientInfo(ClientInfoDTO clientInfoDTO) {
-        var clientInfo = modelMapper.map(clientInfoDTO, ClientInfo.class);
-        var address = modelMapper.map(clientInfoDTO.getAddress(), Address.class);
-        addressRepository.save(address);
-        clientInfo.setAddress(addressRepository.save(address));
+        ClientInfo clientInfo;
+        Address address;
+        if (clientInfoRepository.existsById(clientInfoDTO.getId())) {
+            clientInfo = clientInfoRepository.getOne(clientInfoDTO.getId());
+
+            clientInfo.setPid(clientInfoDTO.pid);
+            clientInfo.setSurname(clientInfoDTO.surname);
+            clientInfo.setPhoneNumber(clientInfoDTO.phoneNumber);
+            clientInfo.setName(clientInfoDTO.name);
+            clientInfo.setEmail(clientInfoDTO.email);
+
+            var addressDTO = clientInfoDTO.getAddress();
+            if (!addressRepository.existsById(addressDTO.getId())) {
+                address = modelMapper.map(clientInfoDTO.getAddress(), Address.class);
+                clientInfo.setAddress(addressRepository.save(address));
+            }
+        } else {
+            address = modelMapper.map(clientInfoDTO.getAddress(), Address.class);
+            clientInfo = modelMapper.map(clientInfoDTO, ClientInfo.class);
+            clientInfo.setAddress(addressRepository.save(address));
+        }
+
         return clientInfoRepository.save(clientInfo);
     }
 
