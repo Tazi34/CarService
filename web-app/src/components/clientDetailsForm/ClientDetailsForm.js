@@ -5,7 +5,8 @@ import { Field, Form } from "react-final-form";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Paper from "@material-ui/core/Paper";
 import { ReturnButton } from "../UI/ReturnButton";
-import { validate } from "./validation";
+import { clientDetailsValidationSchema } from "./validation";
+import { getSchemaValidator } from "../../utilities/validation";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +49,7 @@ export default function ClientDetailsForm(props) {
       <Form
         onSubmit={props.onSubmit}
         initialValues={initialValues}
-        validate={validate}
+        validate={getSchemaValidator(clientDetailsValidationSchema)}
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>

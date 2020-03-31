@@ -4,7 +4,7 @@ import { string } from "yup";
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 const requiredFieldMessage = "This field is required";
 
-export const validationSchema = yup.object().shape({
+export const clientDetailsValidationSchema = yup.object().shape({
   firstName: string().required(requiredFieldMessage),
   lastName: string().required(requiredFieldMessage),
   email: string()
@@ -23,17 +23,3 @@ export const validationSchema = yup.object().shape({
     .nullable(),
   postalCode: string().required(requiredFieldMessage)
 });
-
-export const validate = async values => {
-  try {
-    await validationSchema.validate(values, { abortEarly: false });
-  } catch (err) {
-    return err.inner.reduce(
-      (formError, innerError) => ({
-        ...formError,
-        [innerError.path]: innerError.message
-      }),
-      {}
-    );
-  }
-};
