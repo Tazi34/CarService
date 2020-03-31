@@ -5,23 +5,18 @@ import { connect } from "react-redux";
 import { fetchAvailableCarsPage } from "../../redux/car/carAPIrequests";
 import {
   resetPagination,
-  setCurrentPage,
-  setSortField,
-  setSortOrder
+  setCurrentPage
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/bookingForm/bookingActions";
-import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
-import { SortCarsOrderFields } from "./FieldsConst";
+import { CarsSortOrderOptions } from "./FieldsConst";
 import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
+import SortingBar from "../sortingBar/SortingBar";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = createStyles(theme => ({
   root: {
-    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
-    "&:hover": {
-      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
-    },
     margin: "10px auto"
   },
   image: {
@@ -40,41 +35,25 @@ class AvailableCarList extends Component {
   }
 
   getAvailableCarsPage = page => {
-    const pagination = this.props.pagination;
-    const sorting = this.props.sorting;
-    const currentReservation = this.props.currentReservation;
+    const {
+      pagination,
+      sorting,
+      currentReservation,
+      setPage,
+      fetchCarPage
+    } = this.props;
+    const { field: sortByField, order: sortOrder } = sorting;
+    const { startDate, endDate } = currentReservation;
     //IF NOT FETCHED
     if (!pagination.pages[page]) {
-      this.props.fetchCarPage(
-        page,
-        sorting.field,
-        sorting.order,
-        currentReservation.startDate,
-        currentReservation.endDate
-
-        //currentReservation.startSpot.id
-        //TODO commented only for testing currentReservation.startSpot.id
-      );
+      fetchCarPage(page, sortByField, sortOrder, startDate, endDate);
     }
     //IF ALREADY IN STORE
     else {
-      this.props.setPage(page);
+      setPage(page);
     }
   };
 
-  getFieldSortOptions = () => {
-    let options = [];
-    let i = 0;
-    for (let sortOption in SortCarsOrderFields) {
-      let option = SortCarsOrderFields[sortOption];
-      options.push(
-        <option key={i++} value={option.value}>
-          {option.display}
-        </option>
-      );
-    }
-    return options;
-  };
   carSelectionHandler = car => {
     this.props.selectCar(car);
     this.props.history.push(reservationSummaryPage);
@@ -85,11 +64,11 @@ class AvailableCarList extends Component {
 
   render() {
     //TODO Only for testing
-    // if (!this.props.currentReservation.status.dateLocationPicked)
+    // if (!this.props.currentReservation.status.dateLocationPicked){
     //   return <Redirect to="/"></Redirect>;
-    const { classes } = this.props;
-    const cars = this.props.cars;
-    const pagination = this.props.pagination;
+    //}
+    const { classes, cars, pagination } = this.props;
+
     //TODO redirect if date and location not selected
     if (
       !pagination.pages[0] ||
@@ -101,14 +80,11 @@ class AvailableCarList extends Component {
     const currentPage = pagination.pages[pagination.currentPage];
 
     return (
-      <div className={classes.root}>
-        <SortingPanel
-          fieldChanged={this.props.setSortField}
-          orderChanged={this.props.setSortOrder}
-          fieldOptions={this.getFieldSortOptions()}
-          applyHandler={this.sortingApplyHandler}
-          buttonDisabled={false}
-        />
+      <Paper className={classes.root}>
+        <SortingBar
+          onSubmit={this.sortingApplyHandler}
+          options={CarsSortOrderOptions}
+        ></SortingBar>
         <CarList
           handleCarSelect={this.carSelectionHandler}
           cars={currentPage.ids.map(id => cars.items[id])}
@@ -119,7 +95,7 @@ class AvailableCarList extends Component {
             this.getAvailableCarsPage(page - 1);
           }}
         ></Pagination>
-      </div>
+      </Paper>
     );
   }
 }
@@ -135,8 +111,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  setSortField: setSortField,
-  setSortOrder: setSortOrder,
   fetchCarPage: fetchAvailableCarsPage,
   setPage: setCurrentPage,
   resetPages: resetPagination,
