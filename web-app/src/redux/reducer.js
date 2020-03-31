@@ -1,11 +1,11 @@
 import carReducer from "./car/carsReducer";
 import { combineReducers } from "redux";
-import bookingFormReducer from "./bookingForm/bookingFormReducer";
 import cityReducer from "./city/cityReducer";
 import spotReducer from "./city/spot/spotReducer";
 import authenticationReducer from "./authentication/authenticationReducer";
 import registrationReducer from "./registration/registrationReducer";
 import reservationReducer from "./reservations/reservationReducer";
+import bookingFormReducer from "./bookingForm/bookingReducer";
 
 export default combineReducers({
   cars: carReducer,
