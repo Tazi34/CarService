@@ -8,6 +8,7 @@ import { LoginCarousel } from "./LoginCarousel";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { compose } from "recompose";
+import { registerPage } from "../../utilities/urls/pages";
 
 const styles = theme => ({
   root: {
@@ -37,12 +38,13 @@ class LoginContainer extends PureComponent {
   };
 
   handleLogin = userCredentials => {
-    this.props.tryLogin(userCredentials, {
-      onSuccess: this.handleSuccess,
-      onError: this.handleLoginError
-    });
+    this.props.tryLogin(
+      userCredentials,
+      this.handleSuccess,
+      this.handleLoginError
+    );
   };
-  handleRegisterRedirection = () => this.props.history.push("/register");
+  handleRegisterRedirection = () => this.props.history.push(registerPage);
 
   render() {
     const { classes, authenticated, location } = this.props;

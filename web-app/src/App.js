@@ -8,7 +8,7 @@ import AvailableCarList from "./components/car/AvailableCarList";
 import Layout from "./components/UI/Layout";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
 import ClientDetailsFormContainer from "./components/clientDetailsForm/ClientDetailsFormContainer";
-import AccountForm from "./components/account/AccountForm";
+import AccountForm from "./components/account/RegistrationForm";
 import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
