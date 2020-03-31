@@ -7,8 +7,12 @@ const styles = makeStyles(theme => ({
   root: {
     width: "90%",
     margin: "auto",
-    [theme.breakpoints.up(1600)]: {
+    marginTop: "30px",
+    [theme.breakpoints.up(1200)]: {
       width: "70%"
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%"
     }
   }
 }));
