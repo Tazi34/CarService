@@ -9,7 +9,7 @@ import {
   setSortField,
   setSortOrder
 } from "../../redux/pagination/paginationActions";
-import { selectCar } from "../../redux/bookingForm/bookingFormActions";
+import { selectCar } from "../../redux/bookingForm/bookingActions";
 import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
