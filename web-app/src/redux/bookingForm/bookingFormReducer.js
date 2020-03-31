@@ -12,7 +12,7 @@ import {
   SET_START_SPOT
 } from "./bookingFormActions";
 import { combineReducers } from "redux";
-import clientDetailsReducer from "./clientDetails/clientDetailsReducer";
+import clientDetailsReducer from "../clientDetails/clientDetailsReducer";
 
 function reservation(
   state = {
