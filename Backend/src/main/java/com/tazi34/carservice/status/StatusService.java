@@ -68,7 +68,7 @@ public class StatusService {
         var price = priceCalculator.CalculateReservationPrice(car, startDate, endDate);
 
         //TODO add tests
-        if (price != carReservation.getPriceTotal())
+        if (carReservation.getPriceTotal().compareTo(price) != 0)
             throw new RuntimeException("Price from client doesnt match value calculated on server");
 
         var clientInfo = clientInfoService.updateClientInfo(carReservation.getClientInfo());
