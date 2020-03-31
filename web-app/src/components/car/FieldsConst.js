@@ -11,4 +11,4 @@ const BY_YEAR = {
   display: "Year",
   value: "year"
 };
-export const SortCarsOrderFields = [BY_PRICE, BY_SEATS, BY_YEAR];
+export const CarsSortOrderOptions = [BY_PRICE, BY_SEATS, BY_YEAR];
