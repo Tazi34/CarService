@@ -10,7 +10,7 @@ import { grey } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import { ReturnButton } from "../../UI/ReturnButton";
 import { RedirectButton } from "../../UI/RedirectButton";
-import { detailsPage } from "../../../urlAPI";
+import { detailsPage } from "../../../utilities/urls/pages";
 
 const useStyles = makeStyles({
   root: {

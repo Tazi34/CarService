@@ -1,12 +1,12 @@
 import axios from "axios";
 import { receiveCars, receiveCarsError } from "./carActions";
-import { buildUrl } from "../../urlAPI";
 import {
   createRequestPageActionCreator,
   receivePage
 } from "../pagination/paginationActions";
+import { buildUrl, carsEndpoint } from "../../utilities/urls/apiURL";
 
-const requestCarPage = createRequestPageActionCreator("/cars", "cars");
+const requestCarPage = createRequestPageActionCreator(carsEndpoint, "cars");
 
 export function fetchCarsPage({
   pageNo = 0,
@@ -19,7 +19,7 @@ export function fetchCarsPage({
     return axios
       .get(
         buildUrl({
-          endpoint: "/cars",
+          endpoint: carsEndpoint,
           pageNo: pageNo,
           sortField: sortField,
           sortOrder: sortOrder,
@@ -61,7 +61,7 @@ export function fetchAvailableCarsPage(
     return axios
       .get(
         buildUrl({
-          endpoint: "/cars",
+          endpoint: carsEndpoint,
           pageNo,
           sortField,
           sortOrder,

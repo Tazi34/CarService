@@ -1,6 +1,8 @@
 import Axios from "axios";
-import { citiesURL } from "../../urlAPI";
+
 import { addSpots } from "./spot/spotActions";
+import { citiesURL } from "../../utilities/urls/apiURL";
+
 export const RECEIVE_CITIES_SUCCESS = "RECEIVE_CITIES_SUCCESS";
 export const RECEIVE_CITIES_ERROR = "RECEIVE_CITIES_ERROR";
 export const REQUEST_CITIES = "RECEIVE_CITIES";

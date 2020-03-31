@@ -1,5 +1,8 @@
-import { reservationsURL, userReservationsURL } from "../../urlAPI";
 import Axios from "axios";
+import {
+  reservationsURL,
+  userReservationsURL
+} from "../../utilities/urls/apiURL";
 
 export const REQUEST_RESERVATIONS = "REQUEST_RESERVATIONS";
 export const RECEIVE_RESERVATIONS_SUCCESS = "RECEIVE_RESERVATIONS_SUCCESS";

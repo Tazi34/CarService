@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { clientDetailsURL } from "../../../urlAPI";
+import { clientDetailsURL } from "../../../utilities/urls/apiURL";
 
 export const REQUEST_CLIENT_DETAILS = "REQUEST_CLIENT_DETAILS";
 export const RECEIVE_CLIENT_DETAILS_SUCCESS = "RECEIVE_CLIENT_DETAILS_SUCCESS";
@@ -20,13 +20,14 @@ export const receiveClientDetailsError = error => ({
 export function fetchClientDetails(email) {
   return function(dispatch) {
     dispatch(requestClientDetails());
-    //todo zmienic url
     return Axios.get(clientDetailsURL + "/" + email).then(
       response => {
         let user;
-        console.log(response.data);
-        if (response.data === "") user = null;
-        else user = response.data;
+        if (response.data === "") {
+          user = null;
+        } else {
+          user = response.data;
+        }
         dispatch(receiveClientDetailsSuccess(user));
       },
       error => {

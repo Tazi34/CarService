@@ -1,6 +1,6 @@
 import { loginAction } from "../authentication/authenticationActions";
 import Axios from "axios";
-import { signUpURL } from "../../urlAPI";
+import { signUpURL } from "../../utilities/urls/apiURL";
 
 export const REQUEST_REGISTRATION = "REQUEST_REGISTRATION";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";

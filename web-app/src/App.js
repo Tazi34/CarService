@@ -7,9 +7,8 @@ import LoginContainer from "./components/login/LoginContainer";
 import AvailableCarList from "./components/car/AvailableCarList";
 import Layout from "./components/UI/Layout";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
-import ClientDetailsFormContainer from "./components/bookingForm/ClientDetailsFormContainer";
+import ClientDetailsFormContainer from "./components/clientDetailsForm/ClientDetailsFormContainer";
 import AccountForm from "./components/account/AccountForm";
-
 import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
 import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
@@ -21,7 +20,16 @@ import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
 import LogoutPage from "./components/account/LogoutPage";
 import ReservationSummary from "./components/reservations/reservationSummary/ReservationSummary";
 import { green, red } from "@material-ui/core/colors";
-import { loginPage, reservationSummaryPage } from "./urlAPI";
+import {
+  adminCarsPage,
+  carsPage,
+  detailsPage,
+  loginPage,
+  logoutPage,
+  registerPage,
+  reservationsPage,
+  reservationSummaryPage
+} from "./utilities/urls/pages";
 
 const theme = createMuiTheme({
   typography: {
@@ -79,27 +87,27 @@ function App(props) {
               path={reservationSummaryPage}
               component={ReservationSummary}
             />
-            <Route path="/cars" component={AvailableCarList} />
+            <Route path={carsPage} component={AvailableCarList} />
             <AuthorizedPrivateRoute
-              path="/details"
+              path={detailsPage}
               user={props.auth.user}
               component={ClientDetailsFormContainer}
             />
             <AuthorizedPrivateRoute
-              path="/admin/cars"
+              path={adminCarsPage}
               roles={[ROLE_ADMIN]}
               user={props.auth.user}
               component={CarsTableContainer}
             />
             <Route path={loginPage} component={LoginContainer} />
-            <Route path="/register" component={AccountForm} />
+            <Route path={registerPage} component={AccountForm} />
             <AuthorizedPrivateRoute
-              path="/reservations"
+              path={reservationsPage}
               component={UserReservationsContainer}
               roles={[ROLE_ADMIN, ROLE_USER]}
               user={props.auth.user}
             />
-            <Route path={"/logout"} component={LogoutPage} />
+            <Route path={logoutPage} component={LogoutPage} />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
         </Layout>

@@ -1,45 +1,34 @@
 import { Button, Grid } from "@material-ui/core";
-import { Select, TextField } from "mui-rff";
+import { TextField } from "mui-rff";
 import React from "react";
 import { Field, Form } from "react-final-form";
-import countries from "./countries";
-import { useHistory } from "react-router";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Paper from "@material-ui/core/Paper";
+import { ReturnButton } from "../UI/ReturnButton";
+import { clientDetailsValidationSchema } from "./validation";
+import { getSchemaValidator } from "../../utilities/validation";
 
-import * as yup from "yup";
-import { string } from "yup";
-
-const validationSchema = yup.object().shape({
-  firstName: string().required("Required"),
-  lastName: string().required("Required"),
-  email: string()
-    .email()
-    .required("Required"),
-  pid: string().required("Required"),
-  street: string().required("Required"),
-  houseNumber: string().required("Required"),
-  country: string().required("Required"),
-  city: string().required("Required"),
-  postalCode: string().required("Required")
-});
-
-const validate = async values => {
-  try {
-    await validationSchema.validate(values, { abortEarly: false });
-  } catch (err) {
-    return err.inner.reduce(
-      (formError, innerError) => ({
-        ...formError,
-        [innerError.path]: innerError.message
-      }),
-      {}
-    );
+const useStyles = makeStyles(theme => ({
+  root: {
+    maxWidth: 1000,
+    marginTop: 50,
+    padding: "30px 30px"
+  },
+  button: {
+    minWidth: 200
+  },
+  returnButton: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
   }
-};
+}));
 
 export default function ClientDetailsForm(props) {
-  const history = useHistory();
+  const classes = useStyles();
   const clientDetails = props.clientDetails;
   let initialValues = { email: props.email };
+
   if (clientDetails) {
     initialValues = {
       ...initialValues,
@@ -56,29 +45,21 @@ export default function ClientDetailsForm(props) {
   }
 
   return (
-    <div
-      style={{
-        padding: "3px",
-        backgroundColor: "#f4f4f4"
-      }}
-    >
+    <Paper className={classes.root}>
       <Form
         onSubmit={props.onSubmit}
-        subscription={{ submitting: true }}
         initialValues={initialValues}
-        //todo enable validation
-        validate={null}
+        validate={getSchemaValidator(clientDetailsValidationSchema)}
       >
-        {({ handleSubmit, submitting }) => (
+        {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Grid container direction="column" spacing={3}>
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="firstName">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="First Name"
                         variant="outlined"
                         name={props.input.name}
@@ -86,12 +67,11 @@ export default function ClientDetailsForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="lastName">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Last Name"
                         variant="outlined"
                         name={props.input.name}
@@ -106,7 +86,6 @@ export default function ClientDetailsForm(props) {
                   {props => (
                     <TextField
                       fullWidth
-                      /*required*/
                       label="Personal ID number"
                       variant="outlined"
                       name={props.input.name}
@@ -115,7 +94,7 @@ export default function ClientDetailsForm(props) {
                 </Field>
               </Grid>
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="street">
                     {props => (
                       <TextField
@@ -128,12 +107,11 @@ export default function ClientDetailsForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="houseNumber">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="House number"
                         variant="outlined"
                         name={props.input.name}
@@ -144,19 +122,22 @@ export default function ClientDetailsForm(props) {
               </Grid>
 
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={6}>
-                  <Select
-                    name="country"
-                    label="Country"
-                    formControlProps={{ margin: "normal" }}
-                    data={countries}
-                  />
+                <Grid item xs={12} sm={6}>
+                  <Field name="country">
+                    {props => (
+                      <TextField
+                        fullWidth
+                        label="Country"
+                        variant="outlined"
+                        name={props.input.name}
+                      />
+                    )}
+                  </Field>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Field name="city">
                     {props => (
                       <TextField
-                        /*required*/
                         fullWidth
                         label="City"
                         variant="outlined"
@@ -167,12 +148,11 @@ export default function ClientDetailsForm(props) {
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={2}>
-                <Grid item xs={3}>
+                <Grid item xs={12} sm={4}>
                   <Field name="postalCode">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Postal code"
                         variant="outlined"
                         name={props.input.name}
@@ -180,12 +160,11 @@ export default function ClientDetailsForm(props) {
                     )}
                   </Field>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={12} sm={8}>
                   <Field name="phoneNumber">
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Phone number"
                         variant="outlined"
                         name={props.input.name}
@@ -199,7 +178,6 @@ export default function ClientDetailsForm(props) {
                   {props => (
                     <TextField
                       fullWidth
-                      /*required*/
                       label="Email"
                       variant="outlined"
                       name={props.input.name}
@@ -208,28 +186,31 @@ export default function ClientDetailsForm(props) {
                   )}
                 </Field>
               </Grid>
-              <Grid item>
-                <Button
-                  disabled={submitting}
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                >
-                  Submit
-                </Button>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
+              <Grid item container justify={"center"} spacing={4}>
+                <Grid item>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    className={classes.button}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <ReturnButton
+                    className={`${classes.button} ${classes.returnButton}`}
+                    variant={"outlined"}
+                    color={"secondary"}
+                  >
+                    Back
+                  </ReturnButton>
+                </Grid>
               </Grid>
             </Grid>
           </form>
         )}
       </Form>
-    </div>
+    </Paper>
   );
 }

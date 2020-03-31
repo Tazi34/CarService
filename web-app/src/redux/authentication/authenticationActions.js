@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { authUserURL, loginPage, loginURL } from "../../urlAPI";
+import { authUserURL, loginURL } from "../../utilities/urls/apiURL";
 
 import {
   addAuthorizationToken,
@@ -75,9 +75,7 @@ const getAuthorizationTokenFromResponse = response => {
 const extractToken = tokenBearerString => {
   return tokenBearerString.replace("Bearer ", "");
 };
-export const redirectToLogin = history => {
-  history.push(loginPage);
-};
+
 export const REQUEST_USER = "REQUEST_USER";
 
 export const requestUser = () => ({
