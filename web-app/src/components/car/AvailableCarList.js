@@ -5,16 +5,14 @@ import { connect } from "react-redux";
 import { fetchAvailableCarsPage } from "../../redux/car/carAPIrequests";
 import {
   resetPagination,
-  setCurrentPage,
-  setSortField,
-  setSortOrder
+  setCurrentPage
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/bookingForm/bookingActions";
-import SortingPanel from "../UI/SortingPanel";
 import CarList from "./CarList";
 import { SortCarsOrderFields } from "./FieldsConst";
 import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
+import SortingBar from "../sortingBar/SortingBar";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -55,19 +53,6 @@ class AvailableCarList extends Component {
     }
   };
 
-  getFieldSortOptions = () => {
-    let options = [];
-    let i = 0;
-    for (let sortOption in SortCarsOrderFields) {
-      let option = SortCarsOrderFields[sortOption];
-      options.push(
-        <option key={i++} value={option.value}>
-          {option.display}
-        </option>
-      );
-    }
-    return options;
-  };
   carSelectionHandler = car => {
     this.props.selectCar(car);
     this.props.history.push(reservationSummaryPage);
@@ -80,13 +65,7 @@ class AvailableCarList extends Component {
     //TODO Only for testing
     // if (!this.props.currentReservation.status.dateLocationPicked)
     //   return <Redirect to="/"></Redirect>;
-    const {
-      classes,
-      cars,
-      pagination,
-      setSortField,
-      setSortOrder
-    } = this.props;
+    const { classes, cars, pagination } = this.props;
 
     //TODO redirect if date and location not selected
     if (
@@ -100,13 +79,10 @@ class AvailableCarList extends Component {
 
     return (
       <div className={classes.root}>
-        <SortingPanel
-          fieldChanged={setSortField}
-          orderChanged={setSortOrder}
-          fieldOptions={this.getFieldSortOptions()}
-          applyHandler={this.sortingApplyHandler}
-          buttonDisabled={false}
-        />
+        <SortingBar
+          onSubmit={this.sortingApplyHandler}
+          options={SortCarsOrderFields}
+        ></SortingBar>
         <CarList
           handleCarSelect={this.carSelectionHandler}
           cars={currentPage.ids.map(id => cars.items[id])}
@@ -133,8 +109,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  setSortField: setSortField,
-  setSortOrder: setSortOrder,
   fetchCarPage: fetchAvailableCarsPage,
   setPage: setCurrentPage,
   resetPages: resetPagination,
