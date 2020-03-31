@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import { CardContent } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import moment from "moment";
 
 const useStyles = makeStyles({
   root: {
@@ -16,8 +17,11 @@ const useStyles = makeStyles({
 export function LocationSummary(props) {
   const classes = useStyles();
   //TODO provide data from props
-  const formattedDate = "Friday 20 Aug, 15:30";
-  const formattedLocation = "al.Jerozolimskie 53, Warszawa";
+  const { date, location } = props;
+
+  const formattedDate = moment(date).format("MMMM Do YYYY");
+  const formattedLocation = `${location.spot}, ${location.city}`;
+
   return (
     <Card className={classes.root}>
       <CardContent>

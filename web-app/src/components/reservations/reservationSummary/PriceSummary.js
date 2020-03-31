@@ -22,16 +22,22 @@ const useStyles = makeStyles({
   }
 });
 
+const formatPrice = price => {
+  return `${price}.00 PLN`;
+};
+
 export const PriceSummary = props => {
   const classes = useStyles();
-  const days = 5;
+  const { price, days } = props;
+  const taxCost = 30;
+  const insuranceAddOn = 10;
   //TODO provide data in props
   const rows = [
-    { name: `Car (${days} days)`, formattedPrice: "200.00 PLN" },
-    { name: "Tax and Fees", formattedPrice: "120.00 PLN" },
-    { name: "Insurance Add on", formattedPrice: "30.00 PLN" }
+    { name: `Car (${days} days)`, formattedPrice: formatPrice(price) },
+    { name: "Tax and Fees", formattedPrice: formatPrice(taxCost) },
+    { name: "Insurance Add on", formattedPrice: formatPrice(insuranceAddOn) }
   ];
-  const sum = "350.00 PLN";
+  const sum = formatPrice(price + taxCost + insuranceAddOn);
   return (
     <TableContainer className={classes.root}>
       <Table>
