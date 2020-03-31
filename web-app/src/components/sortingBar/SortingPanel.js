@@ -2,6 +2,14 @@ import { Button, Container, FormControl, Select } from "@material-ui/core";
 import React from "react";
 import { SortOrders } from "../../redux/pagination/paginationActions";
 
+const renderOption = (option, key) => {
+  return (
+    <option key={key} value={option.value}>
+      {option.display}
+    </option>
+  );
+};
+
 export default function SortingPanel(props) {
   return (
     <Container>
@@ -9,20 +17,19 @@ export default function SortingPanel(props) {
         <Select
           native
           defaultValue=""
-          onChange={e => props.fieldChanged(e.target.value)}
-          // onChange={(event) => this.props.setSorting(event.target.value, sorting.order)}
+          onChange={e => props.onValueChange(e.target.value)}
         >
           <option value="" disabled>
             Sort by
           </option>
-          {props.fieldOptions}
+          {props.options.map((option, index) => renderOption(option, index))}
         </Select>
       </FormControl>
 
       <FormControl variant="outlined">
         <Select
           native
-          onChange={e => props.orderChanged(e.target.value)}
+          onChange={e => props.onOrderChange(e.target.value)}
           defaultValue=""
         >
           <option value="" disabled>
@@ -34,8 +41,8 @@ export default function SortingPanel(props) {
       </FormControl>
       <Button
         variant="contained"
-        disabled={props.buttonDisabled}
-        onClick={() => props.applyHandler()}
+        disabled={!props.active}
+        onClick={props.onSubmit}
       >
         Apply
       </Button>
