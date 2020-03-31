@@ -72,7 +72,9 @@ public class ClientInfoService {
     public ClientInfo updateClientInfo(ClientInfoDTO clientInfoDTO) {
         ClientInfo clientInfo;
         Address address;
-        if (clientInfoRepository.existsById(clientInfoDTO.getId())) {
+
+
+        if (clientInfoDTO.getId() != null) {
             clientInfo = clientInfoRepository.getOne(clientInfoDTO.getId());
 
             clientInfo.setPid(clientInfoDTO.pid);
