@@ -5,14 +5,10 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
     height: "100%",
-    // border: "solid 1px black",
-    padding: 10
+    padding: 10,
+    maxWidth: 600
   }
-  // container: {
-  // top: "50%", position: "relative", transform: "translateY(-50%)"
-  // }
 }));
 
 export const WelcomeWindow = props => {

@@ -1,5 +1,5 @@
 import React from "react";
-import DateLocationForm from "../../bookingForm/DateLocationForm";
+import DateLocationForm from "../../dateLocation/DateLocationWindow";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { WelcomeWindow } from "./WelcomeWindow";
@@ -7,7 +7,7 @@ import { WelcomeWindow } from "./WelcomeWindow";
 const useStyles = makeStyles(theme => ({
   root: {
     position: "relative",
-    transform: "translateY(30%)",
+    transform: "translateY(10%)",
     top: "50%",
     direction: "column",
     margin: "auto"
@@ -38,7 +38,7 @@ export default function Home(props) {
           container
           direction={"row"}
           className={classes.root}
-          justify={"flex-end"}
+          justify={"center"}
           spacing={6}
         >
           <Grid
