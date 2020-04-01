@@ -18,66 +18,80 @@ import {
   REQUEST_TOTAL_RESERVATION_PRICE_ERROR,
   REQUEST_TOTAL_RESERVATION_PRICE_SUCCESS
 } from "./priceActions";
+import moment from "moment";
 
-function reservation(
-  state = {
-    startDate: new Date(),
-    endDate: new Date(new Date().getTime() + 86400000),
-    startSpot: {
+const initialState = {
+  startDate: moment(),
+  endDate: moment().add(1, "Days"),
+  startSpot: {
+    selected: false,
+    id: -1,
+    name: ""
+  },
+  endSpot: {
+    selected: false,
+    id: -1,
+    name: ""
+  },
+  startCity: {
+    selected: false,
+    item: {
       id: -1,
-      name: ""
-    },
-    endSpot: {
-      id: -1,
-      name: ""
-    },
-    startCity: {
-      selected: false,
-      item: {
-        id: -1,
-        spots: [],
-        name: "Start city"
-      }
-    },
-    endCity: {
-      selected: false,
-      item: {
-        id: -1,
-        spots: [],
-        name: "Start city"
-      }
-    },
-    car: {
-      item: {},
-      selected: false
-    },
-    totalPrice: {
-      price: 0,
-      fetching: false,
-      error: null
-    },
-    status: {
-      dateLocationPicked: false,
-      pending: false,
-      error: null
+      spots: [],
+      name: "Start city"
     }
   },
-  action
-) {
-  //TODO split into different reducers
+  endCity: {
+    selected: false,
+    item: {
+      id: -1,
+      spots: [],
+      name: "Start city"
+    }
+  },
+  car: {
+    item: {},
+    selected: false
+  },
+  totalPrice: {
+    price: 0,
+    fetching: false,
+    error: null
+  },
+  status: {
+    dateLocationPicked: false,
+    pending: false,
+    error: null
+  }
+};
+
+//TODO split reducer
+
+function reservation(state = initialState, action) {
   switch (action.type) {
     case SET_START_DATE:
       return { ...state, startDate: action.payload.date };
     case SET_END_DATE:
       return { ...state, endDate: action.payload.date };
     case SET_START_SPOT:
-      return { ...state, startSpot: action.payload.spot };
+      return {
+        ...state,
+        startSpot: { ...action.payload.spot, selected: true }
+      };
     case SET_END_SPOT:
-      return { ...state, endSpot: action.payload.spot };
+      return { ...state, endSpot: { ...action.payload.spot, selected: true } };
     case SET_START_CITY:
-      return { ...state, startCity: { item: action.payload, selected: true } };
+      return {
+        ...state,
+        startCity: { item: action.payload, selected: true },
+        startSpot: initialState.startSpot
+      };
     case SET_END_CITY:
-      return { ...state, endCity: { item: action.payload, selected: true } };
+      return {
+        ...state,
+        endCity: { item: action.payload, selected: true },
+        endSpot: initialState.endSpot
+      };
     case SELECT_CAR:
       return { ...state, car: { item: action.payload.car, selected: true } };
     case POST_RESERVATION:
