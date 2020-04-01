@@ -20,7 +20,7 @@ export const authUserURL = apiURL + "/auth/current";
 export const signUpURL = apiURL + "/auth/sign-up";
 export const citiesURL = apiURL + "/cities";
 
-export const reservationsEndpoint = "/reservations";
+export const reservationsEndpoint = "/userReservations";
 export const reservationsURL = apiURL + reservationsEndpoint;
 
 export const clientDetailsURL = `${apiURL}/clientinfos/email`;

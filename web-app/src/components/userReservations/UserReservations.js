@@ -4,9 +4,9 @@ import {
   cancelReservation,
   fetchUsersReservations
 } from "../../redux/reservations/reservationsActions";
-import { ReservationsTable } from "./reservationsTable/ReservationsTable";
+import { ReservationsTable } from "../reservationsTable/ReservationsTable";
 
-class UserReservationsContainer extends Component {
+class UserReservations extends Component {
   componentDidMount() {
     this.props.fetchReservations(this.props.user.email);
   }
@@ -17,7 +17,7 @@ class UserReservationsContainer extends Component {
     if (!reservations.fetched) return null;
     return (
       <ReservationsTable
-        title={"Your recent reservations"}
+        title={"Your recent userReservations"}
         reservations={items}
       />
     );
@@ -37,7 +37,4 @@ const mapDispatchToProps = {
   cancelReservation: cancelReservation
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserReservationsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UserReservations);
