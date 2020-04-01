@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchBookingPrice } from "../../../redux/bookingForm/priceActions";
+import { fetchBookingPrice } from "../../../redux/booking/priceActions";
 import { CircularProgress } from "@material-ui/core";
 import ReservationSummary from "./ReservationSummary";
 import { Redirect } from "react-router";

@@ -7,7 +7,7 @@ import {
   resetPagination,
   setCurrentPage
 } from "../../redux/pagination/paginationActions";
-import { selectCar } from "../../redux/bookingForm/bookingActions";
+import { selectCar } from "../../redux/booking/bookingActions";
 import CarList from "./CarList";
 import { CarsSortOrderOptions } from "./FieldsConst";
 import { compose } from "recompose";

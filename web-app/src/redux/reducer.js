@@ -5,7 +5,7 @@ import spotReducer from "./city/spot/spotReducer";
 import authenticationReducer from "./authentication/authenticationReducer";
 import registrationReducer from "./registration/registrationReducer";
 import reservationReducer from "./reservations/reservationReducer";
-import bookingFormReducer from "./bookingForm/bookingReducer";
+import bookingFormReducer from "./booking/bookingReducer";
 
 export default combineReducers({
   cars: carReducer,
