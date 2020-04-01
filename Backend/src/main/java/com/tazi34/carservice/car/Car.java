@@ -1,6 +1,5 @@
 package com.tazi34.carservice.car;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tazi34.carservice.carlocation.spot.Spot;
 import lombok.Data;
 
@@ -25,6 +24,8 @@ public class Car {
     private int seats;
     @NotNull
     private int year;
+    @NotNull
+    private int doors;
     @NotBlank
     private String licence;
 
