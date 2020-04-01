@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 //TODO EMPTY LIST INFO
-import CarCard from "./card/CarCard";
-import CarCardBookActions from "./card/CarCardBookActions";
+import CarCard from "../carCard/CarCard";
+import CarCardBookActions from "../carCard/CarCardBookActions";
 
 const useStyles = makeStyles(theme => ({
   gridItem: {

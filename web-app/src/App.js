@@ -4,7 +4,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import LoginContainer from "./components/login/LoginContainer";
-import AvailableCarList from "./components/car/AvailableCarList";
+import AvailableCarList from "./components/availableCars/AvailableCars";
 import Layout from "./components/UI/Layout";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
 import ClientDetailsFormContainer from "./components/clientDetailsForm/ClientDetailsFormContainer";

@@ -8,8 +8,8 @@ import {
   setCurrentPage
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/booking/bookingActions";
-import CarList from "./CarList";
-import { CarsSortOrderOptions } from "./FieldsConst";
+import CarList from "../carList/CarList";
+import { CarsSortOrderOptions } from "../availableCars/carsSortingFields";
 import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
 import SortingBar from "../sortingBar/SortingBar";
@@ -25,7 +25,7 @@ const useStyles = createStyles(theme => ({
   }
 }));
 
-class AvailableCarList extends Component {
+class AvailableCars extends Component {
   componentDidMount() {
     this.getAvailableCarsPage(0);
   }
@@ -63,13 +63,12 @@ class AvailableCarList extends Component {
   };
 
   render() {
-    //TODO Only for testing
-    // if (!this.props.currentReservation.status.dateLocationPicked){
-    //   return <Redirect to="/"></Redirect>;
-    //}
-    const { classes, cars, pagination } = this.props;
+    const { classes, cars, pagination, currentReservation } = this.props;
 
-    //TODO redirect if date and location not selected
+    // if (currentReservation.status.dateLocationPicked) {
+    //   return <Redirect to="/"></Redirect>;
+    // }
+
     if (
       !pagination.pages[0] ||
       pagination.pages[pagination.currentPage].fetching
@@ -120,4 +119,4 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(useStyles)
-)(AvailableCarList);
+)(AvailableCars);
