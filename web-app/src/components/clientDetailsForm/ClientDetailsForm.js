@@ -11,6 +11,7 @@ import { getSchemaValidator } from "../../utilities/validation";
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 1000,
+    margin: "auto",
     marginTop: 50,
     padding: "30px 30px"
   },
