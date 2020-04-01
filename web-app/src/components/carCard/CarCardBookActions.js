@@ -1,6 +1,6 @@
 import React from "react";
 import { CardActions } from "@material-ui/core";
-import BookCarButton from "../actions/BookCarButton";
+import BookCarButton from "./BookCarButton";
 
 const CarCardBookActions = props => {
   return (

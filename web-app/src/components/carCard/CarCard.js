@@ -1,7 +1,7 @@
 import { Card, CardMedia, makeStyles } from "@material-ui/core";
 
 import React from "react";
-import { transparentCars } from "../../../images/carImages";
+import { transparentCars } from "../../images/carImages";
 import { CarCardContent } from "./CarCardContent";
 import CarCardBookActions from "./CarCardBookActions";
 
