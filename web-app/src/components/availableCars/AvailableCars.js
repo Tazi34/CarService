@@ -14,14 +14,12 @@ import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
 import SortingBar from "../sortingBar/SortingBar";
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import { FullWidthGridItem } from "../UI/home/FullWidthGridItem";
 
 const useStyles = createStyles(theme => ({
   root: {
     margin: "10px auto"
-  },
-  image: {
-    minHeight: "300px",
-    height: "auto"
   }
 }));
 
@@ -62,6 +60,10 @@ class AvailableCars extends Component {
     this.props.resetPages();
   };
 
+  onPageChange = (event, page) => {
+    this.getAvailableCarsPage(page - 1);
+  };
+
   render() {
     const { classes, cars, pagination, currentReservation } = this.props;
 
@@ -80,20 +82,26 @@ class AvailableCars extends Component {
 
     return (
       <Paper className={classes.root}>
-        <SortingBar
-          onSubmit={this.sortingApplyHandler}
-          options={CarsSortOrderOptions}
-        ></SortingBar>
-        <CarList
-          handleCarSelect={this.carSelectionHandler}
-          cars={currentPage.ids.map(id => cars.items[id])}
-        ></CarList>
-        <Pagination
-          count={pagination.totalPages}
-          onChange={(event, page) => {
-            this.getAvailableCarsPage(page - 1);
-          }}
-        ></Pagination>
+        <Grid container spacing={2} direction={"column"} alignItems={"center"}>
+          <FullWidthGridItem>
+            <SortingBar
+              onSubmit={this.sortingApplyHandler}
+              options={CarsSortOrderOptions}
+            ></SortingBar>
+          </FullWidthGridItem>
+          <FullWidthGridItem>
+            <CarList
+              handleCarSelect={this.carSelectionHandler}
+              cars={currentPage.ids.map(id => cars.items[id])}
+            ></CarList>
+          </FullWidthGridItem>
+          <Grid item>
+            <Pagination
+              count={pagination.totalPages}
+              onChange={this.onPageChange}
+            ></Pagination>
+          </Grid>
+        </Grid>
       </Paper>
     );
   }
