@@ -8,24 +8,22 @@ import {
   setCurrentPage
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/booking/bookingActions";
-import CarList from "./CarList";
-import { CarsSortOrderOptions } from "./FieldsConst";
+import CarList from "../carList/CarList";
+import { CarsSortOrderOptions } from "../availableCars/carsSortingFields";
 import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
 import SortingBar from "../sortingBar/SortingBar";
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import { FullWidthGridItem } from "../UI/home/FullWidthGridItem";
 
 const useStyles = createStyles(theme => ({
   root: {
     margin: "10px auto"
-  },
-  image: {
-    minHeight: "300px",
-    height: "auto"
   }
 }));
 
-class AvailableCarList extends Component {
+class AvailableCars extends Component {
   componentDidMount() {
     this.getAvailableCarsPage(0);
   }
@@ -62,14 +60,17 @@ class AvailableCarList extends Component {
     this.props.resetPages();
   };
 
-  render() {
-    //TODO Only for testing
-    // if (!this.props.currentReservation.status.dateLocationPicked){
-    //   return <Redirect to="/"></Redirect>;
-    //}
-    const { classes, cars, pagination } = this.props;
+  onPageChange = (event, page) => {
+    this.getAvailableCarsPage(page - 1);
+  };
 
-    //TODO redirect if date and location not selected
+  render() {
+    const { classes, cars, pagination, currentReservation } = this.props;
+
+    // if (currentReservation.status.dateLocationPicked) {
+    //   return <Redirect to="/"></Redirect>;
+    // }
+
     if (
       !pagination.pages[0] ||
       pagination.pages[pagination.currentPage].fetching
@@ -81,20 +82,26 @@ class AvailableCarList extends Component {
 
     return (
       <Paper className={classes.root}>
-        <SortingBar
-          onSubmit={this.sortingApplyHandler}
-          options={CarsSortOrderOptions}
-        ></SortingBar>
-        <CarList
-          handleCarSelect={this.carSelectionHandler}
-          cars={currentPage.ids.map(id => cars.items[id])}
-        ></CarList>
-        <Pagination
-          count={pagination.totalPages}
-          onChange={(event, page) => {
-            this.getAvailableCarsPage(page - 1);
-          }}
-        ></Pagination>
+        <Grid container spacing={2} direction={"column"} alignItems={"center"}>
+          <FullWidthGridItem>
+            <SortingBar
+              onSubmit={this.sortingApplyHandler}
+              options={CarsSortOrderOptions}
+            ></SortingBar>
+          </FullWidthGridItem>
+          <FullWidthGridItem>
+            <CarList
+              handleCarSelect={this.carSelectionHandler}
+              cars={currentPage.ids.map(id => cars.items[id])}
+            ></CarList>
+          </FullWidthGridItem>
+          <Grid item>
+            <Pagination
+              count={pagination.totalPages}
+              onChange={this.onPageChange}
+            ></Pagination>
+          </Grid>
+        </Grid>
       </Paper>
     );
   }
@@ -120,4 +127,4 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(useStyles)
-)(AvailableCarList);
+)(AvailableCars);
