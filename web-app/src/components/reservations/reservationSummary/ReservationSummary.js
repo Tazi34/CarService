@@ -36,21 +36,7 @@ const useStyles = makeStyles({
     backgroundColor: grey.A400
   }
 });
-const mockcar = {
-  id: 99,
-  doors: 5,
-  model: "E-Series",
-  make: "Ford",
-  seats: 5,
-  year: 1990,
-  licence: "WV 996580",
-  spot: {
-    id: 14,
-    name: "GAJOWA"
-  },
-  price: 120.0,
-  active: true
-};
+
 export default function ReservationSummary(props) {
   const classes = useStyles();
   const {
