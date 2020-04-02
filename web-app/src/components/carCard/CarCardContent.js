@@ -29,7 +29,12 @@ export const CarCardContent = props => {
   const classes = useStyles();
   return (
     <CardContent>
-      <Typography gutterBottom component="h2" className={classes.title}>
+      <Typography
+        gutterBottom
+        component="h2"
+        className={classes.title}
+        noWrap={true}
+      >
         {car.make + " " + car.model}
       </Typography>
       <Typography>{car.price}</Typography>

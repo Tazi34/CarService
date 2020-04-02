@@ -1,9 +1,9 @@
 import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import carImages from "../../images/carImages";
 import Box from "@material-ui/core/Box";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import WorkInProgressImg from "../../images/underConstruction.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +20,7 @@ export const LoginCarousel = props => {
   const classes = useStyles();
   const carouselIntervalInMs = 5000;
   const carouselTransitionTimeInMs = 1000;
+  const images = Array(5).fill(WorkInProgressImg);
   return (
     <Box bgcolor={"background.default"} className={classes.root}>
       <Carousel
@@ -32,7 +33,7 @@ export const LoginCarousel = props => {
         interval={carouselIntervalInMs}
         transitionTime={carouselTransitionTimeInMs}
       >
-        {carImages.map(image => (
+        {images.map(image => (
           <div>
             <img src={image} className={classes.image} />
           </div>
