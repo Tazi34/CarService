@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { PasswordField } from "./PasswordField";
 import Grid from "@material-ui/core/Grid";
+import { getSchemaValidator } from "../../utilities/validation";
+import { loginValidationSchema } from "./validation";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -29,7 +31,10 @@ export default function LoginWindow(props) {
 
   return (
     <Box bgcolor={"background.default"} className={classes.container}>
-      <Form onSubmit={values => props.login(values)}>
+      <Form
+        onSubmit={values => props.login(values)}
+        validate={getSchemaValidator(loginValidationSchema)}
+      >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit} style={{ height: "100%" }}>
             <Box
