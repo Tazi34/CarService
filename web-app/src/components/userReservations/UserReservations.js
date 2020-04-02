@@ -9,12 +9,13 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { compose } from "recompose";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { CircularProgress } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
     padding: "20px 10px",
     border: "1px solid black",
-    minHeight: "100vh",
+    minHeight: "80vh",
     maxWidth: "1000px",
     margin: "auto"
   }
@@ -28,7 +29,7 @@ class UserReservations extends Component {
   render() {
     const { reservations, classes } = this.props;
     if (!reservations.fetched) {
-      return null;
+      return <CircularProgress />;
     }
     const items = reservations.byId.map(id => reservations.items[id]);
 
@@ -42,10 +43,7 @@ class UserReservations extends Component {
         >
           Your recent reservations
         </Typography>
-        <ReservationsTable
-          title={"Your recent Reservations"}
-          reservations={items}
-        />
+        <ReservationsTable reservations={items} />
       </Paper>
     );
   }

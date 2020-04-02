@@ -1,10 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { ReservationRow } from "./ReservationRow";
-import Typography from "@material-ui/core/Typography";
 import { ReservationListHeader } from "./ReservationListHeader";
 import { EmptyReservationsAlert } from "./EmptyReservationsAlert";
 
