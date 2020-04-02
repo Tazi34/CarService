@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import { fetchAvailableCarsPage } from "../../redux/car/carAPIrequests";
 import {
   resetPagination,
-  setCurrentPage
+  setCurrentPage,
+  SortOrders
 } from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/booking/bookingActions";
 import CarList from "../carList/CarList";
@@ -16,20 +17,27 @@ import SortingBar from "../sortingBar/SortingBar";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { FullWidthGridItem } from "../UI/home/FullWidthGridItem";
+import { Redirect } from "react-router";
 
 const useStyles = createStyles(theme => ({
   root: {
     margin: "10px auto"
+  },
+  carList: {
+    border: "1px solid red"
   }
 }));
 
 class AvailableCars extends Component {
   componentDidMount() {
+    this.props.resetPages();
     this.getAvailableCarsPage(0);
   }
 
   componentDidUpdate() {
-    if (!this.props.pagination.pages[0]) this.getAvailableCarsPage(0);
+    if (!this.props.pagination.pages[0]) {
+      this.getAvailableCarsPage(0);
+    }
   }
 
   getAvailableCarsPage = page => {
@@ -40,11 +48,23 @@ class AvailableCars extends Component {
       setPage,
       fetchCarPage
     } = this.props;
-    const { field: sortByField, order: sortOrder } = sorting;
-    const { startDate, endDate } = currentReservation;
+    const { field: sortByField } = sorting;
+    const { startDate, endDate, startSpot } = currentReservation;
+    let sortOrder = sorting.order;
     //IF NOT FETCHED
     if (!pagination.pages[page]) {
-      fetchCarPage(page, sortByField, sortOrder, startDate, endDate);
+      if (sortOrder === SortOrders.NOT_SORTED) {
+        sortOrder = null;
+      }
+
+      fetchCarPage(
+        page,
+        sortByField,
+        sortOrder,
+        startDate,
+        endDate,
+        startSpot.id
+      );
     }
     //IF ALREADY IN STORE
     else {
@@ -67,9 +87,9 @@ class AvailableCars extends Component {
   render() {
     const { classes, cars, pagination, currentReservation } = this.props;
 
-    // if (currentReservation.status.dateLocationPicked) {
-    //   return <Redirect to="/"></Redirect>;
-    // }
+    if (!currentReservation.status.dateLocationPicked) {
+      return <Redirect to={"/"}></Redirect>;
+    }
 
     if (
       !pagination.pages[0] ||
@@ -89,7 +109,7 @@ class AvailableCars extends Component {
               options={CarsSortOrderOptions}
             ></SortingBar>
           </FullWidthGridItem>
-          <FullWidthGridItem>
+          <FullWidthGridItem className={classes.carList}>
             <CarList
               handleCarSelect={this.carSelectionHandler}
               cars={currentPage.ids.map(id => cars.items[id])}
