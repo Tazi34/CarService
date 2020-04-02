@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import { ReservationRow } from "./ReservationRow";
 import Typography from "@material-ui/core/Typography";
 import { ReservationListHeader } from "./ReservationListHeader";
+import { EmptyReservationsAlert } from "./EmptyReservationsAlert";
 
 const useStyles = makeStyles({
   root: {
@@ -26,18 +27,14 @@ const useStyles = makeStyles({
 export const ReservationsTable = props => {
   const classes = useStyles();
   const reservations = props.reservations;
+
+  if (reservations.length == 0) {
+    return <EmptyReservationsAlert />;
+  }
+
   return (
-    <List component={Paper} className={classes.root}>
+    <List className={classes.root}>
       <div className={classes.container}>
-        <Typography
-          color={"primary"}
-          variant={"h4"}
-          align={"center"}
-          noWrap={false}
-          className={classes.header}
-        >
-          {props.title}
-        </Typography>
         <ReservationListHeader />
         {reservations.map(reservation => (
           <ListItem key={reservation.id} className={classes.row}>

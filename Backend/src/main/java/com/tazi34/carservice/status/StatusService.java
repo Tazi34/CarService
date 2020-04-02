@@ -27,7 +27,6 @@ import java.util.Optional;
 @Service
 public class StatusService {
 
-
     private final StatusRepository statusRepository;
     private final CarService carService;
     private final ClientInfoService clientInfoService;
@@ -36,9 +35,7 @@ public class StatusService {
     private final ReservationDateChecker reservationDateChecker;
     private final ModelMapper mapper;
 
-
     //TODO split  class
-
     public StatusService(StatusRepository statusRepository, @Lazy CarService carService,
                          ClientInfoService clientInfoService, SpotService spotService,
                          PriceCalculator priceCalculator, ReservationDateChecker reservationDateChecker,
@@ -82,6 +79,7 @@ public class StatusService {
 
         return statusRepository.save(status);
     }
+
     public Status updateStatus(Status status) {
         if (statusRepository.existsById(status.getId())) {
             return statusRepository.save(status);
@@ -89,23 +87,14 @@ public class StatusService {
         throw new ResourceNotFoundException(Status.class);
     }
 
-    public List<Status> getClientsStatuses(ClientInfo clientInfo){
+    public List<Status> getClientsStatuses(ClientInfo clientInfo) {
         return statusRepository.findByClientInfo(clientInfo, Sort.by("dateFrom").descending());
     }
+
     public List<Status> findCollidingBookedStatuses(Date from, Date to, long carId) {
         return statusRepository.findAll(StatusSpecifications.collidesWithDateSpan(from, to).and(StatusSpecifications.byCarId(carId).and(StatusSpecifications.isType(StatusType.BOOKED))));
     }
 
-    private Iterable<Status> saveAll(List<Status> statuses) {
-        return statusRepository.saveAll(statuses);
-    }
-    private void cancelCollidingReservations(Date from, Date to, long carId) {
-        List<Status> statusesWhichCollidesWithNewOne = findCollidingBookedStatuses(from, to, carId);
-        if (!statusesWhichCollidesWithNewOne.isEmpty()) {
-            changeToBookingCancelled(statusesWhichCollidesWithNewOne);
-            saveAll(statusesWhichCollidesWithNewOne);
-        }
-    }
 
     public Status saveUnavailableStatus(StatusDTO statusDTO) {
         Date from = statusDTO.getDateFrom();
@@ -120,6 +109,7 @@ public class StatusService {
 
         return statusRepository.save(status);
     }
+
     public Status deleteStatus(Status status) {
         if (statusRepository.existsById(status.getId())) {
             statusRepository.delete(status);
@@ -127,12 +117,25 @@ public class StatusService {
         }
         throw new ResourceNotFoundException(Status.class);
     }
+
     public Status getStatus(Long id) {
         Optional<Status> statusOptional = statusRepository.findById(id);
-        if(statusOptional.isPresent()){
+        if (statusOptional.isPresent()) {
             return statusOptional.get();
         }
         throw new ResourceNotFoundException(Status.class);
+    }
+
+    private Iterable<Status> saveAll(List<Status> statuses) {
+        return statusRepository.saveAll(statuses);
+    }
+
+    private void cancelCollidingReservations(Date from, Date to, long carId) {
+        List<Status> statusesWhichCollidesWithNewOne = findCollidingBookedStatuses(from, to, carId);
+        if (!statusesWhichCollidesWithNewOne.isEmpty()) {
+            changeToBookingCancelled(statusesWhichCollidesWithNewOne);
+            saveAll(statusesWhichCollidesWithNewOne);
+        }
     }
 
     private Status createUnavailableStatus(StatusDTO statusDTO) {
@@ -144,8 +147,18 @@ public class StatusService {
         status.setCar(car);
         return status;
     }
+
     private List<Status> changeToBookingCancelled(List<Status> statuses) {
         statuses.forEach(status -> status.setType(StatusType.BOOKINGCANCELED));
         return statuses;
+    }
+
+    public Status saveStatus(Status status) {
+        if (status.getId() != null) {
+            if (statusRepository.existsById(status.getId())) {
+                throw new BadRequestException("Status already exists");
+            }
+        }
+        return statusRepository.save(status);
     }
 }

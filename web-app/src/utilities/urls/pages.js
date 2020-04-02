@@ -6,4 +6,4 @@ export const logoutPage = "/logout";
 export const registerPage = "/register";
 export const carsPage = "/cars";
 export const adminCarsPage = "/admin/cars";
-export const reservationsPage = "/userReservations";
+export const reservationsPage = "/reservations";
