@@ -13,21 +13,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 public class GetReservationsByEmailTests {
     @Mock
     StatusService statusService;
     @Mock
     ClientInfoService clientInfoService;
+    @Mock
+    ReservationMapper reservationMapper;
     @InjectMocks
     ReservationService reservationService;
 
@@ -35,7 +38,7 @@ public class GetReservationsByEmailTests {
     public void givenNonExistingEmail_returnEmptyList() {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenThrow(ResourceNotFoundException.class);
+        when(clientInfoService.getClientInfoByEmail(email)).thenThrow(ResourceNotFoundException.class);
 
         //WHEN
         var reservations = reservationService.getUserReservationsByEmail(email);
@@ -48,10 +51,10 @@ public class GetReservationsByEmailTests {
     public void givenProperEmail_returnList() {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
-        var clientInfo = Mockito.mock(ClientInfo.class);
+        var clientInfo = mock(ClientInfo.class);
         var list = new ArrayList<Status>();
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
-        Mockito.when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
+        when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
+        when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
 
         //WHEN
         var foundStatuses = reservationService.getUserReservationsByEmail(email);
@@ -67,9 +70,9 @@ public class GetReservationsByEmailTests {
         var list = new ArrayList<Status>();
 
         //WHEN
-        var clientInfo = Mockito.mock(ClientInfo.class);
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
-        Mockito.when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
+        var clientInfo = mock(ClientInfo.class);
+        when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
+        when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
 
         var foundReservations = reservationService.getUserReservationsByEmail(email);
 
@@ -81,29 +84,21 @@ public class GetReservationsByEmailTests {
     public void givenNonEmptyStatusList_returnsList() {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
-        var clientInfo = Mockito.mock(ClientInfo.class);
-        var statusNumber = 3;
+        var clientInfo = mock(ClientInfo.class);
 
+        var statusesList = List.of(mock(Status.class), mock(Status.class), mock(Status.class));
+        var reservationInfoList = List.of(mock(ReservationInfo.class), mock(ReservationInfo.class),
+                mock(ReservationInfo.class));
 
-        var mockedMapper = Mockito.mock(ReservationMapper.class);
-        reservationService.setReservationMapper(mockedMapper);
-
-        var list = new ArrayList<Status>();
-        for (int i = 0; i < statusNumber; i++) {
-            var mockedStatus = Mockito.mock(Status.class);
-            var mockedReservationInfo = Mockito.mock(ReservationInfo.class);
-            Mockito.when(mockedMapper.mapStatusToReservation(mockedStatus)).thenReturn(mockedReservationInfo);
-            list.add(mockedStatus);
-        }
-
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
-        Mockito.when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
+        when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
+        when(statusService.getClientsStatuses(clientInfo)).thenReturn(statusesList);
+        when(reservationMapper.map(statusesList)).thenReturn(reservationInfoList);
 
         //WHEN
         var foundReservations = reservationService.getUserReservationsByEmail(email);
 
         //THEN
-        Assert.assertEquals(statusNumber, foundReservations.size());
+        Assert.assertEquals(statusesList.size(), foundReservations.size());
     }
 
 }

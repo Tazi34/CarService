@@ -20,6 +20,9 @@ public class GetReservationTests {
     @Mock
     StatusService statusService;
 
+    @Mock
+    ReservationMapper reservationMapper;
+
     @InjectMocks
     ReservationService reservationService;
 
@@ -54,18 +57,15 @@ public class GetReservationTests {
         //GIVEN
         long id = 1;
         var mockedBookStatus = mock(Status.class);
-        var mockedReservationMapper = mock(ReservationMapper.class);
 
         when(mockedBookStatus.getId()).thenReturn(id);
         when(mockedBookStatus.getType()).thenReturn(StatusType.BOOKED);
         when(statusService.getStatus(id)).thenReturn(mockedBookStatus);
-        reservationService.setReservationMapper(mockedReservationMapper);
 
         //WHEN
-        var reservation = reservationService.getReservationInfo(id);
-
+        reservationService.getReservationInfo(id);
 
         //THEN
-        verify(mockedReservationMapper, times(1)).mapStatusToReservation(mockedBookStatus);
+        verify(reservationMapper, times(1)).map(mockedBookStatus);
     }
 }

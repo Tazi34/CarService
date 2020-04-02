@@ -9,12 +9,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReservationMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ReservationInfo mapStatusToReservation(Status status) {
+    public ReservationInfo map(Status status) {
         if(status.getType() == StatusType.UNAVAILABLE){
             throw new WrongReservationType("Status cannot be of type UNAVAILABLE.");
         }
@@ -24,7 +26,10 @@ public class ReservationMapper {
         var reservation = new ReservationInfo(status.getId(), carDTO, status.getDateFrom(), status.getDateTo(), clientInfoDTO, status.getStartSpot(), status.getEndSpot(), isCanceled, status.getPriceTotal());
         reservation.isCancelable = isCancelable(status);
         return reservation;
+    }
 
+    public List<ReservationInfo> map(List<Status> statuses) {
+        return statuses.stream().map(status -> map(status)).collect(Collectors.toList());
     }
 
     private boolean isCancelable(Status status) {

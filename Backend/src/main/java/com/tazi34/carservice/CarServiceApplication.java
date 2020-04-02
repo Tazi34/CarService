@@ -1,6 +1,7 @@
 package com.tazi34.carservice;
 
 import com.tazi34.carservice.carReservation.ReservationDateChecker;
+import com.tazi34.carservice.carReservation.ReservationMapper;
 import com.tazi34.carservice.carReservation.price.PriceCalculator;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -35,6 +36,11 @@ public class CarServiceApplication {
     @Bean
     public ReservationDateChecker reservationDateChecker(){
         return new ReservationDateChecker();
+    }
+
+    @Bean
+    public ReservationMapper reservationMapper() {
+        return new ReservationMapper();
     }
 
 }
