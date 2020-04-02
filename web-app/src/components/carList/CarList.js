@@ -5,9 +5,12 @@ import CarCard from "../carCard/CarCard";
 import CarCardBookActions from "../carCard/CarCardBookActions";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    padding: 10
+  },
   gridItem: {
     padding: 0,
-    margin: 0
+    margin: "auto"
   }
 }));
 
@@ -26,8 +29,8 @@ function CarList(props) {
   return (
     <Grid
       container
-      spacing={2}
-      justify="center"
+      spacing={3}
+      justify="flex-start"
       alignContent={"center"}
       alignItems={"center"}
       className={classes.root}
@@ -38,9 +41,8 @@ function CarList(props) {
           item
           key={car.id}
           xs={12}
-          sm={"auto"}
+          md={6}
           lg={4}
-          xl={3}
         >
           <CarCard
             car={car}
