@@ -1,9 +1,10 @@
-package tests.status.service;
+package tests.reservations.service;
 
 import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
 import com.tazi34.carservice.carReservation.ReservationDateChecker;
+import com.tazi34.carservice.carReservation.ReservationService;
 import com.tazi34.carservice.carReservation.price.PriceCalculator;
 import com.tazi34.carservice.carlocation.spot.Spot;
 import com.tazi34.carservice.carlocation.spot.SpotService;
@@ -11,7 +12,6 @@ import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
 import com.tazi34.carservice.exceptions.BadRequestException;
 import com.tazi34.carservice.exceptions.InvalidReservationPriceReceivedException;
-import com.tazi34.carservice.status.StatusRepository;
 import com.tazi34.carservice.status.StatusService;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class SaveReservationTests {
     @Mock
     ClientInfoService clientInfoService;
     @Mock
-    StatusRepository statusRepository;
+    StatusService statusService;
     @Mock
     SpotService spotService;
     @Mock
@@ -44,7 +44,7 @@ public class SaveReservationTests {
     @Mock
     PriceCalculator priceCalculator;
     @InjectMocks
-    private StatusService statusService;
+    private ReservationService reservationService;
 
     @Before
     public void init() {
@@ -59,7 +59,7 @@ public class SaveReservationTests {
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(false);
 
         //WHEN
-        statusService.saveReservation(mockedReservation);
+        reservationService.saveReservation(mockedReservation);
 
         //THEN
     }
@@ -71,7 +71,7 @@ public class SaveReservationTests {
         when(carService.checkIfAvailable(any(), any(), any())).thenReturn(false);
 
         //WHEN
-        statusService.saveReservation(mockedReservation);
+        reservationService.saveReservation(mockedReservation);
 
         //THEN
     }
@@ -89,7 +89,7 @@ public class SaveReservationTests {
         when(carService.checkIfAvailable(any(), any(), any())).thenReturn(true);
 
         //WHEN
-        statusService.saveReservation(mockedReservation);
+        reservationService.saveReservation(mockedReservation);
 
         //THEN
     }
@@ -117,10 +117,10 @@ public class SaveReservationTests {
         when(clientInfoService.updateClientInfo(any(ClientInfo.class))).thenReturn(mock(ClientInfo.class));
 
         //WHEN
-        statusService.saveReservation(mockedReservation);
+        reservationService.saveReservation(mockedReservation);
 
         //THEN
-        verify(statusRepository,times(1)).save(any());
+        verify(statusService, times(1)).saveStatus(any());
     }
 
 

@@ -40,6 +40,6 @@ public class CarReservationsController {
 
     @PostMapping
     public ResponseEntity postReservation(@RequestBody @NotNull @Valid CarReservation carReservation) {
-        return ResponseEntity.ok().body(statusService.saveReservation(carReservation));
+        return ResponseEntity.ok().body(reservationService.saveReservation(carReservation));
     }
 }
