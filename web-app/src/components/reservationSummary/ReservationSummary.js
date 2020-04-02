@@ -5,12 +5,12 @@ import Grid from "@material-ui/core/Grid";
 import { LocationSummary } from "./LocationSummary";
 import Typography from "@material-ui/core/Typography";
 import { PriceSummary } from "./PriceSummary";
-import { CarSummary } from "../../carSummary/CarSummary";
+import { CarSummary } from "../carSummary/CarSummary";
 import { grey } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
-import { ReturnButton } from "../../UI/ReturnButton";
-import { RedirectButton } from "../../UI/RedirectButton";
-import { detailsPage } from "../../../utilities/urls/pages";
+import { ReturnButton } from "../UI/ReturnButton";
+import { RedirectButton } from "../UI/RedirectButton";
+import { detailsPage } from "../../utilities/urls/pages";
 import moment from "moment";
 
 const useStyles = makeStyles({

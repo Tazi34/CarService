@@ -11,7 +11,7 @@ import ClientDetailsFormContainer from "./components/clientDetailsForm/ClientDet
 import AccountForm from "./components/account/RegistrationForm";
 import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
-import UserReservationsContainer from "./components/reservations/UserReservationsContainer";
+import UserReservations from "./components/userReservations/UserReservations";
 import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateRoute";
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/home/Home";
@@ -29,7 +29,7 @@ import {
   reservationsPage,
   reservationSummaryPage
 } from "./utilities/urls/pages";
-import ReservationSummaryContainer from "./components/reservations/reservationSummary/ReservationSummaryContainer";
+import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
 
 const theme = createMuiTheme({
   typography: {
@@ -103,7 +103,7 @@ function App(props) {
             <Route path={registerPage} component={AccountForm} />
             <AuthorizedPrivateRoute
               path={reservationsPage}
-              component={UserReservationsContainer}
+              component={UserReservations}
               roles={[ROLE_ADMIN, ROLE_USER]}
               user={props.auth.user}
             />

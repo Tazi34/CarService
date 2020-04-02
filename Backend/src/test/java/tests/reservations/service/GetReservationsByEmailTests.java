@@ -5,81 +5,61 @@ import com.tazi34.carservice.carReservation.ReservationMapper;
 import com.tazi34.carservice.carReservation.ReservationService;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
+import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+
+@RunWith(SpringRunner.class)
 public class GetReservationsByEmailTests {
-
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
-    @Configuration
-    static class ClientInfoServiceTestContextConfiguration {
-
-        @Bean
-        public StatusService statusService() {
-            return Mockito.mock(StatusService.class);
-        }
-
-        @Bean
-        ClientInfoService clientInfoService() {
-            return Mockito.mock(ClientInfoService.class);
-        }
-
-        @Bean
-        ReservationService reservationService() {
-            return new ReservationService(statusService(), clientInfoService());
-        }
-    }
-
-    @Autowired
+    @Mock
     StatusService statusService;
-    @Autowired
+    @Mock
     ClientInfoService clientInfoService;
-    @Autowired
+    @Mock
+    ReservationMapper reservationMapper;
+    @InjectMocks
     ReservationService reservationService;
 
     @Test
-    public void givenNonExistingEmail_throwNotFound() {
+    public void givenNonExistingEmail_returnEmptyList() {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(null);
-        expectedException.expect(ResourceNotFoundException.class);
-        reservationService.getUserReservationsByEmail(email);
+        when(clientInfoService.getClientInfoByEmail(email)).thenThrow(ResourceNotFoundException.class);
+
+        //WHEN
+        var reservations = reservationService.getUserReservationsByEmail(email);
+
+        //THEN
+        Assert.assertTrue(reservations.isEmpty());
     }
 
     @Test
     public void givenProperEmail_returnList() {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
-        var clientInfo = Mockito.mock(ClientInfo.class);
+        var clientInfo = mock(ClientInfo.class);
         var list = new ArrayList<Status>();
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
-        Mockito.when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
+        when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
+        when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
 
-
+        //WHEN
         var foundStatuses = reservationService.getUserReservationsByEmail(email);
+
+        //THEN
         Assert.assertThat(foundStatuses, instanceOf(List.class));
     }
 
@@ -88,15 +68,15 @@ public class GetReservationsByEmailTests {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
         var list = new ArrayList<Status>();
-        //when
 
-        var clientInfo = Mockito.mock(ClientInfo.class);
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
-        Mockito.when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
+        //WHEN
+        var clientInfo = mock(ClientInfo.class);
+        when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
+        when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
 
         var foundReservations = reservationService.getUserReservationsByEmail(email);
 
-        //then
+        //THEN
         Assert.assertEquals(foundReservations.size(), 0);
     }
 
@@ -104,27 +84,21 @@ public class GetReservationsByEmailTests {
     public void givenNonEmptyStatusList_returnsList() {
         //GIVEN
         String email = "nonexisitingclientinfo@email.com";
-        var clientInfo = Mockito.mock(ClientInfo.class);
-        var statusNumber = 3;
+        var clientInfo = mock(ClientInfo.class);
 
+        var statusesList = List.of(mock(Status.class), mock(Status.class), mock(Status.class));
+        var reservationInfoList = List.of(mock(ReservationInfo.class), mock(ReservationInfo.class),
+                mock(ReservationInfo.class));
 
-        var mockedMapper = Mockito.mock(ReservationMapper.class);
-        reservationService.setReservationMapper(mockedMapper);
+        when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
+        when(statusService.getClientsStatuses(clientInfo)).thenReturn(statusesList);
+        when(reservationMapper.map(statusesList)).thenReturn(reservationInfoList);
 
-        var list = new ArrayList<Status>();
-        for (int i = 0; i < statusNumber; i++) {
-            var mockedStatus = Mockito.mock(Status.class);
-            var mockedReservationInfo = Mockito.mock(ReservationInfo.class);
-            Mockito.when(mockedMapper.mapStatusToReservation(mockedStatus)).thenReturn(mockedReservationInfo);
-            list.add(mockedStatus);
-        }
-
-        //when
-        Mockito.when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
-        Mockito.when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
-
+        //WHEN
         var foundReservations = reservationService.getUserReservationsByEmail(email);
-        Assert.assertEquals(statusNumber,foundReservations.size());
+
+        //THEN
+        Assert.assertEquals(statusesList.size(), foundReservations.size());
     }
 
 }
