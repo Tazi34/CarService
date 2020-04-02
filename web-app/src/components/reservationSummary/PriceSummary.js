@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 const formatPrice = price => {
-  return `${price}.00 PLN`;
+  return `${price} PLN`;
 };
 
 export const PriceSummary = props => {
