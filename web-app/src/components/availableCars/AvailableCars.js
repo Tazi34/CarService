@@ -22,6 +22,9 @@ import { Redirect } from "react-router";
 const useStyles = createStyles(theme => ({
   root: {
     margin: "10px auto"
+  },
+  carList: {
+    border: "1px solid red"
   }
 }));
 
@@ -106,7 +109,7 @@ class AvailableCars extends Component {
               options={CarsSortOrderOptions}
             ></SortingBar>
           </FullWidthGridItem>
-          <FullWidthGridItem>
+          <FullWidthGridItem className={classes.carList}>
             <CarList
               handleCarSelect={this.carSelectionHandler}
               cars={currentPage.ids.map(id => cars.items[id])}
