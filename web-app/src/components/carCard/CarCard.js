@@ -8,13 +8,8 @@ import CarCardBookActions from "./CarCardBookActions";
 const useStyles = makeStyles(theme => ({
   root: {
     background: theme.background,
-    minWidth: "275px",
-    maxWidth: "400px",
-    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
-    "&:hover": {
-      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
-    },
-    padding: 0,
+    maxWidth: 500,
+    padding: 10,
     margin: "0 auto"
   },
   media: {
