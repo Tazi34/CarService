@@ -10,6 +10,7 @@ import com.tazi34.carservice.carlocation.spot.SpotService;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
 import com.tazi34.carservice.exceptions.BadRequestException;
+import com.tazi34.carservice.exceptions.InvalidReservationPriceReceivedException;
 import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
@@ -55,6 +56,7 @@ public class StatusService {
     public Status saveReservation(CarReservation carReservation) {
         long carId = carReservation.getCarId();
         Car car = carService.getCar(carId);
+
         if (!reservationDateChecker.checkIfCorrectDate(carReservation.getFromDate(), carReservation.getToDate())) {
             throw new BadRequestException("Wrong date.");
         }
@@ -63,18 +65,16 @@ public class StatusService {
             throw new BadRequestException("Car not available.");
         }
 
-        //TODO add service for spots
-        var startSpot = spotService.getSpot(carReservation.getStartSpotId());
-        var endSpot = spotService.getSpot(carReservation.getEndSpotId());
-
         var startDate = carReservation.getFromDate();
         var endDate = carReservation.getToDate();
         var price = priceCalculator.CalculateReservationPrice(car, startDate, endDate);
 
-        //TODO add tests
         if (carReservation.getPriceTotal().compareTo(price) != 0) {
-            throw new RuntimeException("Price from client doesnt match value calculated on server");
+            throw new InvalidReservationPriceReceivedException();
         }
+
+        var startSpot = spotService.getSpot(carReservation.getStartSpotId());
+        var endSpot = spotService.getSpot(carReservation.getEndSpotId());
 
         var clientInfo = clientInfoService.updateClientInfo(carReservation.getClientInfo());
         Status status = new Status(car, clientInfo, "CarService booking", startDate, endDate, StatusType.BOOKED,
