@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -127,8 +128,9 @@ public class StatusService {
         throw new ResourceNotFoundException(Status.class);
     }
     public Status getStatus(Long id) {
-        if (statusRepository.existsById(id)) {
-            return statusRepository.findById(id).get();
+        Optional<Status> statusOptional = statusRepository.findById(id);
+        if(statusOptional.isPresent()){
+            return statusOptional.get();
         }
         throw new ResourceNotFoundException(Status.class);
     }
