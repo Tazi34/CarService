@@ -121,6 +121,7 @@ public class StatusService {
     }
     public Status deleteStatus(Status status) {
         if (statusRepository.existsById(status.getId())) {
+            statusRepository.delete(status);
             return status;
         }
         throw new ResourceNotFoundException(Status.class);
