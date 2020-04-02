@@ -23,9 +23,7 @@ const useStyles = createStyles(theme => ({
   root: {
     margin: "10px auto"
   },
-  carList: {
-    border: "1px solid red"
-  }
+  carList: {}
 }));
 
 class AvailableCars extends Component {

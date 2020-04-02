@@ -60,6 +60,7 @@ const prepareData = (userInfo, reservation, clientDetailsFromServer) => {
     startSpotId: reservation.startSpot.id,
     endSpotId: reservation.endSpot.id,
     clientInfo: {
+      id: userInfo.id,
       name: userInfo.firstName,
       surname: userInfo.lastName,
       email: userInfo.email,
@@ -81,7 +82,7 @@ const prepareData = (userInfo, reservation, clientDetailsFromServer) => {
   if (clientDetailsFromServer) {
     requestReservationData.clientInfo.address.id =
       clientDetailsFromServer.address.id;
-    requestReservationData.clientInfo.id = clientDetailsFromServer.address.id;
+    requestReservationData.clientInfo.id = clientDetailsFromServer.id;
   }
   return requestReservationData;
 };
