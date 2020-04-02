@@ -1,5 +1,8 @@
 package com.tazi34.carservice;
 
+import com.tazi34.carservice.carReservation.ReservationDateChecker;
+import com.tazi34.carservice.carReservation.price.PriceCalculator;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +22,19 @@ public class CarServiceApplication {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    @Bean
+    public PriceCalculator priceCalculator(){
+        return new PriceCalculator();
+    }
+
+    @Bean
+    public ReservationDateChecker reservationDateChecker(){
+        return new ReservationDateChecker();
+    }
 
 }

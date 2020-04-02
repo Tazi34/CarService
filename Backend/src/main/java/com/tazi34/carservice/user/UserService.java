@@ -4,7 +4,6 @@ package com.tazi34.carservice.user;
 import com.tazi34.carservice.authorization.AuthorizationService;
 import com.tazi34.carservice.exceptions.duplicateEntity.DuplicateUserMailException;
 import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,14 +16,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private ModelMapper mapper = new ModelMapper();
-
     private final AuthorizationService authService;
 
     @Autowired
@@ -50,7 +46,7 @@ public class UserService implements UserDetailsService {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public UserDTO getUser(Long id) {
         User user = findUser(id);
-            return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
+        return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
     }
 
     public User findByEmail(String email) {
@@ -79,16 +75,19 @@ public class UserService implements UserDetailsService {
                 user.isEnabled(), true, true, true, authorities);
     }
 
-    private List<UserDTO> mapUsersToDTOs(List<User> users) {
-        return users.stream().map(this::mapUserToDTO).collect(Collectors.toList());
-    }
-    private UserDTO mapUserToDTO(User user) {
-        return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
-    }
     public User save(User user) {
         return userRepository.save(user);
     }
+
     public boolean userExists(String email) {
         return !userRepository.findAllByEmail(email).isEmpty();
+    }
+
+    private List<UserDTO> mapUsersToDTOs(List<User> users) {
+        return users.stream().map(this::mapUserToDTO).collect(Collectors.toList());
+    }
+
+    private UserDTO mapUserToDTO(User user) {
+        return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
     }
 }

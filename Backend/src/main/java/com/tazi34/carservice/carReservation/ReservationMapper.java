@@ -6,11 +6,13 @@ import com.tazi34.carservice.exceptions.WrongReservationType;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusType;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
 
 public class ReservationMapper {
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     public ReservationInfo mapStatusToReservation(Status status) {
         if(status.getType() == StatusType.UNAVAILABLE){
