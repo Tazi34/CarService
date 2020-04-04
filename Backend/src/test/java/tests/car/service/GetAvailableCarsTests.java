@@ -1,4 +1,4 @@
-package tests.car;
+package tests.car.service;
 
 import com.tazi34.carservice.CarServiceApplication;
 import com.tazi34.carservice.car.Car;
@@ -30,7 +30,7 @@ import static utilities.CarsTestsUtility.getDummyCar;
 @Transactional
 @ActiveProfiles("test")
 @SpringBootTest(classes = CarServiceApplication.class)
-public class CarServiceIntegrationTests {
+public class GetAvailableCarsTests {
 
     @Autowired
     private CarService carService;
@@ -63,7 +63,7 @@ public class CarServiceIntegrationTests {
         status.setType(type);
 
         statusRepository.save(status);
-        Page<Car> found = carService.findAvailable(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
+        Page<Car> found = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
 
         assertEquals(true, found.isEmpty());
     }
@@ -86,7 +86,7 @@ public class CarServiceIntegrationTests {
         status.setType(type);
 
         statusRepository.save(status);
-        Page<Car> found = carService.findAvailable(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
+        Page<Car> found = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
 
         assertEquals(true, found.isEmpty());
     }
@@ -109,7 +109,7 @@ public class CarServiceIntegrationTests {
         status.setType(type);
 
         statusRepository.save(status);
-        Page<Car> found = carService.findAvailable(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
+        Page<Car> found = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
         var cars = found.getContent();
         assertEquals(1, cars.size());
         assertEquals(true, cars.contains(car));
@@ -147,7 +147,7 @@ public class CarServiceIntegrationTests {
 
         statusRepository.save(status);
         statusRepository.save(status2);
-        List<Car> cars = carService.findAvailable(canceledBookingStartDate, canceledBookingEndDate, null,
+        List<Car> cars = carService.getAvailableCars(canceledBookingStartDate, canceledBookingEndDate, null,
                 PageRequest.of(0, Integer.MAX_VALUE)).getContent();
 
         assertEquals(true, cars.isEmpty());
@@ -188,7 +188,7 @@ public class CarServiceIntegrationTests {
 
         statusRepository.save(status);
         statusRepository.save(status2);
-        List<Car> found = carService.findAvailable(bookingStartDate, bookingEndDate, null, PageRequest.of(0,
+        List<Car> found = carService.getAvailableCars(bookingStartDate, bookingEndDate, null, PageRequest.of(0,
                 Integer.MAX_VALUE)).getContent();
 
         assertEquals(2, found.size());

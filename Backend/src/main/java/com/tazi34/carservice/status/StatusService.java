@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tazi34.carservice.status.StatusSpecifications.*;
+
 
 @Service
 public class StatusService {
@@ -77,8 +79,17 @@ public class StatusService {
     }
 
     public List<Status> findCollidingBookedStatuses(Date from, Date to, long carId) {
-        return statusRepository.findAll(StatusSpecifications.collidesWithDateSpan(from, to).and(StatusSpecifications.byCarId(carId).and(StatusSpecifications.isType(StatusType.BOOKED))));
+        return statusRepository.findAll(collidesWithDateSpan(from, to).and(StatusSpecifications.byCarId(carId).and(StatusSpecifications.isType(StatusType.BOOKED))));
     }
+
+    public List<Status> findCarsAvailabilityStatuses(Car car, Date startDate, Date endDate) {
+        return statusRepository.findAll(collidesWithDateSpan(startDate, endDate).and(isUnavailableOrBooked()).and(byCarId(car.getId())));
+    }
+
+    public List<Status> findStatusesWhichDenyCarsReservation(Date startDate, Date endDate) {
+        return statusRepository.findAll(collidesWithDateSpan(startDate, endDate).and(isUnavailableOrBooked()));
+    }
+
     public Status getStatus(Long id) {
         Optional<Status> statusOptional = statusRepository.findById(id);
         if (statusOptional.isPresent()) {

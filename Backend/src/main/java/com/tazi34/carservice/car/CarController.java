@@ -4,9 +4,7 @@ package com.tazi34.carservice.car;
 import com.tazi34.carservice.status.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,44 +27,18 @@ public class CarController {
         this.statusRepository = statusRepository;
     }
 
+    @GetMapping("/available")
+    public Page<Car> getAvailableCars(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate, @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate, @RequestParam(name = "spot") Integer spotId, Pageable pageable) {
+        return carService.getAvailableCars(startDate, endDate, spotId, pageable);
+    }
 
     @GetMapping()
-    public Page<Car> getCars(
-            @RequestParam(name= "from",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date from,
-            @RequestParam(name= "to",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date to,
+    public Page getCars(
             @RequestParam(required = false,name="seats") Integer seats,
             @RequestParam(required = false,name="year") Integer year,
             @RequestParam(required = false,name="make") String make,
-            @RequestParam(required = false,name="spot") Integer spotId,
-            //pomijany jesli nie okreslimy dat
-            @RequestParam(required = false,name="available", defaultValue = "true") Boolean available,
-            @RequestParam(required = false, name="getall", defaultValue = "false") Boolean getAll,
-            @RequestParam(required = false,name="onlyActive", defaultValue = "true") Boolean onlyActive,
-            Pageable pageable
-    ){
-
-        //TODO refactor
-        //TODO move logic to service
-        Specification<Car> spec = Specification.where(null);
-        if(seats != null)
-            spec = spec.and(CarSpecification.bySeats(seats));
-        if(year != null)
-            spec = spec.and(CarSpecification.byYear(year));
-        if(make!= null)
-            spec = spec.and(CarSpecification.byMake(make));
-        if(spotId != null){
-            spec = spec.and(CarSpecification.bySpotId(spotId));
-        }
-        if(from != null && to != null){
-            Specification<Car> availabilitySpec = carService.getAvailabilitySpec(from,to,available);
-            spec = spec.and(availabilitySpec);
-        }
-        if(onlyActive)
-            spec = spec.and(CarSpecification.isActive(true));
-        if(getAll)
-            pageable= PageRequest.of(0, Integer.MAX_VALUE, pageable.getSort());
-
-        return carRepository.findAll(spec,pageable);
+            @RequestParam(required = false,name="spot") Integer spotId, Pageable pageable) {
+        return carService.findAllCars(seats, year, make, spotId, pageable);
     }
 
     @GetMapping("/{id}")
