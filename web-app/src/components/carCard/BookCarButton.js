@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 const BookCarButton = props => {
   return (
     <Button
+      {...props}
       variant="contained"
       size="small"
       color="primary"
