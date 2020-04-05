@@ -1,4 +1,6 @@
 //API
+import moment from "moment";
+
 export const apiURL =
   process.env.NODE_ENV === "production"
     ? "https://tazi34-car-service.herokuapp.com"
@@ -6,10 +8,11 @@ export const apiURL =
 
 export const carsEndpoint = "/cars";
 export const carsURL = apiURL + carsEndpoint;
+export const availableCarsEndpoint = "/cars/available";
 
 export const getPriceEndpoint = (carId, startDate, endDate) => {
-  const startDateISO = new Date(startDate).toISOString();
-  const endDateISO = new Date(endDate).toISOString();
+  const startDateISO = moment(startDate).toISOString();
+  const endDateISO = moment(endDate).toISOString();
   return `${priceURL}/?carId=${carId}&startDate=${startDateISO}&endDate=${endDateISO}`;
 };
 export const priceEndpoint = "/price";
@@ -35,16 +38,16 @@ export function buildUrl({
   pageNo,
   sortField,
   sortOrder,
-  from,
-  to,
+  startDate,
+  endDate,
   spot,
   size
 }) {
   let url = apiURL;
   url += endpoint + "?";
 
-  if (from) url = addParam(url, "from", from);
-  if (to) url = addParam(url, "to", to);
+  if (startDate) url = addParam(url, "startDate", startDate);
+  if (endDate) url = addParam(url, "endDate", endDate);
   if (pageNo) url = addParam(url, "page", pageNo);
   if (sortOrder && sortField) url += `&sort=${sortField},${sortOrder}`;
   if (spot) url = addParam(url, "spot", spot);

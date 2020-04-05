@@ -57,7 +57,6 @@ public class CarService {
         return statuses.isEmpty();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public Car getCar(Long id) {
         var car = carRepository.findById(id);
         if (car.isPresent()) {
@@ -69,7 +68,8 @@ public class CarService {
     public Page<Car> getAvailableCars(Date startDate, Date endDate, Integer spotId, Pageable pageable) {
         List<Status> statusesWhichDenyReservation = statusService.findStatusesWhichDenyCarsReservation(startDate,
                 endDate);
-        return carRepository.findAll(isNotDeniedByStatuses(statusesWhichDenyReservation), pageable);
+        return carRepository.findAll(isNotDeniedByStatuses(statusesWhichDenyReservation).and(bySpotId(spotId)),
+                pageable);
     }
 }
 

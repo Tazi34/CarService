@@ -4,7 +4,12 @@ import {
   createRequestPageActionCreator,
   receivePage
 } from "../pagination/paginationActions";
-import { buildUrl, carsEndpoint } from "../../utilities/urls/apiURL";
+import {
+  availableCarsEndpoint,
+  buildUrl,
+  carsEndpoint
+} from "../../utilities/urls/apiURL";
+import moment from "moment";
 
 const requestCarPage = createRequestPageActionCreator(carsEndpoint, "cars");
 
@@ -49,24 +54,21 @@ export function fetchAvailableCarsPage(
   pageNo = 0,
   sortField = null,
   sortOrder = null,
-  from,
-  to,
+  startDate,
+  endDate,
   spotID = null
 ) {
   return function(dispatch) {
-    const fromISO = new Date(from).toISOString();
-    const toISO = new Date(to).toISOString();
-
     dispatch(requestCarPage(pageNo));
     return axios
       .get(
         buildUrl({
-          endpoint: carsEndpoint,
+          endpoint: availableCarsEndpoint,
           pageNo,
           sortField,
           sortOrder,
-          from: fromISO,
-          to: toISO,
+          startDate: moment(startDate).toISOString(),
+          endDate: moment(endDate).toISOString(),
           spot: spotID
         })
       )
