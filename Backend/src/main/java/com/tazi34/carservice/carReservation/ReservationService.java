@@ -68,7 +68,7 @@ public class ReservationService {
             throw new BadRequestException("Wrong date.");
         }
 
-        if (!carService.checkIfAvailable(car, carReservation.getFromDate(), carReservation.getToDate())) {
+        if (!carService.checkIfCarAvailable(car, carReservation.getFromDate(), carReservation.getToDate())) {
             throw new BadRequestException("Car not available.");
         }
 

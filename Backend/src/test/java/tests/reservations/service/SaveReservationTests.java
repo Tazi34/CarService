@@ -68,7 +68,7 @@ public class SaveReservationTests {
     public void givenReservationWithUnavailableCar_throwsBadRequest() {
         //GIVEN
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
-        when(carService.checkIfAvailable(any(), any(), any())).thenReturn(false);
+        when(carService.checkIfCarAvailable(any(), any(), any())).thenReturn(false);
 
         //WHEN
         reservationService.saveReservation(mockedReservation);
@@ -86,7 +86,7 @@ public class SaveReservationTests {
         when(priceCalculator.CalculateReservationPrice(any(), any(), any())).thenReturn(expectedPrice);
 
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
-        when(carService.checkIfAvailable(any(), any(), any())).thenReturn(true);
+        when(carService.checkIfCarAvailable(any(), any(), any())).thenReturn(true);
 
         //WHEN
         reservationService.saveReservation(mockedReservation);
@@ -107,7 +107,7 @@ public class SaveReservationTests {
         when(priceCalculator.CalculateReservationPrice(any(), any(), any())).thenReturn(expectedPrice);
 
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
-        when(carService.checkIfAvailable(any(), any(), any())).thenReturn(true);
+        when(carService.checkIfCarAvailable(any(), any(), any())).thenReturn(true);
 
 
         var mockedStartSpot = mock(Spot.class);

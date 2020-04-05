@@ -1,7 +1,6 @@
 package utilities;
 
 import com.tazi34.carservice.car.Car;
-import com.tazi34.carservice.carlocation.city.City;
 import com.tazi34.carservice.carlocation.spot.Spot;
 
 import java.math.BigDecimal;
@@ -32,7 +31,6 @@ public class CarsTestsUtility {
         Car car = new Car();
         car.setMake("TEST");
         car.setLicence("TEST");
-
         car.setSeats(5);
         car.setPrice(new BigDecimal(100));
         car.setModel("TEST");

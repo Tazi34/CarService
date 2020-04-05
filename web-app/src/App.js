@@ -30,6 +30,7 @@ import {
   reservationSummaryPage
 } from "./utilities/urls/pages";
 import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
+import CarCard from "./components/carCard/CarCard";
 
 const theme = createMuiTheme({
   typography: {
@@ -99,6 +100,7 @@ function App(props) {
               user={props.auth.user}
               component={CarsTableContainer}
             />
+            <Route path={"/test"} component={CarCard} />
             <Route path={loginPage} component={LoginContainer} />
             <Route path={registerPage} component={AccountForm} />
             <AuthorizedPrivateRoute

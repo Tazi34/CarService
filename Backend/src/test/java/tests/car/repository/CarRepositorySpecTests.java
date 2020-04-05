@@ -1,6 +1,9 @@
-package tests.car;
+package tests.car.repository;
 
-import com.tazi34.carservice.carlocation.spot.Spot;
+import com.tazi34.carservice.CarServiceApplication;
+import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.car.CarRepository;
+import com.tazi34.carservice.status.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,18 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.tazi34.carservice.CarServiceApplication;
-import com.tazi34.carservice.car.Car;
-import com.tazi34.carservice.car.CarRepository;
-import com.tazi34.carservice.status.Status;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static com.tazi34.carservice.car.CarSpecification.isDeniedByStatuses;
 import static com.tazi34.carservice.car.CarSpecification.isNotDeniedByStatuses;
+import static org.junit.Assert.assertEquals;
 import static utilities.CarsTestsUtility.getCarsWithoutId;
 import static utilities.CarsTestsUtility.getDummyCar;
 
@@ -27,20 +26,15 @@ import static utilities.CarsTestsUtility.getDummyCar;
 @Transactional
 @ActiveProfiles("test")
 @SpringBootTest(classes = CarServiceApplication.class)
-public class CarSpecsTests {
+public class CarRepositorySpecTests {
 
     @Autowired
     private CarRepository carRepository;
 
-
-
     @Before
     public void init(){
-
         carRepository.deleteAll();
     }
-
-
 
     @Test
     public void isNotDeniedByStatuses_givenNullList_returnsAllCars(){

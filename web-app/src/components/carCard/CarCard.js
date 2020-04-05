@@ -24,7 +24,23 @@ const useStyles = makeStyles(theme => ({
 
 function CarCard(props) {
   const classes = useStyles();
-  const car = props.car;
+  // const car = props.car;
+
+  const car = {
+    id: 10075,
+    model: "Cutlass Supreme",
+    make: "Oldsmobile",
+    seats: 5,
+    year: 1993,
+    doors: 4,
+    licence: "5E66E",
+    spot: {
+      id: 9,
+      name: "CICHA"
+    },
+    price: 377.64,
+    active: true
+  };
 
   if (!car) return null;
 
