@@ -30,7 +30,8 @@ public class CarService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public Page findAllCars(Integer seats, Integer year, String make, Integer spotId, Pageable pageable) {
-        return carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)), pageable);
+        return carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId)),
+                pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
