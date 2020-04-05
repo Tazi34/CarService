@@ -7,7 +7,6 @@ public class SecurityConstants {
     public static final String HEADER_STRING = "Authorization";
     public static final String SIGN_UP_ENDPOINT = "/auth/sign-up";
     public static final String CURRENT_USER_ENDPOINT = "/auth/current";
-    public static final String CLIENT_URL = "http://localhost:3000/login";
-    public static final String[] ANONYMOUS_ENDPOINTS = new String[]{"/sign-up", "/cars", "/cities",
-            CURRENT_USER_ENDPOINT, "/reservations"};
+    public static final String[] ANONYMOUS_ENDPOINTS = new String[]{"/sign-up", "/cars/available", "/cars", "/cities"
+            , CURRENT_USER_ENDPOINT, "/reservations"};
 }
