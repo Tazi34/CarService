@@ -11,6 +11,8 @@ import { UserLinks } from "./UserLinks";
 import { LoginLogoutLink } from "./LoginLogoutLink";
 import Box from "@material-ui/core/Box";
 import { NavBarDrawer } from "./NavBarDrawer";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import AdminSideBar from "../../adminSideMenu/AdminSideBar";
 
 const navBarBreakPoint = 1100;
 
@@ -47,7 +49,6 @@ const useStyles = makeStyles(theme => ({
   toolBar: {
     flexWrap: "wrap"
   },
-
   appBar: {
     backgroundColor: "transparent",
     maxWidth: "1400px",
@@ -64,58 +65,86 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     margin: "auto",
     padding: "30px 30px"
+  },
+  adminButton: {
+    margin: "auto",
+    color: "white"
   }
 }));
 
+const renderNavBarItems = authenticated => {
+  return (
+    <>
+      {authenticated && <UserLinks />}
+      <GuestLinks />
+      <LoginLogoutLink auth={authenticated} />
+    </>
+  );
+};
 export default function NavBar(props) {
   const classes = useStyles();
   const history = useHistory();
   const authenticated = props.auth.user ? true : false;
+  const isAdmin =
+    authenticated && props.auth.user.roles.some(el => el.name === "ROLE_ADMIN");
 
-  const [drawer, setDrawer] = useState(false);
+  const [mobileSideBar, setMobileSideBar] = useState(false);
+  const [adminBar, setAdminBar] = useState(false);
 
   const handleHomeClick = () => {
     //needed for reload effect
-    if (history.location.pathname === "/") history.go(0);
-    else history.push("/");
-  };
-  const renderNavBarItems = () => {
-    return (
-      <>
-        {authenticated && <UserLinks />}
-        <GuestLinks />
-        <LoginLogoutLink auth={authenticated} />
-      </>
-    );
-  };
-  const closeDrawer = () => {
-    setDrawer(false);
+    if (history.location.pathname === "/") {
+      history.go(0);
+    } else {
+      history.push("/");
+    }
   };
 
   return (
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
-          <Typography
-            className={classes.title}
-            variant="h4"
-            onClick={handleHomeClick}
-          >
-            <Box color={"primary.contrastText"}> CarServices</Box>
-          </Typography>
+          {isAdmin && !adminBar && (
+            <IconButton
+              variant={"contained"}
+              className={classes.adminButton}
+              onClick={() => setAdminBar(true)}
+            >
+              <SupervisorAccountIcon />
+            </IconButton>
+          )}
+          {!isAdmin && (
+            <Typography
+              className={classes.title}
+              variant="h4"
+              onClick={handleHomeClick}
+            >
+              <Box color={"primary.contrastText"}> CarServices</Box>
+            </Typography>
+          )}
+
           <div className={classes.grow} />
+
           <div className={classes.sectionDesktop}>{renderNavBarItems()}</div>
+
           <div className={classes.sectionMobile}>
             <IconButton
               className={classes.menuButton}
-              onClick={() => setDrawer(true)}
+              onClick={() => setMobileSideBar(true)}
             >
               <MenuIcon />
             </IconButton>
           </div>
         </Toolbar>
       </AppBar>
-      <NavBarDrawer open={drawer} auth={authenticated} onClose={closeDrawer} />
+      {isAdmin && (
+        <AdminSideBar open={adminBar} onClose={() => setAdminBar(false)} />
+      )}
+      <NavBarDrawer
+        open={mobileSideBar}
+        auth={authenticated}
+        onClose={() => setMobileSideBar(false)}
+      />
     </div>
   );
 }
