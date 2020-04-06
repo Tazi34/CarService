@@ -1,17 +1,16 @@
 import axios from "axios";
-import { receiveCars, receiveCarsError } from "./carActions";
-import {
-  createRequestPageActionCreator,
-  receivePage
-} from "../pagination/paginationActions";
+
 import {
   availableCarsEndpoint,
   buildUrl,
   carsEndpoint
 } from "../../utilities/urls/apiURL";
 import moment from "moment";
-
-const requestCarPage = createRequestPageActionCreator(carsEndpoint, "cars");
+import {
+  receiveCarPage,
+  receiveCarPageError,
+  requestCarPage
+} from "./carsReducer";
 
 export function fetchCarsPage({
   pageNo = 0,
@@ -33,10 +32,8 @@ export function fetchCarsPage({
       )
       .then(
         response => {
-          dispatch(receiveCars(response.data.content));
-
           dispatch(
-            receivePage(
+            receiveCarPage(
               response.data.number,
               response.data.content,
               response.data.totalPages,
@@ -45,7 +42,7 @@ export function fetchCarsPage({
             )
           );
         },
-        error => dispatch(receiveCarsError(error))
+        error => dispatch(receiveCarPageError(error))
       );
   };
 }
@@ -74,9 +71,8 @@ export function fetchAvailableCarsPage(
       )
       .then(
         response => {
-          dispatch(receiveCars(response.data.content));
           dispatch(
-            receivePage(
+            receiveCarPage(
               response.data.number,
               response.data.content,
               response.data.totalPages,
@@ -85,7 +81,7 @@ export function fetchAvailableCarsPage(
             )
           );
         },
-        error => dispatch(receiveCarsError(error))
+        error => dispatch(receiveCarPageError(error))
       );
   };
 }
