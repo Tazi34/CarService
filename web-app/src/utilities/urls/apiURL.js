@@ -23,8 +23,8 @@ export const authUserURL = apiURL + "/auth/current";
 export const signUpURL = apiURL + "/auth/sign-up";
 export const citiesURL = apiURL + "/cities";
 
-export const statusURL = apiURL + "/status";
-export const statusEndpoint = "/status";
+export const statusEndpoint = "/statuses";
+export const statusURL = apiURL + statusEndpoint;
 export const reservationsEndpoint = "/reservations";
 export const reservationsURL = apiURL + reservationsEndpoint;
 
