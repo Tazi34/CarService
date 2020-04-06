@@ -3,11 +3,6 @@ import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchAvailableCarsPage } from "../../redux/car/carAPIrequests";
-import {
-  resetPagination,
-  setCurrentPage,
-  SortOrders
-} from "../../redux/pagination/paginationActions";
 import { selectCar } from "../../redux/booking/bookingActions";
 import CarList from "../carList/CarList";
 import { CarsSortOrderOptions } from "../availableCars/carsSortingFields";
@@ -18,6 +13,13 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { FullWidthGridItem } from "../UI/home/FullWidthGridItem";
 import { Redirect } from "react-router";
+import {
+  resetCarPagination,
+  setCarCurrentPage,
+  setCarSortField,
+  setCarSortOrder
+} from "../../redux/car/carsReducer";
+import { SortOrders } from "../../utilities/sortOrders";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -83,7 +85,14 @@ class AvailableCars extends Component {
   };
 
   render() {
-    const { classes, cars, pagination, currentReservation } = this.props;
+    const {
+      classes,
+      cars,
+      pagination,
+      currentReservation,
+      setSortOrder,
+      setSortField
+    } = this.props;
 
     if (!currentReservation.status.dateLocationPicked) {
       return <Redirect to={"/"}></Redirect>;
@@ -103,6 +112,8 @@ class AvailableCars extends Component {
         <Grid container spacing={2} direction={"column"} alignItems={"center"}>
           <FullWidthGridItem>
             <SortingBar
+              setSortOrder={setSortOrder}
+              setSortField={setSortField}
               onSubmit={this.sortingApplyHandler}
               options={CarsSortOrderOptions}
             ></SortingBar>
@@ -110,7 +121,7 @@ class AvailableCars extends Component {
           <FullWidthGridItem className={classes.carList}>
             <CarList
               handleCarSelect={this.carSelectionHandler}
-              cars={currentPage.ids.map(id => cars.items[id])}
+              cars={currentPage.ids.map(id => cars[id])}
             ></CarList>
           </FullWidthGridItem>
           <Grid item>
@@ -127,18 +138,20 @@ class AvailableCars extends Component {
 
 const mapStateToProps = state => {
   return {
-    cars: state.cars.cars,
-    pagination: state.cars.pagination,
-    sorting: state.cars.pagination.sorting,
+    cars: state.paginations.carReducer.cars,
+    pagination: state.paginations.carReducer.pagination,
+    sorting: state.paginations.carReducer.pagination.sorting,
     currentReservation: state.bookingForm.reservation,
     authenticated: state.authentication.isAuthenticated
   };
 };
 
 const mapDispatchToProps = {
+  setSortField: setCarSortField,
+  setSortOrder: setCarSortOrder,
   fetchCarPage: fetchAvailableCarsPage,
-  setPage: setCurrentPage,
-  resetPages: resetPagination,
+  setPage: setCarCurrentPage,
+  resetPages: resetCarPagination,
   selectCar: selectCar
 };
 

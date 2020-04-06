@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import { fetchCarsPage } from "../../../redux/car/carAPIrequests";
 import { CircularProgress } from "@material-ui/core";
 
-import {
-  resetPagination,
-  setCurrentPage,
-  setPageSize
-} from "../../../redux/pagination/paginationActions";
-
 import { CarsTable } from "./CarsTable";
+import {
+  resetCarPagination,
+  setCarCurrentPage,
+  setCarPageSize
+} from "../../../redux/car/carsReducer";
 
 function mapStateToProps(state) {
   return {
@@ -19,10 +18,10 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setRowsPerPage: setPageSize,
+  setRowsPerPage: setCarPageSize,
   fetchCarsPage: fetchCarsPage,
-  setPage: setCurrentPage,
-  resetPages: resetPagination
+  setPage: setCarCurrentPage,
+  resetPages: resetCarPagination
 };
 
 class CarsTableContainer extends Component {

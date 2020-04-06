@@ -22,25 +22,3 @@ export function deleteCar(car) {
 }
 
 //API
-export function requestCars() {
-  return {
-    type: REQUEST_CARS
-  };
-}
-export function receiveCars(data) {
-  return {
-    type: RECEIVE_CARS_SUCCESS,
-    payload: {
-      cars: data,
-      receivedAt: Date.now()
-    }
-  };
-}
-export function receiveCarsError(error) {
-  return {
-    type: RECEIVE_CARS_ERROR,
-    payload: {
-      error: error
-    }
-  };
-}
