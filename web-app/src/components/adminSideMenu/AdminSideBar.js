@@ -14,6 +14,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import useTheme from "@material-ui/core/styles/useTheme";
+import SettingsIcon from "@material-ui/icons/Settings";
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import HomeIcon from "@material-ui/icons/Home";
 
 const drawerWidth = 240;
 
@@ -100,6 +103,12 @@ export default function AdminSideBar(props) {
         </div>
         <Divider />
         <List>
+          <ListItem button key={"Home"} onClick={() => history.push("/")}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Home"} />
+          </ListItem>
           <ListItem
             button
             key={"Statuses"}
@@ -122,6 +131,20 @@ export default function AdminSideBar(props) {
           </ListItem>
         </List>
         <Divider />
+        <List>
+          <ListItem button>
+            <ListItemIcon>
+              <AssignmentTurnedInIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Tasks"} />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Settings"} />
+          </ListItem>
+        </List>
       </Drawer>
     </div>
   );
