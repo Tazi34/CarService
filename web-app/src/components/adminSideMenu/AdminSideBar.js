@@ -17,6 +17,11 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import SettingsIcon from "@material-ui/icons/Settings";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import HomeIcon from "@material-ui/icons/Home";
+import {
+  adminCarsPage,
+  adminStatusPage,
+  homePage
+} from "../../utilities/urls/pages";
 
 const drawerWidth = 240;
 
@@ -103,7 +108,7 @@ export default function AdminSideBar(props) {
         </div>
         <Divider />
         <List>
-          <ListItem button key={"Home"} onClick={() => history.push("/")}>
+          <ListItem button key={"Home"} onClick={() => history.push(homePage)}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
@@ -112,7 +117,7 @@ export default function AdminSideBar(props) {
           <ListItem
             button
             key={"Statuses"}
-            onClick={() => history.push("/statuses")}
+            onClick={() => history.push(adminStatusPage)}
           >
             <ListItemIcon>
               <AssignmentIcon />
@@ -122,7 +127,7 @@ export default function AdminSideBar(props) {
           <ListItem
             button
             key={"Cars"}
-            onClick={() => history.push("/admin/cars")}
+            onClick={() => history.push(adminCarsPage)}
           >
             <ListItemIcon>
               <DriveEtaIcon />
