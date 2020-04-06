@@ -12,8 +12,8 @@ import {
 
 function mapStateToProps(state) {
   return {
-    cars: state.cars,
-    pagination: state.cars.pagination
+    cars: state.paginations.carReducer.cars,
+    pagination: state.paginations.carReducer.pagination
   };
 }
 
@@ -55,7 +55,7 @@ class CarsTableContainer extends Component {
   };
 
   render() {
-    const cars = this.props.cars.cars;
+    const cars = this.props.cars;
     const pagination = this.props.pagination;
 
     if (
@@ -65,7 +65,7 @@ class CarsTableContainer extends Component {
       return <CircularProgress />;
     }
     const currentCarsPage = pagination.pages[pagination.currentPage];
-    const carItems = currentCarsPage.ids.map(id => cars.items[id]);
+    const carItems = currentCarsPage.ids.map(id => cars[id]);
     return (
       <CarsTable
         handlePageChange={this.handleChangePage}

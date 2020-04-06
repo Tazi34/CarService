@@ -12,7 +12,6 @@ export const {
   requestPage: requestCarPage,
   receivePage: receiveCarPage,
   receivePageError: receiveCarPageError,
-  setCarCurrentPage: setCurrentPage,
   setSortField: setCarSortField,
   setSortOrder: setCarSortOrder,
   setPageSize: setCarPageSize,
