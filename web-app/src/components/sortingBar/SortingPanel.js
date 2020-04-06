@@ -1,7 +1,8 @@
 import { Button, Select } from "@material-ui/core";
 import React from "react";
-import { SortOrders } from "../../redux/pagination/paginationActions";
+
 import Grid from "@material-ui/core/Grid";
+import { SortOrders } from "../../utilities/sortOrders";
 
 const renderOption = (option, key) => {
   return (

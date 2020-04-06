@@ -1,20 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  setSortField,
-  setSortOrder,
-  SortOrders
-} from "../../redux/pagination/paginationActions";
+
 import SortingPanel from "./SortingPanel";
+import { SortOrders } from "../../utilities/sortOrders";
 
 const mapStateToProps = state => ({
-  sorting: state.cars.pagination.sorting
+  sorting: state.paginations.carReducer.pagination.sorting
 });
-
-const mapDispatchToProps = {
-  setSortField: setSortField,
-  setSortOrder: setSortOrder
-};
 
 class SortingBar extends Component {
   onValueChange = value => {
@@ -38,4 +30,4 @@ class SortingBar extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SortingBar);
+export default connect(mapStateToProps)(SortingBar);
