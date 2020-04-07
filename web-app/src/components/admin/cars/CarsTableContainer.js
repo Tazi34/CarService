@@ -9,8 +9,10 @@ import {
   setCarCurrentPage,
   setCarPageSize
 } from "../../../redux/car/carsReducer";
-import { carFormPage } from "../../../utilities/urls/pages";
 import Paper from "@material-ui/core/Paper";
+import Dialog from "@material-ui/core/Dialog";
+import postCar from "../../../redux/car/postCar";
+import { CarForm } from "../../carForm/CarForm";
 
 function mapStateToProps(state) {
   return {
@@ -20,6 +22,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  postCar: postCar,
   setRowsPerPage: setCarPageSize,
   fetchCarsPage: fetchCarsPage,
   setPage: setCarCurrentPage,
@@ -27,12 +30,23 @@ const mapDispatchToProps = {
 };
 
 class CarsTableContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      formDialog: false
+    };
+  }
+
   componentDidMount() {
     this.props.fetchCarsPage({
       pageNo: 0,
       size: this.props.pagination.pageSize
     });
   }
+
+  setFormDialog = open => {
+    this.setState({ formDialog: open });
+  };
 
   handleChangePage = (event, newPage) => {
     const pagination = this.props.pagination;
@@ -56,8 +70,15 @@ class CarsTableContainer extends Component {
     });
   };
 
-  handleAddCar = () => {
-    this.props.history.push(carFormPage);
+  handleFormSubmission = car => {
+    const { postCar } = this.props;
+    postCar(car).then(
+      () => {
+        alert("success");
+        this.setFormDialog(false);
+      },
+      error => alert("ERROR")
+    );
   };
 
   render() {
@@ -78,9 +99,15 @@ class CarsTableContainer extends Component {
     const carItems = currentCarsPage.ids.map(id => cars[id]);
     return (
       <Paper style={{ display: "flex", minHeight: "60vh" }}>
+        <Dialog
+          onClose={() => this.setFormDialog(false)}
+          open={this.state.formDialog}
+        >
+          <CarForm onSubmit={this.handleFormSubmission} />
+        </Dialog>
         <CarsTable
           title={"ACTIVE CARS"}
-          addCar={this.handleAddCar}
+          addCar={() => this.setFormDialog(true)}
           handlePageChange={this.handleChangePage}
           handleRowsChange={this.handleChangeRowsPerPage}
           cars={carItems}

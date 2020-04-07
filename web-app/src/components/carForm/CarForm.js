@@ -12,7 +12,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 800,
     margin: "auto",
-    marginTop: 50,
     padding: "30px 30px"
   },
   button: {
