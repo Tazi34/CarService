@@ -1,6 +1,7 @@
 package com.tazi34.carservice.carReservation;
 
 import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.car.CarAvailabilityChecker;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.price.PriceCalculator;
 import com.tazi34.carservice.carlocation.spot.SpotService;
@@ -28,11 +29,11 @@ public class ReservationService {
     private ReservationMapper reservationMapper;
     private ReservationDateChecker reservationDateChecker;
     private PriceCalculator priceCalculator;
+    private CarAvailabilityChecker carAvailabilityChecker;
 
     @Autowired
     public ReservationService(StatusService statusService, ClientInfoService clientInfoService,
-                              SpotService spotService, CarService carService, ReservationMapper reservationMapper,
-                              ReservationDateChecker reservationDateChecker, PriceCalculator priceCalculator) {
+                              SpotService spotService, CarService carService, ReservationMapper reservationMapper, ReservationDateChecker reservationDateChecker, PriceCalculator priceCalculator, CarAvailabilityChecker carAvailabilityChecker) {
         this.statusService = statusService;
         this.clientInfoService = clientInfoService;
         this.spotService = spotService;
@@ -40,6 +41,7 @@ public class ReservationService {
         this.carService = carService;
         this.reservationDateChecker = reservationDateChecker;
         this.priceCalculator = priceCalculator;
+        this.carAvailabilityChecker = carAvailabilityChecker;
     }
 
     public List<ReservationInfo> getUserReservationsByEmail(String email) {
@@ -68,7 +70,7 @@ public class ReservationService {
             throw new BadRequestException("Wrong date.");
         }
 
-        if (!carService.checkIfCarAvailable(car, carReservation.getFromDate(), carReservation.getToDate())) {
+        if (!carAvailabilityChecker.check(car, carReservation.getFromDate(), carReservation.getToDate())) {
             throw new BadRequestException("Car not available.");
         }
 

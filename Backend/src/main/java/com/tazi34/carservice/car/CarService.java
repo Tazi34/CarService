@@ -25,18 +25,32 @@ public class CarService {
 
     private final StatusService statusService;
     private final CarRepository carRepository;
+    private final CarAvailabilityChecker carAvailabilityChecker;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CarService(StatusService statusService, CarRepository carRepository, ModelMapper modelMapper) {
+    public CarService(StatusService statusService, CarRepository carRepository,
+                      CarAvailabilityChecker carAvailabilityChecker, ModelMapper modelMapper) {
         this.statusService = statusService;
         this.carRepository = carRepository;
         this.modelMapper = modelMapper;
+        this.carAvailabilityChecker = carAvailabilityChecker;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public Page findAllCars(Integer seats, Integer year, String make, Integer spotId, Pageable pageable) {
-        return carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId)), pageable).map(car -> modelMapper.map(car, Car.class));
+        Page<Car> carsPage =
+                carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId)),
+                        pageable);
+
+        Page<CarDTO> carsDTOPage = carsPage.map(car -> {
+            CarDTO carDTO = modelMapper.map(car, CarDTO.class);
+            var isAvailable = carAvailabilityChecker.check(car);
+            carDTO.setAvailable(isAvailable);
+            return carDTO;
+        });
+
+        return carsDTOPage;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -65,11 +79,6 @@ public class CarService {
         Car car = getCar(id);
         car.setActive(false);
         return carRepository.save(car);
-    }
-
-    public boolean checkIfCarAvailable(Car car, Date from, Date to) {
-        List<Status> statuses = statusService.findCarsAvailabilityStatuses(car, from, to);
-        return statuses.isEmpty();
     }
 
     public Car getCar(Long id) {
