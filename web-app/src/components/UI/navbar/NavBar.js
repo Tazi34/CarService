@@ -125,7 +125,9 @@ export default function NavBar(props) {
 
           <div className={classes.grow} />
 
-          <div className={classes.sectionDesktop}>{renderNavBarItems()}</div>
+          <div className={classes.sectionDesktop}>
+            {renderNavBarItems(authenticated)}
+          </div>
 
           <div className={classes.sectionMobile}>
             <IconButton
