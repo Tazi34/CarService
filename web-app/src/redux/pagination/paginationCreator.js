@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { SortOrders } from "../../utilities/sortOrders";
+import { LOGOUT } from "../authentication/authenticationActions";
 
 export const RESET_PAGINATION = "RESET_PAGINATION";
 export const SET_RESULT_PAGE = "SET_RESULT_PAGE";
@@ -167,7 +168,7 @@ export const createPaginator = (endpoint, resultKey) => {
 
   const onlyForEndpoint = reducer => {
     return (state = {}, action = {}) => {
-      if (action.type == "@@INIT") {
+      if (action.type == "@@INIT" || action.type === LOGOUT) {
         return reducer(state, action);
       }
       if (typeof action.meta === "undefined") {
