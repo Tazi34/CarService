@@ -1,6 +1,7 @@
 package tests.reservations.service;
 
 import com.tazi34.carservice.car.Car;
+import com.tazi34.carservice.car.CarAvailabilityChecker;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.CarReservation;
 import com.tazi34.carservice.carReservation.ReservationDateChecker;
@@ -10,8 +11,8 @@ import com.tazi34.carservice.carlocation.spot.Spot;
 import com.tazi34.carservice.carlocation.spot.SpotService;
 import com.tazi34.carservice.clientInfo.ClientInfo;
 import com.tazi34.carservice.clientInfo.ClientInfoService;
-import com.tazi34.carservice.exceptions.BadRequestException;
 import com.tazi34.carservice.exceptions.InvalidReservationPriceReceivedException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import com.tazi34.carservice.status.StatusService;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,8 @@ public class SaveReservationTests {
     CarReservation mockedReservation;
     @Mock
     PriceCalculator priceCalculator;
+    @Mock
+    CarAvailabilityChecker carAvailabilityChecker;
     @InjectMocks
     private ReservationService reservationService;
 
@@ -68,7 +71,7 @@ public class SaveReservationTests {
     public void givenReservationWithUnavailableCar_throwsBadRequest() {
         //GIVEN
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
-        when(carService.checkIfCarAvailable(any(), any(), any())).thenReturn(false);
+        when(carAvailabilityChecker.check(any(), any(), any())).thenReturn(false);
 
         //WHEN
         reservationService.saveReservation(mockedReservation);
@@ -86,7 +89,7 @@ public class SaveReservationTests {
         when(priceCalculator.CalculateReservationPrice(any(), any(), any())).thenReturn(expectedPrice);
 
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
-        when(carService.checkIfCarAvailable(any(), any(), any())).thenReturn(true);
+        when(carAvailabilityChecker.check(any(), any(), any())).thenReturn(true);
 
         //WHEN
         reservationService.saveReservation(mockedReservation);
@@ -107,7 +110,7 @@ public class SaveReservationTests {
         when(priceCalculator.CalculateReservationPrice(any(), any(), any())).thenReturn(expectedPrice);
 
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
-        when(carService.checkIfCarAvailable(any(), any(), any())).thenReturn(true);
+        when(carAvailabilityChecker.check(any(), any(), any())).thenReturn(true);
 
 
         var mockedStartSpot = mock(Spot.class);
