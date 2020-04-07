@@ -9,6 +9,8 @@ import {
   setCarCurrentPage,
   setCarPageSize
 } from "../../../redux/car/carsReducer";
+import { carFormPage } from "../../../utilities/urls/pages";
+import Paper from "@material-ui/core/Paper";
 
 function mapStateToProps(state) {
   return {
@@ -54,6 +56,10 @@ class CarsTableContainer extends Component {
     });
   };
 
+  handleAddCar = () => {
+    this.props.history.push(carFormPage);
+  };
+
   render() {
     const cars = this.props.cars;
     const pagination = this.props.pagination;
@@ -62,17 +68,25 @@ class CarsTableContainer extends Component {
       !pagination.pages[0] ||
       pagination.pages[pagination.currentPage].fetching
     ) {
-      return <CircularProgress />;
+      return (
+        <Paper style={{ display: "flex", minHeight: "70vh" }}>
+          <CircularProgress />
+        </Paper>
+      );
     }
     const currentCarsPage = pagination.pages[pagination.currentPage];
     const carItems = currentCarsPage.ids.map(id => cars[id]);
     return (
-      <CarsTable
-        handlePageChange={this.handleChangePage}
-        handleRowsChange={this.handleChangeRowsPerPage}
-        cars={carItems}
-        pagination={pagination}
-      />
+      <Paper style={{ display: "flex", minHeight: "60vh" }}>
+        <CarsTable
+          title={"ACTIVE CARS"}
+          addCar={this.handleAddCar}
+          handlePageChange={this.handleChangePage}
+          handleRowsChange={this.handleChangeRowsPerPage}
+          cars={carItems}
+          pagination={pagination}
+        />
+      </Paper>
     );
   }
 }
