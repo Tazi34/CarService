@@ -11,8 +11,9 @@ import {
 } from "../../../redux/car/carsReducer";
 import Paper from "@material-ui/core/Paper";
 import Dialog from "@material-ui/core/Dialog";
-import postCar from "../../../redux/car/postCar";
+import postCar from "../../../redux/car/actions/postCar";
 import { CarForm } from "../../carForm/CarForm";
+import deleteCar from "../../../redux/car/actions/deleteCar";
 
 function mapStateToProps(state) {
   return {
@@ -22,7 +23,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  postCar: postCar,
+  deleteCar,
+  postCar,
   setRowsPerPage: setCarPageSize,
   fetchCarsPage: fetchCarsPage,
   setPage: setCarCurrentPage,
@@ -38,10 +40,7 @@ class CarsTableContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCarsPage({
-      pageNo: 0,
-      size: this.props.pagination.pageSize
-    });
+    this.resetPagination();
   }
 
   setFormDialog = open => {
@@ -70,12 +69,33 @@ class CarsTableContainer extends Component {
     });
   };
 
+  resetPagination = () => {
+    const { resetPages, fetchCarsPage, pagination } = this.props;
+    resetPages();
+    fetchCarsPage({
+      pageNo: 0,
+      size: pagination.pageSize
+    });
+  };
+
   handleFormSubmission = car => {
     const { postCar } = this.props;
     postCar(car).then(
       () => {
         alert("success");
         this.setFormDialog(false);
+        this.resetPagination();
+      },
+      error => alert("ERROR")
+    );
+  };
+
+  handleCarDeletion = car => {
+    const { deleteCar } = this.props;
+    deleteCar(car.id).then(
+      () => {
+        alert("success");
+        this.resetPagination();
       },
       error => alert("ERROR")
     );
@@ -105,9 +125,12 @@ class CarsTableContainer extends Component {
         >
           <CarForm onSubmit={this.handleFormSubmission} />
         </Dialog>
+
         <CarsTable
           title={"ACTIVE CARS"}
           addCar={() => this.setFormDialog(true)}
+          deleteCar={this.handleCarDeletion}
+          blockCar={this.handleCarBlock}
           handlePageChange={this.handleChangePage}
           handleRowsChange={this.handleChangeRowsPerPage}
           cars={carItems}
