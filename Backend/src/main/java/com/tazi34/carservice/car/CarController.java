@@ -60,7 +60,7 @@ public class CarController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Car> addCar(@RequestBody @Valid Car Car) {
-            return ResponseEntity.ok().body(carRepository.save(Car));
+    public ResponseEntity<Car> addCar(@RequestBody @Valid CarDTO carDTO) {
+        return ResponseEntity.ok().body(carService.addCar(carDTO));
     }
 }

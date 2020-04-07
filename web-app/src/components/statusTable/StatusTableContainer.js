@@ -85,6 +85,7 @@ class StatusTableContainer extends Component {
         }}
       >
         <StatusTable
+          title={"STATUS HISTORY"}
           handlePageChange={this.handleChangePage}
           handleRowsChange={this.handleChangeRowsPerPage}
           statuses={statusesItems}

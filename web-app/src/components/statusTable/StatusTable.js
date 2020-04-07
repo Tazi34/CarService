@@ -8,10 +8,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
+import Typography from "@material-ui/core/Typography";
 
 const styles = makeStyles(theme => ({
   table: {
     flex: 1,
+    justifyContent: "space-between",
     display: "flex",
     flexDirection: "column",
     padding: 20
@@ -46,7 +48,7 @@ export function StatusTable(props) {
     const { dateFrom, dateTo, car, type } = status;
 
     return (
-      <TableRow key={status.id}>
+      <TableRow hover={true} key={status.id}>
         <TableCell align="left" className={classes.row}>
           {car.model} {car.make}
         </TableCell>
@@ -67,7 +69,10 @@ export function StatusTable(props) {
   return (
     <div className={classes.table}>
       <TableContainer>
-        <Table size={"small"}>
+        <Typography color={"primary"} variant={"h4"} align={"center"}>
+          {props.title}
+        </Typography>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell className={classes.tableHeadRow} align="lefts">
@@ -87,7 +92,6 @@ export function StatusTable(props) {
           <TableBody>{statusItems.map(renderStatus)}</TableBody>
         </Table>
       </TableContainer>
-      <div style={{ flexGrow: 1 }} />
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
