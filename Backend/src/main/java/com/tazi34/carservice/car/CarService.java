@@ -1,19 +1,21 @@
 package com.tazi34.carservice.car;
 
 
-import com.tazi34.carservice.exceptions.BadRequestException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
+import com.tazi34.carservice.exceptions.badRequest.NullIdException;
+import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static com.tazi34.carservice.car.CarSpecification.*;
 
@@ -34,8 +36,7 @@ public class CarService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public Page findAllCars(Integer seats, Integer year, String make, Integer spotId, Pageable pageable) {
-        return carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId)),
-                pageable);
+        return carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId)), pageable).map(car -> modelMapper.map(car, Car.class));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -44,7 +45,7 @@ public class CarService {
             carRepository.save(car);
             return carRepository.save(car);
         }
-        throw new ResourceNotFoundException("Car not found");
+        throw new ResourceNotFoundException(Car.class);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -60,13 +61,10 @@ public class CarService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public Car deleteCar(Car car) {
-        if (carRepository.existsById(car.getId())) {
-            car.setActive(false);
-            carRepository.save(car);
-            return car;
-        }
-        throw new ResourceNotFoundException("Car not found");
+    public Car deleteCar(Long id) {
+        Car car = getCar(id);
+        car.setActive(false);
+        return carRepository.save(car);
     }
 
     public boolean checkIfCarAvailable(Car car, Date from, Date to) {
@@ -75,11 +73,18 @@ public class CarService {
     }
 
     public Car getCar(Long id) {
-        var car = carRepository.findById(id);
+        if (id == null) {
+            throw new NullIdException("Id cannot be null");
+        }
+        Optional<Car> car = carRepository.findById(id);
         if (car.isPresent()) {
             return car.get();
         }
-        throw new ResourceNotFoundException("Car not found");
+        throw new ResourceNotFoundException(Car.class);
+    }
+
+    public CarDTO getCarDTO(Long id) {
+        return modelMapper.map(getCar(id), CarDTO.class);
     }
 
     public Page<Car> getAvailableCars(Date startDate, Date endDate, Integer spotId, Pageable pageable) {
