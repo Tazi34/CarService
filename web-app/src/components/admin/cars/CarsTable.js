@@ -31,8 +31,7 @@ const styles = makeStyles(theme => ({
 
 export function CarsTable(props) {
   const classes = styles();
-  console.log(props.cars);
-  const { pagination, cars, title } = props;
+  const { pagination, cars, title, deleteCar, blockCar } = props;
 
   return (
     <div className={classes.table}>
@@ -94,7 +93,11 @@ export function CarsTable(props) {
                   align="center"
                   valign={"middle"}
                 >
-                  <CarActionMenu />
+                  <CarActionMenu
+                    car={car}
+                    blockCar={blockCar}
+                    deleteCar={deleteCar}
+                  />
                 </TableCell>
               </TableRow>
             ))}

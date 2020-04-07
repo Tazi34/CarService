@@ -7,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import BlockIcon from "@material-ui/icons/Block";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { ConfirmationDialog } from "../confirmationDialog/ConfirmationDialog";
 
 const StyledMenu = withStyles({
   paper: {
@@ -41,7 +42,8 @@ const StyledMenuItem = withStyles(theme => ({
 
 export default function CarActionMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [confirmationDialog, setConfirmationDialog] = React.useState(false);
+  const { car, blockCar, deleteCar } = props;
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,8 +52,23 @@ export default function CarActionMenu(props) {
     setAnchorEl(null);
   };
 
+  const handleRejection = () => {
+    setConfirmationDialog(false);
+    handleClose();
+  };
+  const handleConfirmation = () => {
+    deleteCar(car);
+    setConfirmationDialog(false);
+    handleClose();
+  };
   return (
     <div>
+      <ConfirmationDialog
+        onClose={handleRejection}
+        open={confirmationDialog}
+        onConfirmation={handleConfirmation}
+        onRejection={handleRejection}
+      />
       <KeyboardArrowDownIcon color="primary" onClick={handleClick} />
       <StyledMenu
         anchorEl={anchorEl}
@@ -59,13 +76,13 @@ export default function CarActionMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem onClick={props.handleBlock}>
+        <StyledMenuItem onClick={() => blockCar(car)}>
           <ListItemIcon>
             <BlockIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Block" />
         </StyledMenuItem>
-        <StyledMenuItem onClick={props.handleDelete}>
+        <StyledMenuItem onClick={() => setConfirmationDialog(true)}>
           <ListItemIcon>
             <DeleteIcon fontSize="small" />
           </ListItemIcon>

@@ -38,7 +38,7 @@ public class CarController {
             @RequestParam(required = false,name="year") Integer year,
             @RequestParam(required = false,name="make") String make,
             @RequestParam(required = false,name="spot") Integer spotId, Pageable pageable) {
-        return carService.findAllCars(seats, year, make, spotId, pageable);
+        return carService.findAllActiveCars(seats, year, make, spotId, pageable);
     }
 
     @GetMapping("/{id}")
