@@ -1,7 +1,7 @@
 package tests.reservations.service;
 
 import com.tazi34.carservice.carReservation.ReservationService;
-import com.tazi34.carservice.exceptions.BadRequestException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
 import com.tazi34.carservice.status.StatusType;
