@@ -3,6 +3,7 @@ package com.tazi34.carservice.car;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
@@ -18,6 +19,7 @@ public class CarDTO {
     private boolean available;
     private String licence;
     private String location;
+    @NotNull
     private BigDecimal price;
 
     public CarDTO() {
