@@ -1,8 +1,10 @@
 package com.tazi34.carservice.car;
 
 
+import com.tazi34.carservice.exceptions.BadRequestException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +23,13 @@ public class CarService {
 
     private final StatusService statusService;
     private final CarRepository carRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public CarService(StatusService statusService, CarRepository carRepository) {
+    public CarService(StatusService statusService, CarRepository carRepository, ModelMapper modelMapper) {
         this.statusService = statusService;
         this.carRepository = carRepository;
+        this.modelMapper = modelMapper;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -41,6 +45,18 @@ public class CarService {
             return carRepository.save(car);
         }
         throw new ResourceNotFoundException("Car not found");
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public Car addCar(CarDTO carDTO) {
+        if (carDTO.getId() != null) {
+            throw new BadRequestException("Car with assigned id can't be added.");
+        }
+
+        Car car = modelMapper.map(carDTO, Car.class);
+        car.setActive(true);
+
+        return carRepository.save(car);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

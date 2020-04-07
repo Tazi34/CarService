@@ -7,13 +7,44 @@ import java.math.BigDecimal;
 @JsonRootName(value = "Car")
 public class CarDTO {
 
+    private Long id;
+
     private String model;
     private String make;
     private int seats;
     private int year;
+    private int doors;
     private String licence;
     private String location;
     private BigDecimal price;
+    private boolean available;
+
+
+    public CarDTO(Long id, String model, String make, int seats, int year, int doors, String licence, String location
+            , BigDecimal price, boolean available) {
+        this.id = id;
+        this.model = model;
+        this.make = make;
+        this.seats = seats;
+        this.year = year;
+        this.doors = doors;
+        this.licence = licence;
+        this.location = location;
+        this.price = price;
+        this.available = available;
+    }
+
+    public int getDoors() {
+        return doors;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getModel() {
         return model;
@@ -43,31 +74,5 @@ public class CarDTO {
         return price;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
 
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public void setSeats(int seats) {
-        this.seats = seats;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void setLicence(String licence) {
-        this.licence = licence;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
 }
