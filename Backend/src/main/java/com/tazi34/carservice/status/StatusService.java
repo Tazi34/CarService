@@ -5,7 +5,7 @@ import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarService;
 import com.tazi34.carservice.carReservation.ReservationDateChecker;
 import com.tazi34.carservice.clientInfo.ClientInfo;
-import com.tazi34.carservice.exceptions.BadRequestException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;

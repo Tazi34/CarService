@@ -1,6 +1,6 @@
 package tests.status.service;
 
-import com.tazi34.carservice.exceptions.BadRequestException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusRepository;
 import com.tazi34.carservice.status.StatusService;

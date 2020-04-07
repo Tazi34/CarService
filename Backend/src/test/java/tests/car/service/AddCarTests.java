@@ -4,7 +4,7 @@ import com.tazi34.carservice.car.Car;
 import com.tazi34.carservice.car.CarDTO;
 import com.tazi34.carservice.car.CarRepository;
 import com.tazi34.carservice.car.CarService;
-import com.tazi34.carservice.exceptions.BadRequestException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

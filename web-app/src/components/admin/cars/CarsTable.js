@@ -9,10 +9,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import BlockIcon from "@material-ui/icons/Block";
-import DeleteIcon from "@material-ui/icons/Delete";
-
+import CheckIcon from "@material-ui/icons/Check";
 import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import CarActionMenu from "../../carActionMenu/CarActionMenu";
 
 const styles = makeStyles(theme => ({
   table: {
@@ -31,7 +31,7 @@ const styles = makeStyles(theme => ({
 
 export function CarsTable(props) {
   const classes = styles();
-
+  console.log(props.cars);
   const { pagination, cars, title } = props;
 
   return (
@@ -56,42 +56,45 @@ export function CarsTable(props) {
               <TableCell className={classes.tableHeadRow} align="right">
                 Licence
               </TableCell>
+              <TableCell className={classes.tableHeadRow} align="right">
+                Available
+              </TableCell>
               <TableCell className={classes.tableHeadRow} align="center">
                 Action
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {cars.map(row => (
-              <TableRow hover={true} key={row.id}>
+            {cars.map(car => (
+              <TableRow hover={true} key={car.id}>
                 <TableCell component="th" scope="row">
-                  {row.model} {row.make}
+                  {car.model} {car.make}
                 </TableCell>
                 <TableCell className={classes.row} align="right">
-                  {row.price}
+                  {car.price}
                 </TableCell>
                 <TableCell className={classes.row} align="right">
-                  {row.seats}
+                  {car.seats}
                 </TableCell>
                 <TableCell className={classes.row} align="right">
-                  {row.year}
+                  {car.year}
                 </TableCell>
                 <TableCell className={classes.row} align="right">
-                  {row.licence}
+                  {car.licence}
+                </TableCell>
+                <TableCell className={classes.row} align="center">
+                  {car.available ? (
+                    <CheckIcon style={{ color: "green" }} />
+                  ) : (
+                    <CloseIcon style={{ color: "red" }} />
+                  )}
                 </TableCell>
                 <TableCell
                   className={classes.row}
                   align="center"
                   valign={"middle"}
                 >
-                  <BlockIcon
-                    style={{ marginTop: 6, marginRight: 3 }}
-                    fontSize={"small"}
-                  />
-                  <DeleteIcon
-                    style={{ marginTop: 6, marginRight: 3 }}
-                    fontSize={"small"}
-                  />
+                  <CarActionMenu />
                 </TableCell>
               </TableRow>
             ))}

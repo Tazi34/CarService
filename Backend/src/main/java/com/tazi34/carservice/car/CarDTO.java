@@ -14,6 +14,7 @@ public class CarDTO {
     private String make;
     private int seats;
     private int year;
+    private boolean active;
     private boolean available;
     private String licence;
     private String location;
