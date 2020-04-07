@@ -66,7 +66,7 @@ class StatusTableContainer extends Component {
       return (
         <Paper
           style={{
-            minHeight: "70vh",
+            minHeight: "60vh",
             display: "flex"
           }}
         >
@@ -80,7 +80,7 @@ class StatusTableContainer extends Component {
     return (
       <Paper
         style={{
-          minHeight: "70vh",
+          minHeight: "60vh",
           display: "flex"
         }}
       >
