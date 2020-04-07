@@ -38,9 +38,9 @@ public class CarService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public Page findAllCars(Integer seats, Integer year, String make, Integer spotId, Pageable pageable) {
+    public Page findAllActiveCars(Integer seats, Integer year, String make, Integer spotId, Pageable pageable) {
         Page<Car> carsPage =
-                carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId)),
+                carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId).and(isActive(true))),
                         pageable);
 
         Page<CarDTO> carsDTOPage = carsPage.map(car -> {
