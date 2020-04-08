@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { compose } from "recompose";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { CircularProgress } from "@material-ui/core";
+import Backdrop from "@material-ui/core/Backdrop";
 
 const styles = theme => ({
   root: {
@@ -39,7 +40,11 @@ class UserReservations extends Component {
   render() {
     const { reservations, classes } = this.props;
     if (!reservations.fetched) {
-      return <CircularProgress />;
+      return (
+        <Backdrop style={{ color: "#fff" }} open={true}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      );
     }
     const items = reservations.byId.map(id => reservations.items[id]);
 
