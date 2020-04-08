@@ -1,10 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { ReservationRow } from "./ReservationRow";
 import { ReservationListHeader } from "./ReservationListHeader";
 import { EmptyReservationsAlert } from "./EmptyReservationsAlert";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,9 @@ export const ReservationsTable = props => {
   const classes = useStyles();
   const reservations = props.reservations;
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
   if (reservations.length == 0) {
     return <EmptyReservationsAlert />;
   }
@@ -33,10 +37,13 @@ export const ReservationsTable = props => {
   return (
     <List className={classes.root}>
       <div className={classes.container}>
-        <ReservationListHeader />
+        {!isMobile && <ReservationListHeader />}
         {reservations.map(reservation => (
           <ListItem key={reservation.id} className={classes.row}>
-            <ReservationRow reservation={reservation} />
+            <ReservationRow
+              reservation={reservation}
+              cancelReservation={props.cancelReservation}
+            />
           </ListItem>
         ))}
       </div>
