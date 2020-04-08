@@ -6,6 +6,7 @@ import com.tazi34.carservice.exceptions.badRequest.NullIdException;
 import com.tazi34.carservice.exceptions.notFound.ResourceNotFoundException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusService;
+import com.tazi34.carservice.status.StatusType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +53,18 @@ public class CarService {
         });
 
         return carsDTOPage;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean blockCar(Long id, Date startDate, Date endDate, String comment) {
+
+        var car = getCar(id);
+        Status unavailableStatus = new Status(car, null, comment, startDate, endDate, StatusType.UNAVAILABLE, null,
+                null, BigDecimal.ZERO);
+
+        statusService.saveStatus(unavailableStatus);
+        statusService.cancelCollidingReservations(startDate, endDate, id);
+        return true;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
