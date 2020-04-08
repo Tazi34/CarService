@@ -1,5 +1,7 @@
 package tests.status.service;
 
+import com.tazi34.carservice.carReservation.ReservationDateChecker;
+import com.tazi34.carservice.exceptions.IncorrectDateSpanException;
 import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import com.tazi34.carservice.status.Status;
 import com.tazi34.carservice.status.StatusRepository;
@@ -17,6 +19,9 @@ public class SaveStatusTests {
     @Mock
     StatusRepository statusRepository;
 
+    @Mock
+    ReservationDateChecker reservationDateChecker;
+
     @InjectMocks
     StatusService statusService;
 
@@ -25,6 +30,7 @@ public class SaveStatusTests {
         //GIVEN
         Status mockedStatus = mock(Status.class);
         when(mockedStatus.getId()).thenReturn(null);
+        when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
 
         //WHEN
         statusService.saveStatus(mockedStatus);
@@ -39,7 +45,9 @@ public class SaveStatusTests {
         long id = 1;
         Status mockedStatus = mock(Status.class);
         when(mockedStatus.getId()).thenReturn(id);
+        when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
         when(statusRepository.existsById(id)).thenReturn(true);
+
 
         //WHEN
         statusService.saveStatus(mockedStatus);
@@ -53,6 +61,7 @@ public class SaveStatusTests {
         long id = 1;
         Status mockedStatus = mock(Status.class);
         when(mockedStatus.getId()).thenReturn(id);
+        when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
         when(statusRepository.existsById(id)).thenReturn(false);
 
         //WHEN
@@ -60,5 +69,20 @@ public class SaveStatusTests {
 
         //THEN
         verify(statusRepository, times(1)).save(mockedStatus);
+    }
+
+    @Test(expected = IncorrectDateSpanException.class)
+    public void givenIncorrectDateSpan_throwException() {
+        //GIVEN
+        long id = 1;
+        Status mockedStatus = mock(Status.class);
+        when(mockedStatus.getId()).thenReturn(id);
+        when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(false);
+        when(statusRepository.existsById(id)).thenReturn(false);
+
+        //WHEN
+        statusService.saveStatus(mockedStatus);
+
+        //THEN
     }
 }
