@@ -1,22 +1,31 @@
 package com.tazi34.carservice.status;
 
-import org.springframework.data.jpa.domain.Specification;
 import com.tazi34.carservice.car.Car_;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Date;
 
 public class StatusSpecifications {
     public static Specification<Status> byCarId(Long carID){
+        if (carID == null) {
+            return Specification.where(null);
+        }
         return (root,query,criteriaBuilder) -> {
             return criteriaBuilder.equal( root.get(Status_.car).get(Car_.id),carID);
         };
     }
     public static Specification<Status> fromDateAfter(Date date){
+        if (date == null) {
+            return Specification.where(null);
+        }
         return (root,query,criteriaBuilder) -> {
             return criteriaBuilder.greaterThanOrEqualTo(root.get(Status_.dateFrom),date);
         };
     }
     public static Specification<Status> fromDateBefore(Date date){
+        if (date == null) {
+            return Specification.where(null);
+        }
         return (root,query,criteriaBuilder) -> {
             return criteriaBuilder.lessThanOrEqualTo(root.get(Status_.dateFrom),date);
         };
@@ -29,19 +38,21 @@ public class StatusSpecifications {
     }
 
     public static Specification<Status> toDateBefore(Date date){
+        if (date == null) {
+            return Specification.where(null);
+        }
         return (root,query,criteriaBuilder) -> {
             return criteriaBuilder.lessThanOrEqualTo(root.get(Status_.dateTo),date);
         };
     }
     public static Specification<Status> isType(StatusType type){
+        if (type == null) {
+            return Specification.where(null);
+        }
         return (root,query,criteriaBuilder) -> {
             return criteriaBuilder.equal(root.get(Status_.type),type);
         };
     }
-    public static Specification<Status> isBetweenDate(Date from,Date to){
-        return fromDateAfter(from).and(toDateBefore(to));
-    }
-
     public static Specification<Status> isUnavailableOrBooked(){
         return isType(StatusType.BOOKED).or(isType(StatusType.UNAVAILABLE));
     }

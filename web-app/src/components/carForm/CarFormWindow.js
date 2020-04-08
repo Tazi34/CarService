@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import postCar from "../../redux/car/actions/postCar";
+import postCar from "../../redux/car/apiRequests/postCar";
 import { connect } from "react-redux";
 import { CarForm } from "./CarForm";
 import { adminCarsPage } from "../../utilities/urls/pages";

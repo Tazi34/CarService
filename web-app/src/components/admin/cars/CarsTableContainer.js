@@ -11,9 +11,10 @@ import {
 } from "../../../redux/car/carsReducer";
 import Paper from "@material-ui/core/Paper";
 import Dialog from "@material-ui/core/Dialog";
-import postCar from "../../../redux/car/actions/postCar";
+import postCar from "../../../redux/car/apiRequests/postCar";
 import { CarForm } from "../../carForm/CarForm";
-import deleteCar from "../../../redux/car/actions/deleteCar";
+import deleteCar from "../../../redux/car/apiRequests/deleteCar";
+import blockCar from "../../../redux/car/apiRequests/blockCar";
 
 function mapStateToProps(state) {
   return {
@@ -25,6 +26,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   deleteCar,
   postCar,
+  blockCar,
   setRowsPerPage: setCarPageSize,
   fetchCarsPage: fetchCarsPage,
   setPage: setCarCurrentPage,
@@ -78,12 +80,23 @@ class CarsTableContainer extends Component {
     });
   };
 
-  handleFormSubmission = car => {
+  handlePostFormSubmission = car => {
     const { postCar } = this.props;
     postCar(car).then(
       () => {
         alert("success");
         this.setFormDialog(false);
+        this.resetPagination();
+      },
+      error => alert("ERROR")
+    );
+  };
+
+  handleBlockFormSubmission = (car, { startDate, endDate, comment }) => {
+    const { blockCar } = this.props;
+    blockCar(car, startDate, endDate, comment).then(
+      () => {
+        alert("success");
         this.resetPagination();
       },
       error => alert("ERROR")
@@ -123,14 +136,17 @@ class CarsTableContainer extends Component {
           onClose={() => this.setFormDialog(false)}
           open={this.state.formDialog}
         >
-          <CarForm onSubmit={this.handleFormSubmission} />
+          <CarForm
+            onSubmit={this.handlePostFormSubmission}
+            onBack={() => this.setFormDialog(false)}
+          />
         </Dialog>
 
         <CarsTable
           title={"ACTIVE CARS"}
           addCar={() => this.setFormDialog(true)}
           deleteCar={this.handleCarDeletion}
-          blockCar={this.handleCarBlock}
+          blockCar={this.handleBlockFormSubmission}
           handlePageChange={this.handleChangePage}
           handleRowsChange={this.handleChangeRowsPerPage}
           cars={carItems}
