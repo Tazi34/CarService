@@ -20,10 +20,12 @@ import {
   setCarSortOrder
 } from "../../redux/car/carsReducer";
 import { SortOrders } from "../../utilities/sortOrders";
+import Backdrop from "@material-ui/core/Backdrop";
 
 const useStyles = createStyles(theme => ({
   root: {
-    margin: "10px auto"
+    margin: "10px auto",
+    padding: 30
   },
   carList: {}
 }));
@@ -102,7 +104,11 @@ class AvailableCars extends Component {
       !pagination.pages[0] ||
       pagination.pages[pagination.currentPage].fetching
     ) {
-      return <CircularProgress />;
+      return (
+        <Backdrop style={{ color: "#fff" }} open={true}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      );
     }
 
     const currentPage = pagination.pages[pagination.currentPage];
