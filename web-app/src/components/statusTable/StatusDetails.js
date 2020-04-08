@@ -14,12 +14,14 @@ export const StatusDetails = props => {
         </div>
         <div> {clientInfo.email}</div>
       </Grid>
-      <Grid item xs={6}>
-        <Typography color={"primary"}>Location:</Typography>
-        <div>
-          {startSpot.name} - {endSpot.name}
-        </div>
-      </Grid>
+      {startSpot && endSpot && (
+        <Grid item xs={6}>
+          <Typography color={"primary"}>Location:</Typography>
+          <div>
+            {startSpot.name} - {endSpot.name}
+          </div>
+        </Grid>
+      )}
     </Grid>
   );
 };
