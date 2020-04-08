@@ -8,7 +8,7 @@ import AvailableCarList from "./components/availableCars/AvailableCars";
 import Layout from "./components/UI/Layout";
 import NotFoundErrorPage from "./components/UI/NotFoundErrorPage";
 import ClientDetailsFormContainer from "./components/clientDetailsForm/ClientDetailsFormContainer";
-import AccountForm from "./components/account/RegistrationForm";
+import RegistrationForm from "./components/registerForm/RegistrationForm";
 import { logout } from "./redux/authentication/authenticationActions";
 import { connect } from "react-redux";
 import UserReservations from "./components/userReservations/UserReservations";
@@ -17,7 +17,7 @@ import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/home/Home";
 import Background from "./images/vintageCarBackground.jpg";
 import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
-import LogoutPage from "./components/account/LogoutPage";
+
 import { green, red } from "@material-ui/core/colors";
 import {
   adminCarsPage,
@@ -34,6 +34,7 @@ import {
 import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
 import StatusTableContainer from "./components/statusTable/StatusTableContainer";
 import CarFormWindow from "./components/carForm/CarFormWindow";
+import Logout from "./components/logout/Logout";
 
 const theme = createMuiTheme({
   typography: {
@@ -116,14 +117,19 @@ function App(props) {
               component={StatusTableContainer}
             />
             <Route path={loginPage} component={LoginContainer} />
-            <Route path={registerPage} component={AccountForm} />
+            <Route
+              path={registerPage}
+              render={subProps => (
+                <RegistrationForm {...subProps} user={props.auth.user} />
+              )}
+            />
             <AuthorizedPrivateRoute
               path={reservationsPage}
               component={UserReservations}
               roles={[ROLE_ADMIN, ROLE_USER]}
               user={props.auth.user}
             />
-            <Route path={logoutPage} component={LogoutPage} />
+            <Route path={logoutPage} component={Logout} />
             <Route path="*" component={NotFoundErrorPage} />
           </Switch>
         </Layout>
