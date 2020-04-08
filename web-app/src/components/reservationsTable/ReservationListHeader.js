@@ -22,9 +22,10 @@ export const ReservationListHeader = props => {
       <Grid item xs={3}>
         <Typography align={"center"}>car</Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={2}>
         <Typography align={"right"}>price</Typography>
       </Grid>
+      <Grid item xs={1}></Grid>
     </Grid>
   );
 };
