@@ -49,7 +49,7 @@ In order to run app on localhost follow these steps:
 $ cd ../backend
 $ mvn spring-boot:run
 ```
-* In web-app directory run
+* Run
 ```
 $ cd ../web-app
 $ npm install
