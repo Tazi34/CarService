@@ -1,6 +1,4 @@
 import {
-  CANCEL_RESERVATION_ERROR,
-  CANCEL_RESERVATION_SUCCESS,
   RECEIVE_RESERVATIONS_ERROR,
   RECEIVE_RESERVATIONS_SUCCESS,
   REQUEST_RESERVATION_CANCELLATION,
@@ -45,12 +43,6 @@ const reservations = (state = initialState, { type, payload }) => {
     }
     case REQUEST_RESERVATION_CANCELLATION: {
       return { ...state, error: {} };
-    }
-    case CANCEL_RESERVATION_ERROR: {
-      return { ...state, error: payload.error };
-    }
-    case CANCEL_RESERVATION_SUCCESS: {
-      return state;
     }
     case RECEIVE_RESERVATIONS_ERROR:
       return { ...state, error: payload.error };

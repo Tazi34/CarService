@@ -18,9 +18,9 @@ import java.util.List;
 
 import static com.tazi34.carservice.status.StatusType.BOOKED;
 import static com.tazi34.carservice.status.StatusType.BOOKINGCANCELED;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class CancelCollidingReservationsTests {
@@ -41,11 +41,13 @@ public class CancelCollidingReservationsTests {
 
         for (int i = 0; i < bookingsCount; i++) {
             var booking = mock(Status.class);
-            when(booking.getType()).thenReturn(BOOKED);
+            when(booking.getType()).thenCallRealMethod();
+            doCallRealMethod().when(booking).setType(any());
+            booking.setType(BOOKED);
             bookedStatuses.add(booking);
         }
         when(statusRepository.findAll(any(Specification.class))).thenReturn(bookedStatuses);
-
+        when(statusRepository.saveAll(any())).then(returnsFirstArg());
         //WHEN
         var canceledStatuses = statusService.cancelCollidingReservations(mock(Date.class), mock(Date.class), 1);
 

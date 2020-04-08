@@ -26,6 +26,16 @@ class UserReservations extends Component {
     this.props.fetchReservations(this.props.user.email);
   }
 
+  cancelReservation = reservation => {
+    this.props.cancelReservation(reservation.id).then(
+      () => {
+        alert("SUCCESS");
+        this.props.fetchReservations(this.props.user.email);
+      },
+      () => alert("ERROR")
+    );
+  };
+
   render() {
     const { reservations, classes } = this.props;
     if (!reservations.fetched) {
@@ -43,7 +53,10 @@ class UserReservations extends Component {
         >
           Your recent reservations
         </Typography>
-        <ReservationsTable reservations={items} />
+        <ReservationsTable
+          reservations={items}
+          cancelReservation={this.cancelReservation}
+        />
       </Paper>
     );
   }
