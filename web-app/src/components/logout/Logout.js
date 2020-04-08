@@ -4,7 +4,7 @@ import { logout } from "../../redux/authentication/authenticationActions";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 
-function LogoutPage(props) {
+function Logout(props) {
   props.logout();
   return <Redirect to={"/"} push={true} />;
 }
@@ -12,4 +12,4 @@ function LogoutPage(props) {
 const mapDispatchToProps = {
   logout: logout
 };
-export default connect(null, mapDispatchToProps)(LogoutPage);
+export default connect(null, mapDispatchToProps)(Logout);

@@ -1,6 +1,8 @@
 package com.tazi34.carservice.car;
 
 
+import com.tazi34.carservice.exceptions.IncorrectDateSpanException;
+import com.tazi34.carservice.exceptions.badRequest.BadRequestException;
 import com.tazi34.carservice.status.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,11 +35,9 @@ public class CarController {
     }
 
     @GetMapping()
-    public Page getCars(
-            @RequestParam(required = false,name="seats") Integer seats,
-            @RequestParam(required = false,name="year") Integer year,
-            @RequestParam(required = false,name="make") String make,
-            @RequestParam(required = false,name="spot") Integer spotId, Pageable pageable) {
+    public Page getCars(@RequestParam(required = false, name = "seats") Integer seats, @RequestParam(required = false
+            , name = "year") Integer year, @RequestParam(required = false, name = "make") String make,
+                        @RequestParam(required = false, name = "spot") Integer spotId, Pageable pageable) {
         return carService.findAllActiveCars(seats, year, make, spotId, pageable);
     }
 
@@ -46,14 +46,27 @@ public class CarController {
         return ResponseEntity.ok().body(carService.getCarDTO(id));
     }
 
+    @PostMapping("/{id}/block")
+    public ResponseEntity blockCar(@PathVariable("id") Long id,
+                                   @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate, @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate, @RequestParam(name = "comment") String comment) {
+        try {
+            carService.blockCar(id, startDate, endDate, comment);
+        } catch (IncorrectDateSpanException ex) {
+            throw new BadRequestException(ex.getMessage());
+        }
+        return ResponseEntity.ok().body(null);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Car> deleteCar(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(carService.deleteCar(id));
     }
+
     @PatchMapping("")
-    public ResponseEntity<Car> updateCar(@RequestBody @Valid Car Car){
+    public ResponseEntity<Car> updateCar(@RequestBody @Valid Car Car) {
         return ResponseEntity.ok().body(carService.updateCar(Car));
     }
+
     @PutMapping(path = "")
     public ResponseEntity<Car> updateWholeCar(@RequestBody @Valid Car updatedCar) {
         return ResponseEntity.ok().body(carRepository.save(updatedCar));

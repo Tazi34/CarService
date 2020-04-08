@@ -4,7 +4,6 @@ import { Field, Form } from "react-final-form";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { getSchemaValidator } from "../../utilities/validation";
 import { TextField } from "mui-rff";
-import { ReturnButton } from "../UI/ReturnButton";
 import Typography from "@material-ui/core/Typography";
 import { carFormValidationSchema } from "./validation";
 
@@ -142,13 +141,14 @@ export const CarForm = props => {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <ReturnButton
+                  <Button
                     className={`${classes.button} ${classes.returnButton}`}
                     variant={"outlined"}
                     color={"secondary"}
+                    onClick={props.onBack}
                   >
                     Back
-                  </ReturnButton>
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>
