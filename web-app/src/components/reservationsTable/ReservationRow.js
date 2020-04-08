@@ -96,12 +96,6 @@ export const ReservationRow = props => {
         <Typography align={"center"}>{reservation.endSpot.name}</Typography>
       </Grid>
 
-      <Grid item xs={12} sm={2}>
-        <Typography align={isMobile ? "center" : "right"}>
-          {reservation.priceTotal} PLN
-        </Typography>
-      </Grid>
-
       {!isMobile && (
         <>
           <Grid item sm={3}>
@@ -111,7 +105,11 @@ export const ReservationRow = props => {
           </Grid>
         </>
       )}
-
+      <Grid item xs={12} sm={2}>
+        <Typography align={isMobile ? "center" : "right"}>
+          {reservation.priceTotal} PLN
+        </Typography>
+      </Grid>
       {reservation.isCancelable && renderCancelButton()}
 
       {isCanceled && (
