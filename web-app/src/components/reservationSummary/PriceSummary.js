@@ -26,12 +26,11 @@ const formatPrice = price => {
   return `${price} PLN`;
 };
 
-export const PriceSummary = props => {
+export const PriceSummary = ({ price, days, ...props }) => {
   const classes = useStyles();
-  const { price, days } = props;
   const taxCost = 30;
   const insuranceAddOn = 10;
-  //TODO provide data in props
+
   const rows = [
     { name: `Car (${days} days)`, formattedPrice: formatPrice(price) },
     { name: "Tax and Fees", formattedPrice: formatPrice(taxCost) },
@@ -39,7 +38,7 @@ export const PriceSummary = props => {
   ];
   const sum = formatPrice(price + taxCost + insuranceAddOn);
   return (
-    <TableContainer className={classes.root}>
+    <TableContainer className={classes.root} {...props}>
       <Table>
         <TableHead>
           <TableRow>
@@ -67,8 +66,8 @@ export const PriceSummary = props => {
               </Typography>
             </TableCell>
             <TableCell align={"right"}>
-              <Typography variant={"h6"}>
-                <Box color={"primary.main"}>{sum}</Box>
+              <Typography variant={"h6"} color={"primary"}>
+                {sum}
               </Typography>
             </TableCell>
           </TableRow>

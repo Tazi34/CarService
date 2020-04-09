@@ -7,11 +7,11 @@ export default function AuthorizedPrivateRoute({
   component: Component,
   user,
   roles,
-  ...rest
+  ...props
 }) {
   return (
     <Route
-      {...rest}
+      {...props}
       render={props => {
         //not logged
         if (!user) {
@@ -35,6 +35,7 @@ export default function AuthorizedPrivateRoute({
                   pathname: "/",
                   state: { from: props.location }
                 }}
+                {...props}
               />
             );
           }

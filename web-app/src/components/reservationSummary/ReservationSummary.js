@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
@@ -37,7 +36,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ReservationSummary(props) {
+export default function ReservationSummary({ reservation, ...props }) {
   const classes = useStyles();
   const {
     car,
@@ -48,7 +47,7 @@ export default function ReservationSummary(props) {
     endSpot,
     startCity,
     endCity
-  } = props.reservation;
+  } = reservation;
 
   const startLocation = { spot: startSpot.name, city: startCity.item.name };
   const endLocation = { spot: endSpot.name, city: endCity.item.name };

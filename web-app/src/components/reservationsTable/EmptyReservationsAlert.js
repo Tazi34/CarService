@@ -29,6 +29,7 @@ export const EmptyReservationsAlert = props => {
       className={classes.root}
       alignItems={"center"}
       spacing={3}
+      {...props}
     >
       <Grid item>
         <Typography className={classes.text} variant={"h4"}>

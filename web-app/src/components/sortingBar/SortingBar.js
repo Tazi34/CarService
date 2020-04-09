@@ -9,20 +9,20 @@ const mapStateToProps = state => ({
 });
 
 class SortingBar extends Component {
-  onValueChange = value => {
-    this.props.setSortField(value);
+  handleFieldChange = value => {
+    this.props.onFieldChange(value);
   };
-  onOrderChange = order => {
-    this.props.setSortOrder(order);
+  handleOrderChange = order => {
+    this.props.onOrderChange(order);
   };
 
   render() {
     const { sorting, onSubmit, options } = this.props;
     return (
       <SortingPanel
-        onValueChange={this.onValueChange}
-        onOrderChange={this.onOrderChange}
-        active={sorting.order != SortOrders.NOT_SORTED && sorting.field}
+        onFieldChange={this.handleFieldChange}
+        onOrderChange={this.handleOrderChange}
+        active={sorting.order !== SortOrders.NOT_SORTED && sorting.field}
         onSubmit={onSubmit}
         options={options}
       />
@@ -30,4 +30,4 @@ class SortingBar extends Component {
   }
 }
 
-export default connect(mapStateToProps)(SortingBar);
+export default connect(mapStateToProps, null)(SortingBar);

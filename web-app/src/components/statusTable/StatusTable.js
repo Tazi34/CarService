@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import { useTheme } from "@material-ui/core";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -31,20 +30,24 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-export function StatusTable(props) {
+export function StatusTable({
+  statuses,
+  title,
+  pagination,
+  handlePageChange,
+  handleRowsChange,
+  ...props
+}) {
   const classes = styles();
-
-  const statusItems = props.statuses;
-  const pagination = props.pagination;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   const renderStatus = status => {
-    return <StatusRow status={status} mobile={isMobile}></StatusRow>;
+    return <StatusRow status={status} key={status.id} isMobile={isMobile} />;
   };
 
   return (
-    <div className={classes.table}>
+    <div className={classes.table} {...props}>
       <div>
         <Typography
           color={"primary"}
@@ -52,9 +55,9 @@ export function StatusTable(props) {
           align={"center"}
           className={classes.title}
         >
-          {props.title}
+          {title}
         </Typography>
-        {statusItems.map(renderStatus)}
+        {statuses.map(renderStatus)}
       </div>
 
       <Box
@@ -67,7 +70,7 @@ export function StatusTable(props) {
             size={"small"}
             count={pagination.totalPages}
             page={pagination.currentPage}
-            onChange={props.handlePageChange}
+            onChange={handlePageChange}
             style={{ margin: "auto" }}
             siblingCount={0}
             boundaryCount={1}
@@ -79,8 +82,8 @@ export function StatusTable(props) {
             count={pagination.totalElements}
             rowsPerPage={pagination.pageSize}
             page={pagination.currentPage}
-            onChangePage={props.handlePageChange}
-            onChangeRowsPerPage={props.handleRowsChange}
+            onChangePage={handlePageChange}
+            onChangeRowsPerPage={handleRowsChange}
           />
         )}
       </Box>

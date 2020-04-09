@@ -14,19 +14,17 @@ const useStyles = makeStyles({
   }
 });
 
-export function LocationSummary(props) {
+export function LocationSummary({ date, location, title, ...props }) {
   const classes = useStyles();
-  //TODO provide data from props
-  const { date, location } = props;
 
   const formattedDate = moment(date).format("MMMM Do YYYY");
   const formattedLocation = `${location.spot}, ${location.city}`;
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} {...props}>
       <CardContent>
         <Typography component="h6" variant="h6" className={classes.title}>
-          <Box color={"secondary.main"}>{props.title}</Box>
+          <Box color={"secondary.main"}>{title}</Box>
         </Typography>
 
         <Typography variant={"body1"} color={"textPrimary"} component={"p"}>

@@ -6,6 +6,7 @@ import { getSchemaValidator } from "../../utilities/validation";
 import { TextField } from "mui-rff";
 import Typography from "@material-ui/core/Typography";
 import { carFormValidationSchema } from "./validation";
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,16 +24,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const CarForm = props => {
+export const CarForm = ({ onSubmit, onBack, ...props }) => {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} {...props}>
       <Typography align={"center"} color={"primary"} variant={"h5"}>
         ADD CAR
       </Typography>
       <Form
-        onSubmit={props.onSubmit}
+        onSubmit={onSubmit}
         validate={getSchemaValidator(carFormValidationSchema)}
       >
         {({ handleSubmit }) => (
@@ -43,7 +44,7 @@ export const CarForm = props => {
                   <Field name="make">
                     {props => (
                       <TextField
-                        placeholder={"Ex. civic"}
+                        placeholder={"E.g. Honda"}
                         fullWidth
                         label="Make"
                         variant="outlined"
@@ -56,7 +57,7 @@ export const CarForm = props => {
                   <Field name="model">
                     {props => (
                       <TextField
-                        placeholder={"Ex. honda"}
+                        placeholder={"E.g. Civic"}
                         fullWidth
                         label="Model"
                         variant="outlined"
@@ -142,10 +143,10 @@ export const CarForm = props => {
                 </Grid>
                 <Grid item>
                   <Button
-                    className={`${classes.button} ${classes.returnButton}`}
+                    className={clsx(classes.button, classes.returnButton)}
                     variant={"outlined"}
                     color={"secondary"}
-                    onClick={props.onBack}
+                    onClick={onBack}
                   >
                     Back
                   </Button>

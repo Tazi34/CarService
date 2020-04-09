@@ -10,15 +10,16 @@ const useStyles = makeStyles({
     padding: 5
   }
 });
-export const CarSummary = props => {
+export const CarSummary = ({ car, ...props }) => {
   const classes = useStyles();
-  const car = props.car;
+
   return (
     <Grid
       container
       direction={"row"}
       justify={"space-evenly"}
       alignItems={"center"}
+      {...props}
     >
       <Grid item xs={12} sm={6}>
         <CarDetailsTable car={car} />
@@ -28,7 +29,7 @@ export const CarSummary = props => {
           alt={`${car.make} ${car.model}`}
           src={sampleCar}
           className={classes.image}
-        ></img>
+        />
       </Grid>
     </Grid>
   );

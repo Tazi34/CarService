@@ -4,23 +4,19 @@ import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 
-export const ConfirmationDialog = props => {
+export const ConfirmationDialog = ({ onConfirm, onReject, ...props }) => {
   return (
     <Dialog {...props}>
       <DialogTitle style={{ padding: 30, paddingBottom: 20 }}>
         CONFIRM ACTION
       </DialogTitle>
       <DialogActions style={{ display: "flex", justify: "center" }}>
-        <Button
-          fullWidth={true}
-          onClick={props.onRejection}
-          variant={"contained"}
-        >
-          Disagree
+        <Button fullWidth onClick={onReject} variant={"contained"}>
+          Back
         </Button>
         <Button
-          fullWidth={true}
-          onClick={props.onConfirmation}
+          fullWidth
+          onClick={onConfirm}
           color="primary"
           autoFocus
           variant={"contained"}

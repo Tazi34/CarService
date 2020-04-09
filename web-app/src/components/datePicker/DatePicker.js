@@ -1,8 +1,13 @@
 import React from "react";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
-export const DatePicker = props => {
-  const { dateLabel, date, onDateChange, minDate } = props;
+export const DatePicker = ({
+  dateLabel,
+  date,
+  onDateChange,
+  minDate,
+  ...props
+}) => {
   return (
     <KeyboardDatePicker
       minDate={minDate}
@@ -18,6 +23,7 @@ export const DatePicker = props => {
       KeyboardButtonProps={{
         "aria-label": "change date"
       }}
+      {...props}
     />
   );
 };

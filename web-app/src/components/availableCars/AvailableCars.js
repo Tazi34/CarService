@@ -10,8 +10,6 @@ import { compose } from "recompose";
 import { reservationSummaryPage } from "../../utilities/urls/pages";
 import SortingBar from "../sortingBar/SortingBar";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import { FullWidthGridItem } from "../UI/home/FullWidthGridItem";
 import { Redirect } from "react-router";
 import {
   resetCarPagination,
@@ -21,28 +19,31 @@ import {
 } from "../../redux/car/carsReducer";
 import { SortOrders } from "../../utilities/sortOrders";
 import Backdrop from "@material-ui/core/Backdrop";
+import Box from "@material-ui/core/Box";
 
 const useStyles = createStyles(theme => ({
   root: {
     margin: "10px auto",
     padding: 30
   },
-  carList: {}
+  pagination: {
+    margin: "auto"
+  }
 }));
 
 class AvailableCars extends Component {
   componentDidMount() {
     this.props.resetPages();
-    this.getAvailableCarsPage(0);
+    this.getCarsPage(0);
   }
 
   componentDidUpdate() {
     if (!this.props.pagination.pages[0]) {
-      this.getAvailableCarsPage(0);
+      this.getCarsPage(0);
     }
   }
 
-  getAvailableCarsPage = page => {
+  getCarsPage = page => {
     const {
       pagination,
       sorting,
@@ -53,12 +54,16 @@ class AvailableCars extends Component {
     const { field: sortByField } = sorting;
     const { startDate, endDate, startSpot } = currentReservation;
     let sortOrder = sorting.order;
+
+    //IF ALREADY IN STORE
+    if (pagination.pages[page]) {
+      setPage(page);
+    }
     //IF NOT FETCHED
-    if (!pagination.pages[page]) {
+    else {
       if (sortOrder === SortOrders.NOT_SORTED) {
         sortOrder = null;
       }
-
       fetchCarPage(
         page,
         sortByField,
@@ -68,22 +73,18 @@ class AvailableCars extends Component {
         startSpot.id
       );
     }
-    //IF ALREADY IN STORE
-    else {
-      setPage(page);
-    }
   };
 
-  carSelectionHandler = car => {
+  handleCarSelect = car => {
     this.props.selectCar(car);
     this.props.history.push(reservationSummaryPage);
   };
-  sortingApplyHandler = () => {
+  handleSortApply = () => {
     this.props.resetPages();
   };
 
-  onPageChange = (event, page) => {
-    this.getAvailableCarsPage(page - 1);
+  handlePageChange = (event, page) => {
+    this.getCarsPage(page - 1);
   };
 
   render() {
@@ -97,13 +98,12 @@ class AvailableCars extends Component {
     } = this.props;
 
     if (!currentReservation.status.dateLocationPicked) {
-      return <Redirect to={"/"}></Redirect>;
+      return <Redirect to={"/"} />;
     }
 
-    if (
-      !pagination.pages[0] ||
-      pagination.pages[pagination.currentPage].fetching
-    ) {
+    const currentPage = pagination.pages[pagination.currentPage];
+
+    if (!currentPage || currentPage.fetching) {
       return (
         <Backdrop style={{ color: "#fff" }} open={true}>
           <CircularProgress color="inherit" />
@@ -111,32 +111,34 @@ class AvailableCars extends Component {
       );
     }
 
-    const currentPage = pagination.pages[pagination.currentPage];
-
     return (
       <Paper className={classes.root}>
-        <Grid container spacing={2} direction={"column"} alignItems={"center"}>
-          <FullWidthGridItem>
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          alignItems={"stretch"}
+          justifyContent={"center"}
+        >
+          <div>
             <SortingBar
-              setSortOrder={setSortOrder}
-              setSortField={setSortField}
-              onSubmit={this.sortingApplyHandler}
+              onOrderChange={setSortOrder}
+              onFieldChange={setSortField}
+              onSubmit={this.handleSortApply}
               options={CarsSortOrderOptions}
-            ></SortingBar>
-          </FullWidthGridItem>
-          <FullWidthGridItem className={classes.carList}>
+            />
+          </div>
+          <div className={classes.carList}>
             <CarList
-              handleCarSelect={this.carSelectionHandler}
+              onCarSelect={this.handleCarSelect}
               cars={currentPage.ids.map(id => cars[id])}
-            ></CarList>
-          </FullWidthGridItem>
-          <Grid item>
-            <Pagination
-              count={pagination.totalPages}
-              onChange={this.onPageChange}
-            ></Pagination>
-          </Grid>
-        </Grid>
+            />
+          </div>
+          <Pagination
+            className={classes.pagination}
+            count={pagination.totalPages}
+            onChange={this.handlePageChange}
+          />
+        </Box>
       </Paper>
     );
   }
@@ -147,8 +149,7 @@ const mapStateToProps = state => {
     cars: state.paginations.carReducer.cars,
     pagination: state.paginations.carReducer.pagination,
     sorting: state.paginations.carReducer.pagination.sorting,
-    currentReservation: state.bookingForm.reservation,
-    authenticated: state.authentication.isAuthenticated
+    currentReservation: state.bookingForm.reservation
   };
 };
 

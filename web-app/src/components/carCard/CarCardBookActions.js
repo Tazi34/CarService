@@ -2,10 +2,10 @@ import React from "react";
 import { CardActions } from "@material-ui/core";
 import BookCarButton from "./BookCarButton";
 
-const CarCardBookActions = props => {
+const CarCardBookActions = ({ car, onCarSelect, ...props }) => {
   return (
-    <CardActions>
-      <BookCarButton car={props.car} handleCarSelect={props.handleCarSelect} />
+    <CardActions {...props}>
+      <BookCarButton car={car} onCarSelect={onCarSelect} />
     </CardActions>
   );
 };

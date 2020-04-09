@@ -1,11 +1,11 @@
 import React from "react";
 import { TableCell, TableRow } from "@material-ui/core";
 
-export const NameValueTableRow = props => {
+export const NameValueTableRow = ({ name, value, ...props }) => {
   return (
-    <TableRow>
-      <TableCell align={"left"}>{props.name}</TableCell>
-      <TableCell align={"right"}>{props.value}</TableCell>
+    <TableRow {...props}>
+      <TableCell align={"left"}>{name}</TableCell>
+      <TableCell align={"right"}>{value}</TableCell>
     </TableRow>
   );
 };

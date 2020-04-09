@@ -40,15 +40,18 @@ const formatDate = dateString => {
   return { month, day, year };
 };
 
-export const ReservationRow = props => {
+export const ReservationRow = ({
+  reservation,
+  startDate,
+  endDate,
+  cancelReservation,
+  ...props
+}) => {
   const classes = useStyles();
-  const { reservation } = props;
-  const { car } = reservation;
-  const { startDate, endDate } = props.reservation;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const isCanceled = reservation.canceled;
+  const { car, canceled: isCanceled } = reservation;
 
   const rowClassName = clsx(
     classes.rowContainer,
@@ -62,14 +65,14 @@ export const ReservationRow = props => {
           variant={"contained"}
           color={"primary"}
           fullWidth={true}
-          onClick={() => props.cancelReservation(reservation)}
+          onClick={() => cancelReservation(reservation)}
         >
           Cancel
         </Button>
       </Grid>
     ) : (
       <Grid item xs={1}>
-        <IconButton onClick={() => props.cancelReservation(reservation)}>
+        <IconButton onClick={() => cancelReservation(reservation)}>
           <ClearIcon className={classes.deleteButton} />
         </IconButton>
       </Grid>
@@ -83,6 +86,7 @@ export const ReservationRow = props => {
       direction={isMobile ? "column" : "row"}
       alignItems={isMobile ? "stretch" : "center"}
       spacing={2}
+      {...props}
     >
       <Grid item xs={12} sm={3}>
         <DatesCell

@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import { ReturnButton } from "../UI/ReturnButton";
 import { clientDetailsValidationSchema } from "./validation";
 import { getSchemaValidator } from "../../utilities/validation";
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,30 +26,43 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ClientDetailsForm(props) {
+export default function ClientDetailsForm({
+  clientDetails,
+  email,
+  onSubmit,
+  ...props
+}) {
   const classes = useStyles();
-  const clientDetails = props.clientDetails;
-  let initialValues = { email: props.email };
+
+  let initialValues = { email };
 
   if (clientDetails) {
+    const {
+      address: { city, postalCode, country, street, houseNumber },
+      name: firstName,
+      surname: lastName,
+      pid,
+      phoneNumber
+    } = clientDetails;
+
     initialValues = {
       ...initialValues,
-      firstName: clientDetails.name,
-      lastName: clientDetails.surname,
-      pid: clientDetails.pid,
-      phoneNumber: clientDetails.phoneNumber,
-      city: clientDetails.address.city,
-      postalCode: clientDetails.address.postalCode,
-      country: clientDetails.address.country,
-      street: clientDetails.address.street,
-      houseNumber: clientDetails.address.houseNumber
+      firstName,
+      lastName,
+      pid,
+      phoneNumber,
+      city,
+      postalCode,
+      country,
+      street,
+      houseNumber
     };
   }
 
   return (
     <Paper className={classes.root}>
       <Form
-        onSubmit={props.onSubmit}
+        onSubmit={onSubmit}
         initialValues={initialValues}
         validate={getSchemaValidator(clientDetailsValidationSchema)}
       >
@@ -100,7 +114,6 @@ export default function ClientDetailsForm(props) {
                     {props => (
                       <TextField
                         fullWidth
-                        /*required*/
                         label="Street"
                         variant="outlined"
                         name={props.input.name}
@@ -200,9 +213,8 @@ export default function ClientDetailsForm(props) {
                 </Grid>
                 <Grid item>
                   <ReturnButton
-                    className={`${classes.button} ${classes.returnButton}`}
+                    className={clsx(classes.button, classes.returnButton)}
                     variant={"outlined"}
-                    color={"secondary"}
                   >
                     Back
                   </ReturnButton>

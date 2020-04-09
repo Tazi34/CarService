@@ -22,7 +22,7 @@ class ReservationSummaryContainer extends Component {
   }
 
   render() {
-    const { reservationData } = this.props;
+    const { reservationData, ...props } = this.props;
     if (
       !reservationData.status.dateLocationPicked ||
       !reservationData.car.selected
@@ -33,7 +33,7 @@ class ReservationSummaryContainer extends Component {
     if (priceFetching || error) {
       return <CircularProgress />;
     }
-    return <ReservationSummary reservation={reservationData} />;
+    return <ReservationSummary reservation={reservationData} {...props} />;
   }
 }
 

@@ -2,8 +2,6 @@ import React from "react";
 import {
   CardContent,
   Divider,
-  Grid,
-  Icon,
   makeStyles,
   Tooltip,
   Typography
@@ -11,7 +9,8 @@ import {
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import Filter5Icon from "@material-ui/icons/Filter5";
 import AutomaticTransmissionIcon from "../../images/carCard/automatic_transmission_2.png";
-import DoorsIcon from "../../images/carCard/car-door.svg";
+import Box from "@material-ui/core/Box";
+
 const useStyles = makeStyles({
   title: {
     fontWeight: 500,
@@ -22,15 +21,18 @@ const useStyles = makeStyles({
     marginBottom: -20
   },
   icon: {
-    fontSize: 35
+    fontSize: 35,
+    padding: 5,
+    margin: 5,
+    paddingLeft: 0,
+    marginLeft: 0
   }
 });
 
-export const CarCardContent = props => {
-  const car = props.car;
+export const CarCardContent = ({ car, ...props }) => {
   const classes = useStyles();
   return (
-    <CardContent>
+    <CardContent {...props}>
       <Typography
         gutterBottom
         component="h2"
@@ -41,36 +43,29 @@ export const CarCardContent = props => {
       </Typography>
       <Typography>{car.price} PLN/day</Typography>
       <Divider />
-      <Grid
-        container
-        spacing={1}
-        direction="row"
-        className={classes.iconContainer}
-      >
-        <Grid item>
+      <Box display={"flex"} className={classes.iconContainer}>
+        <div className={classes.icon}>
           <Tooltip title="Air conditioning" placement="top">
-            <AcUnitIcon className={classes.icon} fontSize="large" />
+            <AcUnitIcon />
           </Tooltip>
-        </Grid>
-        <Grid item>
+        </div>
+
+        <div className={classes.icon}>
           <Tooltip title="Transmission" placement="top">
             <img
+              alt={"Transmission"}
               style={{ height: "35px", width: "35px" }}
               src={AutomaticTransmissionIcon}
             />
           </Tooltip>
-        </Grid>
+        </div>
 
-        <Grid item>
+        <div className={classes.icon}>
           <Tooltip title="Seats" placement="top">
-            <Filter5Icon
-              className={classes.icon}
-              style={{ color: "green" }}
-              fontSize="large"
-            />
+            <Filter5Icon style={{ color: "green" }} />
           </Tooltip>
-        </Grid>
-      </Grid>
+        </div>
+      </Box>
     </CardContent>
   );
 };

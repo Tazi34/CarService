@@ -28,11 +28,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Home(props) {
+export default function Home({ history }) {
   const classes = useStyles();
 
   return (
-    <>
+    <div>
       <div className={classes.desktopSection}>
         <Grid
           container
@@ -47,9 +47,9 @@ export default function Home(props) {
             xs={"auto"}
           >
             <DateLocationForm
-              history={props.history}
+              history={history}
               className={classes.dateLocation}
-            ></DateLocationForm>
+            />
           </Grid>
           <Grid
             item
@@ -61,11 +61,8 @@ export default function Home(props) {
         </Grid>
       </div>
       <div className={classes.mobileSection}>
-        <DateLocationForm
-          history={props.history}
-          className={classes.dateLocation}
-        ></DateLocationForm>
+        <DateLocationForm history={history} className={classes.dateLocation} />
       </div>
-    </>
+    </div>
   );
 }

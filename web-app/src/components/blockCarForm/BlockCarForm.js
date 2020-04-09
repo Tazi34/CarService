@@ -27,16 +27,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const BlockCarForm = props => {
+export const BlockCarForm = ({ onSubmit, onBack, ...props }) => {
   const classes = useStyles();
   const initialValues = {
     startDate: moment(),
     endDate: moment().add(1, "day")
   };
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} {...props}>
       <Form
-        onSubmit={props.onSubmit}
+        onSubmit={onSubmit}
         initialValues={initialValues}
         validate={getSchemaValidator(blockFormValidationSchema)}
       >
@@ -110,7 +110,7 @@ export const BlockCarForm = props => {
                 </Button>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Button variant={"contained"} fullWidth onClick={props.onBack}>
+                <Button variant={"contained"} fullWidth onClick={onBack}>
                   Back
                 </Button>
               </Grid>

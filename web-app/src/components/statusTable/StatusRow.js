@@ -38,18 +38,19 @@ const formatStatusType = statusType => {
       return "booked";
     case "UNAVAILABLE":
       return "unavailable";
+    default:
+      return "";
   }
 };
 
-export const StatusRow = props => {
-  const { status, mobile } = props;
+export const StatusRow = ({ isMobile, status, ...props }) => {
   const { dateFrom, dateTo, car, type } = status;
   const classes = styles();
-  const cellPadding = mobile ? "none" : "default";
-  const dateFormat = mobile ? "DD.MM" : "DD.MM.YY";
+  const cellPadding = isMobile ? "none" : "default";
+  const dateFormat = isMobile ? "DD.MM" : "DD.MM.YY";
 
   const renderDates = () => {
-    return !mobile ? (
+    return !isMobile ? (
       <>
         <Grid sm={2} xs={6} item padding={cellPadding} className={classes.cell}>
           {moment(dateFrom).format(dateFormat)}
@@ -73,7 +74,7 @@ export const StatusRow = props => {
   };
 
   return (
-    <ExpansionPanel>
+    <ExpansionPanel {...props}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <Grid container alignContent={"center"}>
           <Grid
@@ -81,9 +82,9 @@ export const StatusRow = props => {
             xs={12}
             item
             className={classes.cell}
-            align={mobile ? "center" : "left"}
+            align={isMobile ? "center" : "left"}
           >
-            {mobile
+            {isMobile
               ? `${car.model} ${car.licence}`
               : `${car.make} ${car.model}`}
           </Grid>
@@ -94,7 +95,7 @@ export const StatusRow = props => {
             sm={2}
             xs={12}
             className={classes.cell}
-            align={mobile ? "center" : "right"}
+            align={isMobile ? "center" : "right"}
           >
             {formatStatusType(type)}
           </Grid>

@@ -18,13 +18,13 @@ const style = makeStyles(theme => ({
   }
 }));
 
-export function NavBarLink(props) {
+export function NavBarLink({ children, to, ...props }) {
   const classes = style();
 
   return (
-    <ListItem>
-      <Link component={RouterLink} to={props.to} className={classes.link}>
-        <Typography>{props.children}</Typography>
+    <ListItem {...props}>
+      <Link component={RouterLink} to={to} className={classes.link}>
+        <Typography>{children}</Typography>
       </Link>
     </ListItem>
   );

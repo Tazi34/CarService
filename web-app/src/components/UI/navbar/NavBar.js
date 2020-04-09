@@ -81,12 +81,12 @@ const renderNavBarItems = authenticated => {
     </>
   );
 };
-export default function NavBar(props) {
+export default function NavBar({ auth, ...props }) {
   const classes = useStyles();
   const history = useHistory();
-  const authenticated = props.auth.user ? true : false;
+  const authenticated = !!auth.user;
   const isAdmin =
-    authenticated && props.auth.user.roles.some(el => el.name === "ROLE_ADMIN");
+    authenticated && auth.user.roles.some(el => el.name === "ROLE_ADMIN");
 
   const [mobileSideBar, setMobileSideBar] = useState(false);
   const [adminBar, setAdminBar] = useState(false);
@@ -101,7 +101,7 @@ export default function NavBar(props) {
   };
 
   return (
-    <div className={classes.grow}>
+    <div className={classes.grow} {...props}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
           {isAdmin && !adminBar && (

@@ -15,13 +15,14 @@ export const LocationPicker = ({
   cities,
   spots,
   setCity,
-  setSpot
+  setSpot,
+  ...props
 }) => {
   const [labelId] = useState(uniqueId("label-"));
-
   const citiesValues = cities.byId.map(id => mapIdToCity(cities, id));
+
   return (
-    <>
+    <div {...props}>
       <FormControl fullWidth>
         <InputLabel id={`${labelId}_city`}>Source</InputLabel>
         <Select
@@ -34,8 +35,8 @@ export const LocationPicker = ({
           <MenuItem value={-1} key={-1} disabled>
             Source
           </MenuItem>
-          {citiesValues.map(city => (
-            <MenuItem value={city.id} key={city.id}>
+          {citiesValues.map((city, index) => (
+            <MenuItem value={city.id} key={index}>
               {city.name}
             </MenuItem>
           ))}
@@ -60,6 +61,6 @@ export const LocationPicker = ({
           ))}
         </Select>
       </FormControl>
-    </>
+    </div>
   );
 };

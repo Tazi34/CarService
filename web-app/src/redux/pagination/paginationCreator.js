@@ -168,7 +168,6 @@ export const createPaginator = (endpoint, resultKey) => {
 
   const onlyForEndpoint = reducer => {
     return (state = {}, action = {}) => {
-      console.log(action.type);
       if (action.type.startsWith("@@") || action.type === LOGOUT) {
         return reducer(state, action);
       }
@@ -176,7 +175,7 @@ export const createPaginator = (endpoint, resultKey) => {
         return state;
       }
 
-      return action.meta.endpoint == endpoint ? reducer(state, action) : state;
+      return action.meta.endpoint === endpoint ? reducer(state, action) : state;
     };
   };
   const sorting = (
@@ -200,7 +199,7 @@ export const createPaginator = (endpoint, resultKey) => {
   };
   const itemsReducer = (items = {}, action = {}) => {
     switch (action.type) {
-      case SET_RESULT_PAGE:
+      case SET_RESULT_PAGE: {
         let _items = {};
         for (let item of action.payload.results) {
           _items = {
@@ -208,10 +207,12 @@ export const createPaginator = (endpoint, resultKey) => {
             [item.id]: item
           };
         }
+
         return {
           ...items,
           ..._items
         };
+      }
       default:
         return items;
     }

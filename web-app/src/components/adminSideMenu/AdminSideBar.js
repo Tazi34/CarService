@@ -79,14 +79,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function AdminSideBar(props) {
+export default function AdminSideBar({ open, onClose, ...props }) {
   const classes = useStyles();
   const theme = useTheme();
-  const { open, onClose } = props;
   const history = useHistory();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} {...props}>
       <CssBaseline />
       <Drawer
         className={classes.drawer}

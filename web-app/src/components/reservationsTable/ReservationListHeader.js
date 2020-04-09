@@ -11,7 +11,13 @@ const useStyles = makeStyles({
 export const ReservationListHeader = props => {
   const classes = useStyles();
   return (
-    <Grid container className={classes.root} alignItems={"center"} spacing={2}>
+    <Grid
+      container
+      className={classes.root}
+      alignItems={"center"}
+      spacing={2}
+      {...props}
+    >
       <Grid item xs={3}>
         <Typography align={"center"}>date</Typography>
       </Grid>
@@ -25,7 +31,7 @@ export const ReservationListHeader = props => {
       <Grid item xs={2}>
         <Typography align={"right"}>price</Typography>
       </Grid>
-      <Grid item xs={1}></Grid>
+      <Grid item xs={1} />
     </Grid>
   );
 };

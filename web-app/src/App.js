@@ -16,7 +16,7 @@ import AuthorizedPrivateRoute from "./components/privateRoute/AuthorizedPrivateR
 import { ROLE_ADMIN, ROLE_USER } from "./authorizationValues";
 import Home from "./components/UI/home/Home";
 import Background from "./images/vintageCarBackground.jpg";
-import CarsTableContainer from "./components/admin/cars/CarsTableContainer";
+import CarsTableContainer from "./components/carsTable/CarsTableContainer";
 
 import { green, red } from "@material-ui/core/colors";
 import {
@@ -33,7 +33,7 @@ import {
 } from "./utilities/urls/pages";
 import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
 import StatusTableContainer from "./components/statusTable/StatusTableContainer";
-import CarFormWindow from "./components/carForm/CarFormWindow";
+import CarFormContainer from "./components/carForm/CarFormContainer";
 import Logout from "./components/logout/Logout";
 
 const theme = createMuiTheme({
@@ -95,7 +95,7 @@ function App(props) {
             <AuthorizedPrivateRoute
               user={props.auth.user}
               path={carFormPage}
-              component={CarFormWindow}
+              component={CarFormContainer}
             />
             <Route path={carsPage} component={AvailableCarList} />
             <AuthorizedPrivateRoute

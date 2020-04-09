@@ -10,11 +10,11 @@ const useStyles = makeStyles({
   }
 });
 
-export const CarDetailsTable = props => {
+export const CarDetailsTable = ({ car, ...props }) => {
   const classes = useStyles();
-  const car = props.car;
+
   return (
-    <TableContainer className={classes.root}>
+    <TableContainer className={classes.root} {...props}>
       <Table>
         <TableBody>
           <NameValueTableRow name={"Car"} value={`${car.make} ${car.model}`} />

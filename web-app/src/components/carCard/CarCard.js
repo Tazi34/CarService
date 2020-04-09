@@ -22,16 +22,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function CarCard(props) {
+function CarCard({ car, onCarSelect, ...props }) {
   const classes = useStyles();
-  const { car } = props;
 
   if (!car) return null;
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} {...props}>
       <CardMedia className={classes.media} title={car.make + " " + car.model}>
         <img
+          alt={car.make + " " + car.model}
           className={classes.image}
           src={
             transparentCars[Math.floor(Math.random() * transparentCars.length)]
@@ -39,7 +39,7 @@ function CarCard(props) {
         />
       </CardMedia>
       <CarCardContent car={car} />
-      <CarCardBookActions car={car} handleCarSelect={props.handleCarSelect} />
+      <CarCardBookActions car={car} onCarSelect={onCarSelect} />
     </Card>
   );
 }

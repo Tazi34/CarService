@@ -1,15 +1,13 @@
-// @flow
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { NavBarLink } from "./NavBarLink";
 
-export function GuestLinks(props) {
+export function GuestLinks() {
   return (
     <>
-      <NavBarLink component={Link} to={"/contact"} style={{ color: "white" }}>
+      <NavBarLink to={"/contact"} style={{ color: "white" }}>
         CONTACT
       </NavBarLink>
-      <NavBarLink component={Link} to={"/about"} style={{ color: "white" }}>
+      <NavBarLink to={"/about"} style={{ color: "white" }}>
         ABOUT
       </NavBarLink>
     </>

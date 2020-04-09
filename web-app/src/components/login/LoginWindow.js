@@ -11,7 +11,6 @@ import { loginValidationSchema } from "./validation";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    height: "100%",
     padding: "20px 30px"
   },
   title: {
@@ -26,23 +25,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LoginWindow(props) {
+export default function LoginWindow({ login, register, ...props }) {
   const classes = useStyles();
 
   return (
-    <Box bgcolor={"background.default"} className={classes.container}>
+    <Box
+      bgcolor={"background.default"}
+      className={classes.container}
+      {...props}
+    >
       <Form
-        onSubmit={values => props.login(values)}
+        onSubmit={values => login(values)}
         validate={getSchemaValidator(loginValidationSchema)}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit} style={{ height: "100%" }}>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              style={{ height: "100%" }}
-            >
-              <div style={{ flexGrow: 0.8 }}></div>
+          <form onSubmit={handleSubmit}>
+            <Box display={"flex"} flexDirection={"column"}>
               <Typography
                 className={classes.title}
                 variant={"h5"}
@@ -55,6 +53,7 @@ export default function LoginWindow(props) {
                   <TextField
                     className={classes.field}
                     fullWidth
+                    autoComplete={"username"}
                     label="Email address"
                     name={props.input.name}
                   />
@@ -84,7 +83,7 @@ export default function LoginWindow(props) {
                   </Button>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Button fullWidth variant="outlined" onClick={props.register}>
+                  <Button fullWidth variant="outlined" onClick={register}>
                     SIGN UP
                   </Button>
                 </Grid>
@@ -92,7 +91,6 @@ export default function LoginWindow(props) {
               <Typography className={classes.field}>
                 Forgot password?
               </Typography>
-              <div style={{ flexGrow: 1 }}></div>
             </Box>
           </form>
         )}

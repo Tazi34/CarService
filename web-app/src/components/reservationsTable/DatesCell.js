@@ -9,11 +9,11 @@ const useStyles = makeStyles({
   }
 });
 
-export const DatesCell = props => {
+export const DatesCell = ({ startDate, endDate, ...props }) => {
   const classes = useStyles();
-  const { startDate, endDate } = props;
+
   return (
-    <Grid container alignItems={"center"}>
+    <Grid container alignItems={"center"} {...props}>
       <Grid item xs={4}>
         <Typography align={"center"} className={classes.boldText}>
           {startDate.month}

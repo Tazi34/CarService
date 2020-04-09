@@ -18,23 +18,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const NavBarDrawer = props => {
+export const NavBarDrawer = ({ auth, onClose, ...props }) => {
   const classes = useStyles();
-  const authenticated = props.auth;
 
   const renderItems = () => {
     return (
       <>
-        {authenticated && <UserLinks />}
+        {auth && <UserLinks />}
         <GuestLinks />
-        <LoginLogoutLink auth={authenticated} />
+        <LoginLogoutLink auth={auth} />
       </>
     );
   };
 
   return (
     <Drawer anchor={"right"} {...props}>
-      <div onKeyPress={props.onClose} onClick={props.onClose}>
+      <div onKeyPress={onClose} onClick={onClose}>
         <List className={classes.list} direction={"column"}>
           {renderItems()}
         </List>

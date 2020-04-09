@@ -44,7 +44,7 @@ class LoginContainer extends PureComponent {
       this.handleLoginError
     );
   };
-  handleRegisterRedirection = () => this.props.history.push(registerPage);
+  handleRegisterRedirect = () => this.props.history.push(registerPage);
 
   render() {
     const { classes, authenticated, location } = this.props;
@@ -64,8 +64,8 @@ class LoginContainer extends PureComponent {
           <Box className={classes.fullHeight}>
             <LoginWindow
               login={this.handleLogin}
-              register={this.handleRegisterRedirection}
-            ></LoginWindow>
+              register={this.handleRegisterRedirect}
+            />
           </Box>
         </Grid>
       </Grid>

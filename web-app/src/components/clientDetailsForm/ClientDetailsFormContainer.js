@@ -12,9 +12,9 @@ class ClientDetailsFormContainer extends Component {
     this.props.fetchClientDetails(this.props.user.email);
   }
 
-  submitForm = async userInfo => {
-    const bookingForm = this.props.bookingForm;
-    const reservation = bookingForm.reservation;
+  handleSubmit = async userInfo => {
+    const { bookingForm, postForm, history } = this.props;
+    const { reservation } = bookingForm;
     const clientDetailsFromServer = bookingForm.clientDetails.item;
     const requestReservationData = prepareData(
       userInfo,
@@ -22,23 +22,32 @@ class ClientDetailsFormContainer extends Component {
       clientDetailsFromServer
     );
 
-    const status = await this.props.postForm(requestReservationData);
-    if (status === 200) this.props.history.replace(reservationsPage);
-    else alert("ERROR");
+    const status = await postForm(requestReservationData);
+
+    if (status === 200) {
+      history.replace(reservationsPage);
+    } else {
+      alert("ERROR");
+    }
   };
 
   render() {
-    const bookingForm = this.props.bookingForm;
-    const reservation = bookingForm.reservation;
-    if (!reservation.car.selected) return <Redirect to="/"></Redirect>;
-    if (bookingForm.clientDetails.isFetching) return <CircularProgress />;
+    const { bookingForm, user } = this.props;
+    const { reservation } = bookingForm;
+    if (!reservation.car.selected) {
+      return <Redirect to="/" />;
+    }
+
+    if (bookingForm.clientDetails.isFetching) {
+      return <CircularProgress />;
+    }
 
     return (
       <ClientDetailsForm
-        onSubmit={this.submitForm}
-        email={this.props.user.email}
+        onSubmit={this.handleSubmit}
+        email={user.email}
         clientDetails={bookingForm.clientDetails.item}
-      ></ClientDetailsForm>
+      />
     );
   }
 }

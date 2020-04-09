@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 export const WelcomeWindow = props => {
   const classes = useStyles();
   return (
-    <Box className={classes.root}>
+    <Box className={classes.root} {...props}>
       <Box className={classes.container} color={"primary.contrastText"}>
         <Typography variant={"h3"}>
           MAKE YOUR

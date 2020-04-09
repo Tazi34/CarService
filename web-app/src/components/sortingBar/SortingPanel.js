@@ -12,9 +12,16 @@ const renderOption = (option, key) => {
   );
 };
 
-export default function SortingPanel(props) {
+export default function SortingPanel({
+  onFieldChange,
+  onOrderChange,
+  onSubmit,
+  options,
+  active,
+  ...props
+}) {
   return (
-    <div style={{ margin: "10px 20px" }}>
+    <div style={{ margin: "10px 20px" }} {...props}>
       <Grid spacing={2} container justify={"flex-end"} alignItems={"center"}>
         <Grid item xs={6} sm={"auto"}>
           <Select
@@ -22,12 +29,12 @@ export default function SortingPanel(props) {
             variant={"outlined"}
             native
             defaultValue=""
-            onChange={e => props.onValueChange(e.target.value)}
+            onChange={e => onFieldChange(e.target.value)}
           >
             <option value="" disabled>
               By
             </option>
-            {props.options.map((option, index) => renderOption(option, index))}
+            {options.map((option, index) => renderOption(option, index))}
           </Select>
         </Grid>
         <Grid item xs={6} sm={"auto"}>
@@ -35,7 +42,7 @@ export default function SortingPanel(props) {
             fullWidth={true}
             native
             variant={"outlined"}
-            onChange={e => props.onOrderChange(e.target.value)}
+            onChange={e => onOrderChange(e.target.value)}
             defaultValue=""
           >
             <option value="" disabled>
@@ -51,8 +58,8 @@ export default function SortingPanel(props) {
             variant="contained"
             color={"primary"}
             size={"large"}
-            disabled={!props.active}
-            onClick={props.onSubmit}
+            disabled={!active}
+            onClick={onSubmit}
           >
             Apply
           </Button>

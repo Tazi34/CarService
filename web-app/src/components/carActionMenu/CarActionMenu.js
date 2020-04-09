@@ -42,11 +42,11 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem);
 
-export default function CarActionMenu(props) {
+export default function CarActionMenu({ car, blockCar, deleteCar, ...props }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [confirmationDialog, setConfirmationDialog] = React.useState(false);
   const [blockCarDialog, setBlockCarDialog] = React.useState(false);
-  const { car, blockCar, deleteCar } = props;
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,33 +55,45 @@ export default function CarActionMenu(props) {
     setAnchorEl(null);
   };
 
-  const handleRejection = () => {
+  const handleDeletionReject = () => {
     setConfirmationDialog(false);
     handleClose();
   };
-  const handleConfirmation = () => {
+  const handleDeletionConfirm = () => {
     deleteCar(car);
     setConfirmationDialog(false);
     handleClose();
   };
 
-  const handleBlockCarSubmission = values => {
+  const handleBlockCarSubmit = values => {
     blockCar(car, values);
     setBlockCarDialog(false);
     handleClose();
   };
+
+  const openConfirmationDialog = () => {
+    setConfirmationDialog(true);
+  };
+
+  const closeBlockCarDialog = () => {
+    setBlockCarDialog(false);
+  };
+  const openBlockCarDialog = () => {
+    setBlockCarDialog(true);
+  };
+
   return (
-    <div>
+    <div {...props}>
       <ConfirmationDialog
-        onClose={handleRejection}
+        onClose={handleDeletionReject}
         open={confirmationDialog}
-        onConfirmation={handleConfirmation}
-        onRejection={handleRejection}
+        onConfirm={handleDeletionConfirm}
+        onReject={handleDeletionReject}
       />
-      <Dialog onClose={() => setBlockCarDialog(false)} open={blockCarDialog}>
+      <Dialog onClose={closeBlockCarDialog} open={blockCarDialog}>
         <BlockCarForm
-          onSubmit={handleBlockCarSubmission}
-          onBack={() => setBlockCarDialog(false)}
+          onSubmit={handleBlockCarSubmit}
+          onBack={closeBlockCarDialog}
         />
       </Dialog>
       <KeyboardArrowDownIcon color="primary" onClick={handleClick} />
@@ -91,13 +103,13 @@ export default function CarActionMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem onClick={() => setBlockCarDialog(true)}>
+        <StyledMenuItem onClick={openBlockCarDialog}>
           <ListItemIcon>
             <BlockIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Block" />
         </StyledMenuItem>
-        <StyledMenuItem onClick={() => setConfirmationDialog(true)}>
+        <StyledMenuItem onClick={openConfirmationDialog}>
           <ListItemIcon>
             <DeleteIcon fontSize="small" />
           </ListItemIcon>

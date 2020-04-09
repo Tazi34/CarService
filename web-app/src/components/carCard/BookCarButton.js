@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-const BookCarButton = props => {
+const BookCarButton = ({ onCarSelect, car, ...props }) => {
   return (
     <Button
       {...props}
       variant="contained"
       size="small"
       color="primary"
-      onClick={() => props.handleCarSelect(props.car)}
+      onClick={() => onCarSelect(car)}
     >
       BOOK
     </Button>

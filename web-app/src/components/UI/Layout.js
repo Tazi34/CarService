@@ -17,15 +17,14 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Layout(props) {
+function Layout({ children, auth }) {
   const classes = styles();
   return (
     <>
-      <NavBar auth={props.auth} />
+      <NavBar auth={auth} />
       <Container className={classes.root} maxWidth={false}>
-        {props.children}
+        {children}
       </Container>
-      {/*<Footer />*/}
     </>
   );
 }

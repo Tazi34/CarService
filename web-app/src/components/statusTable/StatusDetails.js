@@ -2,13 +2,12 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-export const StatusDetails = props => {
-  const { status } = props;
+export const StatusDetails = ({ status, ...props }) => {
   const { clientInfo, startSpot, endSpot } = status;
   return (
-    <Grid container>
+    <Grid container {...props}>
       {clientInfo && (
-        <Grid item xs={6} display={"flex"} flexDirection={"column"}>
+        <Grid item xs={6}>
           <Typography color={"primary"}>Client:</Typography>
           <div>
             {clientInfo.name} {clientInfo.surname}
@@ -28,7 +27,7 @@ export const StatusDetails = props => {
       {status.comment && (
         <Grid item xs={12}>
           <Typography color={"primary"}>Description:</Typography>
-          <Typography variant={"body"}>{status.comment}</Typography>
+          <Typography variant={"body1"}>{status.comment}</Typography>
         </Grid>
       )}
     </Grid>

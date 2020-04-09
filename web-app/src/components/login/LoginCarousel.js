@@ -22,7 +22,7 @@ export const LoginCarousel = props => {
   const carouselTransitionTimeInMs = 1000;
   const images = Array(5).fill(WorkInProgressImg);
   return (
-    <Box bgcolor={"background.default"} className={classes.root}>
+    <Box bgcolor={"background.default"} className={classes.root} {...props}>
       <Carousel
         showThumbs={false}
         showIndicators={true}
@@ -33,9 +33,9 @@ export const LoginCarousel = props => {
         interval={carouselIntervalInMs}
         transitionTime={carouselTransitionTimeInMs}
       >
-        {images.map(image => (
-          <div>
-            <img src={image} className={classes.image} />
+        {images.map((image, index) => (
+          <div key={index}>
+            <img src={image} className={classes.image} alt={"car"} />
           </div>
         ))}
       </Carousel>

@@ -39,22 +39,17 @@ class DateLocationWindow extends Component {
     this.props.getCities();
   }
 
-  submit = () => {
+  handleSubmit = () => {
     this.props.confirmSelection();
     this.props.history.push(carsPage);
   };
 
   render() {
-    const { classes, reservation, spots, cities } = this.props;
     const {
-      startCity,
-      endCity,
-      startDate,
-      endDate,
-      startSpot,
-      endSpot
-    } = reservation;
-    const {
+      classes,
+      spots,
+      cities,
+      reservation,
       setStartCity,
       setStartDate,
       setStartSpot,
@@ -63,11 +58,21 @@ class DateLocationWindow extends Component {
       setEndDate
     } = this.props;
 
+    const {
+      startCity,
+      endCity,
+      startDate,
+      endDate,
+      startSpot,
+      endSpot
+    } = reservation;
+
     const selected =
       startCity.selected &&
       endCity.selected &&
       startSpot.selected &&
       endSpot.selected;
+
     return (
       <Paper className={classes.root}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -114,7 +119,7 @@ class DateLocationWindow extends Component {
                 fullWidth
                 color="primary"
                 variant="contained"
-                onClick={this.submit}
+                onClick={this.handleSubmit}
               >
                 Find Available
               </Button>

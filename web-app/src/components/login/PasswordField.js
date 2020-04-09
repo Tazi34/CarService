@@ -18,6 +18,7 @@ export const PasswordField = props => {
     <TextField
       {...props}
       type={passwordVisibility ? "text" : "password"}
+      autoComplete={"current-password"}
       InputProps={{
         endAdornment: (
           <InputAdornment position={"end"}>
@@ -31,6 +32,6 @@ export const PasswordField = props => {
           </InputAdornment>
         )
       }}
-    ></TextField>
+    />
   );
 };

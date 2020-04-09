@@ -10,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { getSchemaValidator } from "../../utilities/validation";
 import { registerFormValidationSchema } from "./validation";
-import { useHistory } from "react-router";
 import { PasswordField } from "../login/PasswordField";
 
 const useStyles = makeStyles(theme => ({
@@ -25,21 +24,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function RegistrationForm(props) {
-  const history = useHistory();
-  if (props.user) {
+const RegistrationForm = ({ user, handleRegister, history }) => {
+  if (user) {
     history.replace("/");
   }
+
   const classes = useStyles();
+
   const onSubmit = async values => {
-    props.register(values).then(error => {
+    handleRegister(values).then(error => {
       if (error) {
         if (error.request.status === 400)
           alert("Account with this email already exists.");
-        else alert("There was error creating your registerForm");
+        else alert("Unexpected error");
       } else {
-        alert("You are registerForm was created,");
-        props.history.replace("/");
+        alert("Your account was created.");
+        history.replace("/");
       }
     });
   };
@@ -56,32 +56,34 @@ function RegistrationForm(props) {
               SIGN UP
             </Typography>
             <Field name="email">
-              {props => (
+              {fieldProps => (
                 <TextField
                   type="email"
+                  autoComplete={"username"}
                   fullWidth
                   label="Email"
-                  name={props.input.name}
+                  name={fieldProps.input.name}
                 />
               )}
             </Field>
             <Field name="password">
-              {props => (
+              {fieldProps => (
                 <PasswordField
                   fullWidth
                   className={classes.field}
                   label="Password"
-                  name={props.input.name}
+                  name={fieldProps.input.name}
                 />
               )}
             </Field>
             <Field name="passwordConfirmation">
-              {props => (
+              {fieldProps => (
                 <TextField
+                  autoComplete={"new-password"}
                   type="password"
                   fullWidth
                   label="Confirm password"
-                  name={props.input.name}
+                  name={fieldProps.input.name}
                 />
               )}
             </Field>
@@ -99,14 +101,10 @@ function RegistrationForm(props) {
       </Form>
     </Paper>
   );
-}
-
-const mapStateToProps = state => ({
-  registration: state.registration
-});
-
-const mapDispatchToProps = {
-  register: register
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
+const mapDispatchToProps = {
+  handleRegister: register
+};
+
+export default connect(null, mapDispatchToProps)(RegistrationForm);

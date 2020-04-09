@@ -23,26 +23,29 @@ const useStyles = makeStyles({
   }
 });
 
-export const ReservationsTable = props => {
+export const ReservationsTable = ({
+  reservations,
+  cancelReservation,
+  ...props
+}) => {
   const classes = useStyles();
-  const reservations = props.reservations;
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-  if (reservations.length == 0) {
+  if (reservations.length === 0) {
     return <EmptyReservationsAlert />;
   }
 
   return (
-    <List className={classes.root}>
+    <List className={classes.root} {...props}>
       <div className={classes.container}>
-        {!isMobile && <ReservationListHeader />}
+        {!isMobile && <ReservationListHeader />}s
         {reservations.map(reservation => (
           <ListItem key={reservation.id} className={classes.row}>
             <ReservationRow
               reservation={reservation}
-              cancelReservation={props.cancelReservation}
+              cancelReservation={cancelReservation}
             />
           </ListItem>
         ))}
