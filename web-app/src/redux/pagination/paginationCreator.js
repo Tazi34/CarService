@@ -168,7 +168,8 @@ export const createPaginator = (endpoint, resultKey) => {
 
   const onlyForEndpoint = reducer => {
     return (state = {}, action = {}) => {
-      if (action.type == "@@INIT" || action.type === LOGOUT) {
+      console.log(action.type);
+      if (action.type.startsWith("@@") || action.type === LOGOUT) {
         return reducer(state, action);
       }
       if (typeof action.meta === "undefined") {
