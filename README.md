@@ -9,6 +9,8 @@ Car booking site for both clients and admins.
 
 Learning project developed to practice frontend and backend skills.
 
+Link to app: https://carservice-tazi34.netlify.com/
+
 ## Table of contents
 * [Preview](#preview)
 * [Built with](#built-with)
@@ -31,8 +33,6 @@ Learning project developed to practice frontend and backend skills.
 
 
 ## Getting Started
-Link to app: https://carservice-tazi34.netlify.com/
-
 To explore app you can create your own user account or use existing one with provided sample data.
 
 Sample user credentials:
@@ -43,6 +43,8 @@ In order to access site as an admin you should use this predefined account:
    * Email: admin@admin.com
    * Password: admin  
 ## Setup
+Backend is running on heroku and fronted is deployed to netlify. 
+
 In order to run app on localhost follow these steps:
 * Start backend
 ```
