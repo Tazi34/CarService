@@ -22,7 +22,6 @@ import { green, red } from "@material-ui/core/colors";
 import {
   adminCarsPage,
   adminStatusPage,
-  carFormPage,
   carsPage,
   detailsPage,
   loginPage,
@@ -33,7 +32,6 @@ import {
 } from "./utilities/urls/pages";
 import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
 import StatusTableContainer from "./components/statusTable/StatusTableContainer";
-import CarFormContainer from "./components/carForm/CarFormContainer";
 import Logout from "./components/logout/Logout";
 
 const theme = createMuiTheme({
@@ -92,11 +90,7 @@ function App(props) {
               path={reservationSummaryPage}
               component={ReservationSummaryContainer}
             />
-            <AuthorizedPrivateRoute
-              user={props.auth.user}
-              path={carFormPage}
-              component={CarFormContainer}
-            />
+
             <Route path={carsPage} component={AvailableCarList} />
             <AuthorizedPrivateRoute
               path={detailsPage}
