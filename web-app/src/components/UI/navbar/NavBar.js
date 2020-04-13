@@ -101,7 +101,13 @@ export default function NavBar({ auth, ...props }) {
   };
 
   return (
-    <div className={classes.grow} {...props}>
+    <div
+      className={classes.grow}
+      {...props}
+      onClick={() => {
+        if (mobileSideBar) setMobileSideBar(false);
+      }}
+    >
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
           {isAdmin && !adminBar && (
