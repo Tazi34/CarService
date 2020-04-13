@@ -11,7 +11,8 @@ import { loginValidationSchema } from "./validation";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    padding: "20px 30px"
+    padding: "20px 30px",
+    height: "100%"
   },
   title: {
     padding: "10px 0 20px 0"

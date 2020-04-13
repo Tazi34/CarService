@@ -4,9 +4,9 @@ import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 
-export const ConfirmationDialog = ({ onConfirm, onReject, ...props }) => {
+export const ConfirmationDialog = ({ onConfirm, onReject, open, ...props }) => {
   return (
-    <Dialog {...props}>
+    <Dialog {...props} open={open} onClose={onReject}>
       <DialogTitle style={{ padding: 30, paddingBottom: 20 }}>
         CONFIRM ACTION
       </DialogTitle>

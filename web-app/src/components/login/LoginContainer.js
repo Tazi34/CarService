@@ -1,9 +1,8 @@
 import { loginAction } from "../../redux/authentication/authenticationActions";
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import LoginWindow from "./LoginWindow";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import Box from "@material-ui/core/Box";
 import { LoginCarousel } from "./LoginCarousel";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -29,12 +28,12 @@ const styles = theme => ({
   }
 });
 
-class LoginContainer extends PureComponent {
+class LoginContainer extends Component {
   handleLoginError = error => {
-    alert("error");
+    this.props.onError("Error");
   };
   handleSuccess = () => {
-    alert("success");
+    this.props.onSuccess("Success");
   };
 
   handleLogin = userCredentials => {
@@ -61,12 +60,10 @@ class LoginContainer extends PureComponent {
           <LoginCarousel className={classes.fullHeight} />
         </Grid>
         <Grid item xs={10} md={4} lg={4}>
-          <Box className={classes.fullHeight}>
-            <LoginWindow
-              login={this.handleLogin}
-              register={this.handleRegisterRedirect}
-            />
-          </Box>
+          <LoginWindow
+            login={this.handleLogin}
+            register={this.handleRegisterRedirect}
+          />
         </Grid>
       </Grid>
     );

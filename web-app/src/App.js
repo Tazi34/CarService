@@ -22,7 +22,6 @@ import { green, red } from "@material-ui/core/colors";
 import {
   adminCarsPage,
   adminStatusPage,
-  carFormPage,
   carsPage,
   detailsPage,
   loginPage,
@@ -33,8 +32,9 @@ import {
 } from "./utilities/urls/pages";
 import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
 import StatusTableContainer from "./components/statusTable/StatusTableContainer";
-import CarFormContainer from "./components/carForm/CarFormContainer";
 import Logout from "./components/logout/Logout";
+import { withAlertMessage } from "./components/wrappers/withAlertMessage/withAlertMessage";
+import { compose } from "recompose";
 
 const theme = createMuiTheme({
   typography: {
@@ -92,11 +92,7 @@ function App(props) {
               path={reservationSummaryPage}
               component={ReservationSummaryContainer}
             />
-            <AuthorizedPrivateRoute
-              user={props.auth.user}
-              path={carFormPage}
-              component={CarFormContainer}
-            />
+
             <Route path={carsPage} component={AvailableCarList} />
             <AuthorizedPrivateRoute
               path={detailsPage}
@@ -116,11 +112,25 @@ function App(props) {
               user={props.auth.user}
               component={StatusTableContainer}
             />
-            <Route path={loginPage} component={LoginContainer} />
+            <Route
+              path={loginPage}
+              render={subProps => (
+                <LoginContainer
+                  {...subProps}
+                  onSuccess={props.alertSuccess}
+                  onError={props.alertError}
+                />
+              )}
+            />
             <Route
               path={registerPage}
               render={subProps => (
-                <RegistrationForm {...subProps} user={props.auth.user} />
+                <RegistrationForm
+                  {...subProps}
+                  user={props.auth.user}
+                  onSuccess={props.alertSuccess}
+                  onError={props.alertError}
+                />
               )}
             />
             <AuthorizedPrivateRoute
@@ -146,4 +156,7 @@ const mapStateToProps = state => {
     auth: state.authentication
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default compose(
+  withAlertMessage,
+  connect(mapStateToProps, mapDispatchToProps)
+)(App);

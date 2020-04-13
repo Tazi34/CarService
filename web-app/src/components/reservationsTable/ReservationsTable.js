@@ -40,7 +40,7 @@ export const ReservationsTable = ({
   return (
     <List className={classes.root} {...props}>
       <div className={classes.container}>
-        {!isMobile && <ReservationListHeader />}s
+        {!isMobile && <ReservationListHeader />}
         {reservations.map(reservation => (
           <ListItem key={reservation.id} className={classes.row}>
             <ReservationRow

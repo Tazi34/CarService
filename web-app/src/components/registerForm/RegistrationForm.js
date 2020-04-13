@@ -11,12 +11,16 @@ import Typography from "@material-ui/core/Typography";
 import { getSchemaValidator } from "../../utilities/validation";
 import { registerFormValidationSchema } from "./validation";
 import { PasswordField } from "../login/PasswordField";
+import { withAlertMessage } from "../wrappers/withAlertMessage/withAlertMessage";
+import { withLoadingSpinner } from "../wrappers/withLoadingSpinner/withLoadingSpinner";
+import { compose } from "recompose";
 
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: "600px",
     margin: "auto",
-    padding: "10px 30px"
+    padding: "10px 30px 30px 30px",
+    marginTop: 60
   },
   button: {
     marginTop: "20px",
@@ -24,21 +28,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RegistrationForm = ({ user, handleRegister, history }) => {
+const RegistrationForm = ({ user, handleRegister, history, ...props }) => {
+  const classes = useStyles();
+
   if (user) {
     history.replace("/");
   }
 
-  const classes = useStyles();
-
   const onSubmit = async values => {
     handleRegister(values).then(error => {
       if (error) {
-        if (error.request.status === 400)
-          alert("Account with this email already exists.");
-        else alert("Unexpected error");
+        if (error.request.status === 400) {
+          props.onError("Account with this email already exists.");
+        } else {
+          props.onError("Error occurred while processing action.");
+        }
       } else {
-        alert("Your account was created.");
+        props.onSuccess("Your account was created.");
         history.replace("/");
       }
     });
@@ -107,4 +113,8 @@ const mapDispatchToProps = {
   handleRegister: register
 };
 
-export default connect(null, mapDispatchToProps)(RegistrationForm);
+export default compose(
+  withAlertMessage,
+  withLoadingSpinner,
+  connect(null, mapDispatchToProps)
+)(RegistrationForm);
