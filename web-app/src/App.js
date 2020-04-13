@@ -33,6 +33,8 @@ import {
 import ReservationSummaryContainer from "./components/reservationSummary/ReservationSummaryContainer";
 import StatusTableContainer from "./components/statusTable/StatusTableContainer";
 import Logout from "./components/logout/Logout";
+import { withAlertMessage } from "./components/wrappers/withAlertMessage/withAlertMessage";
+import { compose } from "recompose";
 
 const theme = createMuiTheme({
   typography: {
@@ -110,11 +112,25 @@ function App(props) {
               user={props.auth.user}
               component={StatusTableContainer}
             />
-            <Route path={loginPage} component={LoginContainer} />
+            <Route
+              path={loginPage}
+              render={subProps => (
+                <LoginContainer
+                  {...subProps}
+                  onSuccess={props.alertSuccess}
+                  onError={props.alertError}
+                />
+              )}
+            />
             <Route
               path={registerPage}
               render={subProps => (
-                <RegistrationForm {...subProps} user={props.auth.user} />
+                <RegistrationForm
+                  {...subProps}
+                  user={props.auth.user}
+                  onSuccess={props.alertSuccess}
+                  onError={props.alertError}
+                />
               )}
             />
             <AuthorizedPrivateRoute
@@ -140,4 +156,7 @@ const mapStateToProps = state => {
     auth: state.authentication
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default compose(
+  withAlertMessage,
+  connect(mapStateToProps, mapDispatchToProps)
+)(App);
