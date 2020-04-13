@@ -98,6 +98,8 @@ function App(props) {
               path={detailsPage}
               user={props.auth.user}
               component={ClientDetailsFormContainer}
+              onSuccess={props.alertSuccess}
+              onError={props.alertError}
             />
             <AuthorizedPrivateRoute
               exact

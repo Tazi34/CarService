@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { AlertMessage } from "../../alertSnackBar/AlertMessage";
+import { AlertMessage } from "../../alertMessage/AlertMessage";
 
 export function withAlertMessage(WrappedComponent) {
   /* eslint-disable react/display-name */

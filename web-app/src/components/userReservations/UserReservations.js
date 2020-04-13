@@ -11,6 +11,7 @@ import { compose } from "recompose";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { CircularProgress } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
+import { withAlertMessage } from "../wrappers/withAlertMessage/withAlertMessage";
 
 const styles = theme => ({
   root: {
@@ -28,12 +29,18 @@ class UserReservations extends Component {
   }
 
   cancelReservation = reservation => {
-    this.props.cancelReservation(reservation.id).then(
+    const {
+      cancelReservation,
+      alertError,
+      alertSuccess,
+      fetchReservations
+    } = this.props;
+    cancelReservation(reservation.id).then(
       () => {
-        alert("SUCCESS");
-        this.props.fetchReservations(this.props.user.email);
+        alertSuccess("Reservation canceled.");
+        fetchReservations(this.props.user.email);
       },
-      () => alert("ERROR")
+      () => alertError("Error while processing request.")
     );
   };
 
@@ -82,5 +89,6 @@ const mapDispatchToProps = {
 
 export default compose(
   withStyles(styles, { name: "Reservation" }),
+  withAlertMessage,
   connect(mapStateToProps, mapDispatchToProps)
 )(UserReservations);

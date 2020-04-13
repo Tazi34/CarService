@@ -1,10 +1,11 @@
 import React from "react";
 import { Drawer } from "@material-ui/core";
-import { GuestLinks } from "./GuestLinks";
 import List from "@material-ui/core/List";
 import { makeStyles } from "@material-ui/core/styles";
 import { UserLinks } from "./UserLinks";
 import { LoginLogoutLink } from "./LoginLogoutLink";
+import { NavBarLink } from "./NavBarLink";
+import { homePage } from "../../../utilities/urls/pages";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -24,8 +25,10 @@ export const NavBarDrawer = ({ auth, onClose, ...props }) => {
   const renderItems = () => {
     return (
       <>
+        <NavBarLink to={homePage} {...props}>
+          HOME
+        </NavBarLink>
         {auth && <UserLinks />}
-        <GuestLinks />
         <LoginLogoutLink auth={auth} />
       </>
     );

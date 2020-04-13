@@ -25,13 +25,15 @@ class ClientDetailsFormContainer extends Component {
     const status = await postForm(requestReservationData);
 
     if (status === 200) {
+      this.props.alertSuccess("Car booked.");
       history.replace(reservationsPage);
     } else {
-      alert("ERROR");
+      this.props.alertError("Error while processing your request");
     }
   };
 
   render() {
+    console.log(this.props);
     const { bookingForm, user } = this.props;
     const { reservation } = bookingForm;
     if (!reservation.car.selected) {
