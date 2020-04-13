@@ -10,46 +10,42 @@ import {
   setCarPageSize
 } from "../../redux/car/carsReducer";
 import Paper from "@material-ui/core/Paper";
-import Dialog from "@material-ui/core/Dialog";
 import postCar from "../../redux/car/apiRequests/postCar";
-import { CarForm } from "../carForm/CarForm";
 import deleteCar from "../../redux/car/apiRequests/deleteCar";
 import blockCar from "../../redux/car/apiRequests/blockCar";
+import { compose } from "recompose";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { withAlertMessage } from "../wrappers/withAlertMessage/withAlertMessage";
+import { withLoadingSpinner } from "../wrappers/withLoadingSpinner/withLoadingSpinner";
 
-function mapStateToProps(state) {
-  return {
-    cars: state.paginations.carReducer.cars,
-    pagination: state.paginations.carReducer.pagination
-  };
-}
-
-const mapDispatchToProps = {
-  deleteCar,
-  postCar,
-  blockCar,
-  setRowsPerPage: setCarPageSize,
-  fetchCarsPage: fetchCarsPage,
-  setPage: setCarCurrentPage,
-  resetPages: resetCarPagination
-};
+const styles = theme => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff"
+  },
+  root: {
+    display: "flex",
+    minHeight: "60vh"
+  }
+});
 
 class CarsTableContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      formDialog: false
-    };
   }
 
   componentDidMount() {
     this.resetPagination();
   }
 
-  setFormDialog = open => {
-    this.setState({ formDialog: open });
+  handleActionError = error => {
+    this.props.alertError("Error processing action.");
+  };
+  handleActionSuccess = message => {
+    this.props.alertSuccess(message);
   };
 
-  handleChangePage = (event, newPage) => {
+  handlePageChange = (event, newPage) => {
     const pagination = this.props.pagination;
     //IF NOT FETCHED
     if (!pagination.pages[newPage]) {
@@ -61,7 +57,7 @@ class CarsTableContainer extends Component {
     this.props.setPage(newPage);
   };
 
-  handleChangeRowsPerPage = event => {
+  handleRowsPerPageChange = event => {
     const rowsPerPage = parseInt(event.target.value, 10);
     this.props.resetPages();
     this.props.setRowsPerPage(rowsPerPage);
@@ -80,75 +76,64 @@ class CarsTableContainer extends Component {
     });
   };
 
-  handlePostFormSubmission = car => {
+  handleAction = (action, successMessage) => {
+    const { startLoading, finishLoading } = this.props;
+    //open loading spinner backdrop
+    startLoading();
+    action()
+      .then(
+        () => {
+          this.resetPagination();
+          this.handleActionSuccess(successMessage);
+        },
+        error => this.handleActionError(error)
+      )
+      .then(() => finishLoading());
+  };
+
+  handleCarPost = car => {
     const { postCar } = this.props;
-    postCar(car).then(
-      () => {
-        alert("success");
-        this.setFormDialog(false);
-        this.resetPagination();
-      },
-      error => alert("ERROR")
-    );
+    this.handleAction(() => postCar(car), "Car added.");
   };
 
-  handleBlockFormSubmission = (car, { startDate, endDate, comment }) => {
+  handleCarBlock = (car, { startDate, endDate, comment }) => {
     const { blockCar } = this.props;
-    blockCar(car, startDate, endDate, comment).then(
-      () => {
-        alert("success");
-        this.resetPagination();
-      },
-      error => alert("ERROR")
+    this.handleAction(
+      () => blockCar(car, { startDate, endDate, comment }),
+      "Car blocked."
     );
   };
 
-  handleCarDeletion = car => {
+  handleCarDelete = car => {
     const { deleteCar } = this.props;
-    deleteCar(car.id).then(
-      () => {
-        alert("success");
-        this.resetPagination();
-      },
-      error => alert("ERROR")
-    );
+    this.handleAction(() => deleteCar(car.id), "Car deleted.");
   };
 
   render() {
-    const cars = this.props.cars;
-    const pagination = this.props.pagination;
+    const { cars, pagination, classes } = this.props;
 
     if (
       !pagination.pages[0] ||
       pagination.pages[pagination.currentPage].fetching
     ) {
       return (
-        <Paper style={{ display: "flex", minHeight: "70vh" }}>
+        <Paper className={classes.root}>
           <CircularProgress />
         </Paper>
       );
     }
     const currentCarsPage = pagination.pages[pagination.currentPage];
     const carItems = currentCarsPage.ids.map(id => cars[id]);
-    return (
-      <Paper style={{ display: "flex", minHeight: "60vh" }}>
-        <Dialog
-          onClose={() => this.setFormDialog(false)}
-          open={this.state.formDialog}
-        >
-          <CarForm
-            onSubmit={this.handlePostFormSubmission}
-            onBack={() => this.setFormDialog(false)}
-          />
-        </Dialog>
 
+    return (
+      <Paper className={classes.root}>
         <CarsTable
           title={"ACTIVE CARS"}
-          addCar={() => this.setFormDialog(true)}
-          deleteCar={this.handleCarDeletion}
-          blockCar={this.handleBlockFormSubmission}
-          handlePageChange={this.handleChangePage}
-          handleRowsChange={this.handleChangeRowsPerPage}
+          addCar={this.handleCarPost}
+          deleteCar={this.handleCarDelete}
+          blockCar={this.handleCarBlock}
+          handlePageChange={this.handlePageChange}
+          handleRowsChange={this.handleRowsPerPageChange}
           cars={carItems}
           pagination={pagination}
         />
@@ -157,4 +142,26 @@ class CarsTableContainer extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CarsTableContainer);
+function mapStateToProps(state) {
+  return {
+    cars: state.paginations.carReducer.cars,
+    pagination: state.paginations.carReducer.pagination
+  };
+}
+
+const mapDispatchToProps = {
+  deleteCar,
+  postCar,
+  blockCar,
+  setRowsPerPage: setCarPageSize,
+  fetchCarsPage: fetchCarsPage,
+  setPage: setCarCurrentPage,
+  resetPages: resetCarPagination
+};
+
+export default compose(
+  withStyles(styles),
+  withLoadingSpinner,
+  withAlertMessage,
+  connect(mapStateToProps, mapDispatchToProps)
+)(CarsTableContainer);
