@@ -7,7 +7,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import AddBoxIcon from "@material-ui/icons/AddBox";
 import CheckIcon from "@material-ui/icons/Check";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
@@ -15,6 +14,7 @@ import CarActionMenu from "../carActionMenu/CarActionMenu";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Pagination from "@material-ui/lab/Pagination";
+import { CarFormOpenButton } from "../carFormDialog/CarFormOpenButton";
 
 const styles = makeStyles(theme => ({
   table: {
@@ -165,13 +165,7 @@ export function CarsTable(props) {
         justifyContent={isMobile ? "center" : "space-between"}
         alignItems={"center"}
       >
-        {!isMobile && (
-          <AddBoxIcon
-            color={"primary"}
-            fontSize={"large"}
-            onClick={props.addCar}
-          />
-        )}
+        {!isMobile && <CarFormOpenButton onSubmit={props.addCar} />}
 
         {isMobile ? (
           <Pagination

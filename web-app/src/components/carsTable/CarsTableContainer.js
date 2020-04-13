@@ -30,10 +30,6 @@ const styles = theme => ({
 });
 
 class CarsTableContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.resetPagination();
   }
