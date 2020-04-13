@@ -7,16 +7,16 @@ export default function AuthorizedPrivateRoute({
   component: Component,
   user,
   roles,
-  ...props
+  ...otherProps
 }) {
   return (
     <Route
-      {...props}
       render={props => {
         //not logged
         if (!user) {
           return (
             <Redirect
+              {...otherProps}
               to={{
                 pathname: loginPage,
                 state: { from: props.location.pathname }
@@ -31,17 +31,17 @@ export default function AuthorizedPrivateRoute({
           if (!isInRoles) {
             return (
               <Redirect
+                {...otherProps}
                 to={{
                   pathname: "/",
                   state: { from: props.location }
                 }}
-                {...props}
               />
             );
           }
         }
         //authorized
-        return <Component {...props} />;
+        return <Component {...props} {...otherProps} />;
       }}
     />
   );
