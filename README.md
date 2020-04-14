@@ -1,7 +1,7 @@
 
 
 CarService
-![Backend](https://github.com/Tazi34/CarService/workflows/Backend/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/8ef72f63-acbc-492b-abc7-5fa21d66fde7/deploy-status)](https://app.netlify.com/sites/carservice-tazi34/deploys)
+![Backend](https://github.com/Tazi34/CarService/workflows/Backend/badge.svg)
 ====== 
 
 
@@ -10,6 +10,7 @@ Car booking site for both clients and admins.
 Learning project developed to practice frontend and backend skills.
 
 Link to app: https://carservice-tazi34.netlify.com/
+### DISCLAIMER: DUE TO HOSTING LIMITS PAGE MIGHT NEED UP TO A MINUTE TO LOAD ON FIRST ENTRY 
 
 ## Table of contents
 * [Preview](#preview)
