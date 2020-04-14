@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
-@JsonRootName(value = "Car")
+@JsonRootName(value = "car")
 public class CarDTO {
     private Long id;
     private int doors;

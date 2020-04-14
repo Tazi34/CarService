@@ -33,7 +33,9 @@ public class ReservationService {
 
     @Autowired
     public ReservationService(StatusService statusService, ClientInfoService clientInfoService,
-                              SpotService spotService, CarService carService, ReservationMapper reservationMapper, ReservationDateChecker reservationDateChecker, PriceCalculator priceCalculator, CarAvailabilityChecker carAvailabilityChecker) {
+                              SpotService spotService, CarService carService, ReservationMapper reservationMapper,
+                              ReservationDateChecker reservationDateChecker, PriceCalculator priceCalculator,
+                              CarAvailabilityChecker carAvailabilityChecker) {
         this.statusService = statusService;
         this.clientInfoService = clientInfoService;
         this.spotService = spotService;
@@ -113,7 +115,6 @@ public class ReservationService {
     }
 
     private boolean isBooked(Status status) {
-        var type = status.getType();
-        return type == StatusType.BOOKED;
+        return status.getType() == StatusType.BOOKED;
     }
 }

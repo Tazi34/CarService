@@ -31,9 +31,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.csrf().disable().authorizeRequests().antMatchers("/").permitAll();
-
-        http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_ENDPOINT).permitAll().antMatchers("/login").permitAll().antMatchers(SecurityConstants.ANONYMOUS_ENDPOINTS).permitAll().anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager())).addFilter(new JWTAuthorizationFilter(authenticationManager(), getApplicationContext()))
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_ENDPOINT).permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers(SecurityConstants.ANONYMOUS_ENDPOINTS).permitAll()
+                .anyRequest().authenticated().and()
+                    .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                    .addFilter(new JWTAuthorizationFilter(authenticationManager(), getApplicationContext()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 

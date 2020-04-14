@@ -16,16 +16,14 @@ import java.util.Date;
 @RequestMapping("/price")
 public class PriceController {
     private PriceCalculator priceCalculator = new PriceCalculator();
+
     @Autowired
     private CarService carService;
 
     @GetMapping
     public ResponseEntity<BigDecimal> getPrice(@RequestParam("carId") Long carId,
-                                               @RequestParam("startDate") @DateTimeFormat(iso =
-                                                       DateTimeFormat.ISO.DATE) Date startDate, @RequestParam(
-                                                               "endDate") @DateTimeFormat(iso =
-            DateTimeFormat.ISO.DATE) Date endDate) {
-        return ResponseEntity.ok().body(priceCalculator.CalculateReservationPrice(carService.getCar(carId), startDate
-                , endDate));
+                                               @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        return ResponseEntity.ok().body(priceCalculator.CalculateReservationPrice(carService.getCar(carId), startDate, endDate));
     }
 }

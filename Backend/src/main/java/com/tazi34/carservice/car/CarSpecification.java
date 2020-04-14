@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CarSpecification {
+    //specifications for chaining database queries
     public static Specification<Car> bySeats(Integer seats) {
         if (seats == null) {
             return emptySpecification();

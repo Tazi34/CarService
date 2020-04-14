@@ -42,9 +42,9 @@ public class CarService {
     @PreAuthorize("hasRole('ADMIN')")
     public Page findAllActiveCars(Integer seats, Integer year, String make, Integer spotId, Pageable pageable) {
         Page<Car> carsPage =
-                carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId).and(isActive(true))),
-                        pageable);
+                carRepository.findAll(bySeats(seats).and(byYear(year)).and(byMake(make)).and(bySpotId(spotId).and(isActive(true))), pageable);
 
+        //map cars to dto's
         Page<CarDTO> carsDTOPage = carsPage.map(car -> {
             CarDTO carDTO = modelMapper.map(car, CarDTO.class);
             var isAvailable = carAvailabilityChecker.check(car);
@@ -57,13 +57,13 @@ public class CarService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public boolean blockCar(Long id, Date startDate, Date endDate, String comment) {
-
         var car = getCar(id);
         Status unavailableStatus = new Status(car, null, comment, startDate, endDate, StatusType.UNAVAILABLE, null,
                 null, BigDecimal.ZERO);
 
         statusService.saveStatus(unavailableStatus);
         statusService.cancelCollidingReservations(startDate, endDate, id);
+
         return true;
     }
 
@@ -92,6 +92,7 @@ public class CarService {
     public Car deleteCar(Long id) {
         Car car = getCar(id);
         car.setActive(false);
+
         return carRepository.save(car);
     }
 
@@ -99,10 +100,13 @@ public class CarService {
         if (id == null) {
             throw new NullIdException("Id cannot be null");
         }
+
         Optional<Car> car = carRepository.findById(id);
+
         if (car.isPresent()) {
             return car.get();
         }
+
         throw new ResourceNotFoundException(Car.class);
     }
 
@@ -111,8 +115,10 @@ public class CarService {
     }
 
     public Page<Car> getAvailableCars(Date startDate, Date endDate, Integer spotId, Pageable pageable) {
+        //returns 'booked'/'car unavailable' statuses in given date span
         List<Status> statusesWhichDenyReservation = statusService.findStatusesWhichDenyCarsReservation(startDate,
                 endDate);
+
         return carRepository.findAll(isNotDeniedByStatuses(statusesWhichDenyReservation).and(bySpotId(spotId)),
                 pageable);
     }

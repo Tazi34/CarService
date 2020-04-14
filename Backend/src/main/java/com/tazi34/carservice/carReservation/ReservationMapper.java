@@ -20,11 +20,15 @@ public class ReservationMapper {
         if(status.getType() == StatusType.UNAVAILABLE){
             throw new WrongReservationType("Status cannot be of type UNAVAILABLE.");
         }
+
         var carDTO = modelMapper.map(status.getCar(), CarDTO.class);
         var clientInfoDTO = modelMapper.map(status.getClientInfo(), ClientInfoDTO.class);
+
         var isCanceled = isCanceled(status);
+
         var reservation = new ReservationInfo(status.getId(), carDTO, status.getDateFrom(), status.getDateTo(), clientInfoDTO, status.getStartSpot(), status.getEndSpot(), isCanceled, status.getPriceTotal());
         reservation.isCancelable = isCancelable(status);
+
         return reservation;
     }
 
@@ -33,7 +37,10 @@ public class ReservationMapper {
     }
 
     private boolean isCancelable(Status status) {
-        if (status.getType() == StatusType.BOOKINGCANCELED) return false;
+        if (status.getType() == StatusType.BOOKINGCANCELED) {
+            return false;
+        }
+
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
 

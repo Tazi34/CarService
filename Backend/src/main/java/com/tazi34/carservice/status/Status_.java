@@ -17,6 +17,4 @@ public class Status_ {
     public static volatile SingularAttribute<Status, StatusType> type;
     public static volatile SingularAttribute<Status,String> comment;
     public static volatile SingularAttribute<Status,Date> createdAt;
-
-
 }

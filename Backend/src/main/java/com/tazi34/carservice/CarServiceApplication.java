@@ -12,9 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class CarServiceApplication {
     public static void main(String[] args) {
-
         SpringApplication.run(CarServiceApplication.class, args);
-
     }
 
     @Bean
@@ -41,6 +39,4 @@ public class CarServiceApplication {
     public ReservationMapper reservationMapper() {
         return new ReservationMapper();
     }
-
-
 }

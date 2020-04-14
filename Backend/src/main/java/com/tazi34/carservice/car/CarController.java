@@ -20,23 +20,24 @@ import java.util.Date;
 public class CarController {
     private CarService carService;
     private CarRepository carRepository;
-    private StatusRepository statusRepository;
 
     @Autowired
-    public CarController(CarService carService, CarRepository carRepository, StatusRepository statusRepository) {
+    public CarController(CarService carService, CarRepository carRepository) {
         this.carService = carService;
         this.carRepository = carRepository;
-        this.statusRepository = statusRepository;
     }
 
     @GetMapping("/available")
-    public Page<Car> getAvailableCars(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate, @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate, @RequestParam(name = "spot") Integer spotId, Pageable pageable) {
+    public Page<Car> getAvailableCars(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                      @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+                                      @RequestParam(name = "spot") Integer spotId, Pageable pageable) {
         return carService.getAvailableCars(startDate, endDate, spotId, pageable);
     }
 
     @GetMapping()
-    public Page getCars(@RequestParam(required = false, name = "seats") Integer seats, @RequestParam(required = false
-            , name = "year") Integer year, @RequestParam(required = false, name = "make") String make,
+    public Page getCars(@RequestParam(required = false, name = "seats") Integer seats,
+                        @RequestParam(required = false, name = "year") Integer year,
+                        @RequestParam(required = false, name = "make") String make,
                         @RequestParam(required = false, name = "spot") Integer spotId, Pageable pageable) {
         return carService.findAllActiveCars(seats, year, make, spotId, pageable);
     }

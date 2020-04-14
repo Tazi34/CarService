@@ -15,12 +15,6 @@ import java.util.ArrayList;
 
 @Component
 public class AppStartUp implements ApplicationListener<ApplicationReadyEvent> {
-
-    /**
-     * This event is executed as late as conceivably possible to indicate that
-     * the application is ready to service requests.
-     */
-
     @Autowired
     UserRepository userRepository;
 
@@ -47,7 +41,6 @@ public class AppStartUp implements ApplicationListener<ApplicationReadyEvent> {
             admin.setRoles(roles);
             userRepository.save(admin);
         }
-
         return;
     }
 }

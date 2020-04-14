@@ -30,7 +30,7 @@ public class Status {
     @CreationTimestamp
     private Date createdAt;
 
-    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMin(value = "0.0")
     private BigDecimal priceTotal;
 
     @NotNull
@@ -50,7 +50,8 @@ public class Status {
     @ManyToOne
     private Spot endSpot;
 
-    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom, @NotNull Date dateTo, @NotNull StatusType type, Spot startSpot, Spot endSpot, BigDecimal priceTotal) {
+    public Status(@NotNull Car car, ClientInfo clientInfo, String comment, @NotNull Date dateFrom,
+                  @NotNull Date dateTo, @NotNull StatusType type, Spot startSpot, Spot endSpot, BigDecimal priceTotal) {
         this.car = car;
         this.clientInfo = clientInfo;
         this.comment = comment;
@@ -65,6 +66,4 @@ public class Status {
     public Status() {
 
     }
-
-
 }

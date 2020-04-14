@@ -33,7 +33,7 @@ public class Car {
     @JoinColumn(name="spot_id")
     private Spot spot;
     @NotNull
-    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMin(value = "0.0")
     private BigDecimal price;
     @Column(name = "is_active")
     private boolean active;

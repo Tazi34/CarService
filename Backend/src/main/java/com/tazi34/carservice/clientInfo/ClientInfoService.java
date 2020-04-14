@@ -42,7 +42,6 @@ public class ClientInfoService {
         ClientInfo clientInfo;
         Address address;
 
-
         if (clientInfoDTO.getId() != null) {
             clientInfo = clientInfoRepository.getOne(clientInfoDTO.getId());
 

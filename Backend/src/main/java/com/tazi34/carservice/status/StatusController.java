@@ -16,7 +16,6 @@ public class StatusController {
     private StatusService statusService;
     private StatusRepository statusRepository;
 
-
     @Autowired
     public StatusController(StatusService statusService, StatusRepository statusRepository) {
         this.statusService = statusService;
@@ -29,11 +28,12 @@ public class StatusController {
     }
 
     @GetMapping("")
-    public Page<Status> getStatuses(@RequestParam(name = "from", required = false) @DateTimeFormat(iso =
-            DateTimeFormat.ISO.DATE) Date startDate,
-                                    @RequestParam(name = "to", required = false) @DateTimeFormat(iso =
-                                            DateTimeFormat.ISO.DATE) Date endDate, @RequestParam(name = "type",
-            required = false) StatusType type, @RequestParam(name = "carID", required = false) Long carID,
+    public Page<Status> getStatuses(@RequestParam(name = "from", required = false)
+                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                    @RequestParam(name = "to", required = false)
+                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+                                    @RequestParam(name = "type", required = false) StatusType type,
+                                    @RequestParam(name = "carID", required = false) Long carID,
                                     Pageable pageable) {
         return (statusService.findAll(startDate, endDate, type, carID, pageable));
     }

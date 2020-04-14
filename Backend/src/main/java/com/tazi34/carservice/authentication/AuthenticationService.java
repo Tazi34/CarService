@@ -41,11 +41,14 @@ public class AuthenticationService {
         var roles = new HashSet<Role>();
         roles.add(userRole);
         newUser.setRoles(roles);
+
         userRole.getUsers().add(newUser);
         roleRepository.save(userRole);
+
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setEmail(user.getEmail());
         newUser.setEnabled(true);
+
         return newUser;
     }
 
@@ -54,7 +57,7 @@ public class AuthenticationService {
         if (authentication == null) return null;
         var email = authentication.getName();
         var user = userService.findByEmail(email);
-//TODO make user to dto mapper
+
         return new UserDTO(user.getId(), user.getEmail(), user.getRoles());
     }
 

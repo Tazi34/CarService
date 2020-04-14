@@ -11,8 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/clientinfos")
 public class ClientInfoController {
-
-
     private ClientInfoService clientInfoService;
     private ClientInfoRepository clientInfoRepository;
 

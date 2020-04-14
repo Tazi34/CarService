@@ -10,20 +10,19 @@ import java.util.Optional;
 @Service
 public class CityService {
     private CityRepository cityRepository;
+
     @Autowired
     public CityService(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
 
-    public City getCity(long id){
+    public City getCity(long id) {
         Optional<City> city = cityRepository.findById(id);
-        if(city.isEmpty())
-            throw new ResourceNotFoundException();
+        if (city.isEmpty()) throw new ResourceNotFoundException();
         return city.get();
     }
-    public List<City> getAllCities(){
+
+    public List<City> getAllCities() {
         return (List<City>) cityRepository.findAll();
     }
-
-
 }
