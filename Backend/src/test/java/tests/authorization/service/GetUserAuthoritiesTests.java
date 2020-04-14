@@ -22,13 +22,11 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class GetUserAuthoritiesTests {
-
     @Mock
     RoleRepository roleRepository;
 
     @InjectMocks
     AuthorizationService authorizationService;
-
 
     @Test
     public void givenUserWithoutRoles_returnEmptyList() {

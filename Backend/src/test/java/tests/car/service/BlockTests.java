@@ -30,7 +30,7 @@ public class BlockTests {
     CarService carService;
 
     @Test(expected = ResourceNotFoundException.class)
-    public void blockCar_givenNonExisting_throwResourceNotFound() {
+    public void givenNonExisting_throwResourceNotFound() {
         //GIVEN
         Long nonExistingId = 1L;
 
@@ -41,7 +41,7 @@ public class BlockTests {
     }
 
     @Test
-    public void blockCar_givenValidData_cancelReservations() {
+    public void givenValidData_cancelReservations() {
         //GIVEN
         Long id = 1L;
         var startDate = mock(Date.class);
@@ -56,7 +56,7 @@ public class BlockTests {
     }
 
     @Test
-    public void blockCar_givenValidData_saveUnavailableStatus() {
+    public void givenValidData_saveUnavailableStatus() {
         //GIVEN
         Long id = 1L;
         var startDate = mock(Date.class);

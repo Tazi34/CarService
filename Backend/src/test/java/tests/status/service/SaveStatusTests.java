@@ -29,6 +29,7 @@ public class SaveStatusTests {
     public void givenNullStatus_save() {
         //GIVEN
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(null);
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
 
@@ -44,10 +45,10 @@ public class SaveStatusTests {
         //GIVEN
         long id = 1;
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(id);
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
         when(statusRepository.existsById(id)).thenReturn(true);
-
 
         //WHEN
         statusService.saveStatus(mockedStatus);
@@ -60,6 +61,7 @@ public class SaveStatusTests {
         //GIVEN
         long id = 1;
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(id);
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
         when(statusRepository.existsById(id)).thenReturn(false);
@@ -76,6 +78,7 @@ public class SaveStatusTests {
         //GIVEN
         long id = 1;
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(id);
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(false);
         when(statusRepository.existsById(id)).thenReturn(false);

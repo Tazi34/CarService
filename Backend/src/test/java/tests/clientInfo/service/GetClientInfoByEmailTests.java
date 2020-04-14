@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GetClientInfoByEmailTests {
-
     @Mock
     private ClientInfoRepository repository;
 

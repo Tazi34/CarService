@@ -23,6 +23,7 @@ public class GetClientsStatusesTests {
     public void givenValidClientInfo_callsRepository() {
         //GIVEN
         var clientInfo = mock(ClientInfo.class);
+
         //WHEN
         statusService.getClientsStatuses(clientInfo);
 

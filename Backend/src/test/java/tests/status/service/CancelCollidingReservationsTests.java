@@ -34,7 +34,7 @@ public class CancelCollidingReservationsTests {
     StatusService statusService;
 
     @Test
-    public void cancelCollidingReservations_givenListOfBookedStatuses_returnsListOfCancelledBooings() {
+    public void givenListOfBookedStatuses_returnsListOfCancelledBookings() {
         //GIVEN
         List<Status> bookedStatuses = new ArrayList<>();
         int bookingsCount = 5;
@@ -48,6 +48,7 @@ public class CancelCollidingReservationsTests {
         }
         when(statusRepository.findAll(any(Specification.class))).thenReturn(bookedStatuses);
         when(statusRepository.saveAll(any())).then(returnsFirstArg());
+
         //WHEN
         var canceledStatuses = statusService.cancelCollidingReservations(mock(Date.class), mock(Date.class), 1);
 

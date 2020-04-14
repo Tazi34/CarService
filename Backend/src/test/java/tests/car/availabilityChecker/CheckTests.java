@@ -29,7 +29,7 @@ public class CheckTests {
     CarAvailabilityChecker availabilityChecker;
 
     @Test(expected = IncorrectDateSpanException.class)
-    public void check_givenEndDateGreaterThanStartDate_throwIncorrectDateSpanException() {
+    public void givenEndDateGreaterThanStartDate_throwIncorrectDateSpanException() {
         //GIVEN
         Calendar calendar = Calendar.getInstance();
         var start = calendar.getTime();
@@ -43,14 +43,16 @@ public class CheckTests {
     }
 
     @Test
-    public void check_givenEmptyStatuses_returnTrue() {
+    public void givenEmptyStatuses_returnTrue() {
         //GIVEN
-        Calendar calendar = Calendar.getInstance();
         var car = mock(Car.class);
+
+        Calendar calendar = Calendar.getInstance();
         var start = calendar.getTime();
         calendar.add(HOUR, 1);
         var end = calendar.getTime();
-        when(statusService.findCarsAvailabilityStatuses(car, start, end)).thenReturn(new ArrayList<Status>());
+
+        when(statusService.findCarsAvailabilityStatuses(car, start, end)).thenReturn(new ArrayList<>());
 
         //WHEN
         boolean available = availabilityChecker.check(car, start, end);
@@ -62,11 +64,13 @@ public class CheckTests {
     @Test
     public void check_givenNonEmptyStatuses_returnFalse() {
         //GIVEN
-        Calendar calendar = Calendar.getInstance();
         var car = mock(Car.class);
+
+        Calendar calendar = Calendar.getInstance();
         var start = calendar.getTime();
         calendar.add(HOUR, 1);
         var end = calendar.getTime();
+
         when(statusService.findCarsAvailabilityStatuses(car, start, end)).thenReturn(List.of(mock(Status.class)));
 
         //WHEN

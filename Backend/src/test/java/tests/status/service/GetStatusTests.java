@@ -24,7 +24,7 @@ public class GetStatusTests {
     StatusService statusService;
 
     @Test(expected = ResourceNotFoundException.class)
-    public void givenNonExistingStatus_throw404(){
+    public void givenNonExistingStatus_throw404() {
         //GIVEN
         //mock returns optional by default, added for readability
         when(statusRepository.findById(any())).thenReturn(Optional.empty());
@@ -35,10 +35,11 @@ public class GetStatusTests {
     }
 
     @Test
-    public void givenExistingStatus_returnStatus(){
+    public void givenExistingStatus_returnStatus() {
         //GIVEN
         long id = 1;
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(id);
         when(statusRepository.findById(id)).thenReturn(Optional.of(mockedStatus));
 
@@ -46,7 +47,7 @@ public class GetStatusTests {
         var resultStatus = statusService.getStatus(id);
 
         //THEN
-        Assert.assertEquals(mockedStatus,resultStatus);
-        Assert.assertEquals(id,(long) resultStatus.getId());
+        Assert.assertEquals(mockedStatus, resultStatus);
+        Assert.assertEquals(id, (long) resultStatus.getId());
     }
 }

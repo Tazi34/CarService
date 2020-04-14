@@ -21,10 +21,11 @@ public class DeleteStatusTests {
     StatusService statusService;
 
     @Test(expected = ResourceNotFoundException.class)
-    public void givenNonExistingStatus_throw404(){
+    public void givenNonExistingStatus_throw404() {
         //GIVEN
         long id = 1;
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(id);
         when(statusRepository.existsById(id)).thenReturn(false);
 
@@ -35,10 +36,11 @@ public class DeleteStatusTests {
     }
 
     @Test
-    public void givenExistingStatus_delete(){
+    public void givenExistingStatus_delete() {
         //GIVEN
         long id = 1;
         Status mockedStatus = mock(Status.class);
+
         when(mockedStatus.getId()).thenReturn(id);
         when(statusRepository.existsById(id)).thenReturn(true);
 
@@ -46,6 +48,6 @@ public class DeleteStatusTests {
         statusService.deleteStatus(mockedStatus);
 
         //THEN
-        verify(statusRepository,times(1)).delete(mockedStatus);
+        verify(statusRepository, times(1)).delete(mockedStatus);
     }
 }

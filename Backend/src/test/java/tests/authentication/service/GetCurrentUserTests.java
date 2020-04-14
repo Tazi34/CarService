@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class GetCurrentUserTests {
-
     @Mock
     UserService userService;
     @InjectMocks
@@ -24,28 +23,34 @@ public class GetCurrentUserTests {
 
     @Test
     public void givenUnauthenticatedUser_returnNull() {
+        //GIVEN
         Authentication authentication = null;
 
+        //WHEN
         var currentUser = authenticationService.getCurrentUser(authentication);
+
+        //THEN
         Assert.assertNull(currentUser);
     }
 
     @Test
     public void givenAuthenticatedUser_returnUser() {
-
-
+        //GIVEN
         var mockedUserEmail = "mocked@mail.com";
         var mockedUser = mock(User.class);
+
         when(mockedUser.getId()).thenReturn(1l);
         when(mockedUser.getEmail()).thenReturn(mockedUserEmail);
 
         var mockedAuthentication = mock(Authentication.class);
-        when(mockedAuthentication.getName()).thenReturn(mockedUserEmail);
 
+        when(mockedAuthentication.getName()).thenReturn(mockedUserEmail);
         when(userService.findByEmail(mockedUserEmail)).thenReturn(mockedUser);
 
-
+        //WHEN
         var currentUser = authenticationService.getCurrentUser(mockedAuthentication);
+
+        //THEN
         Assert.assertNotNull(currentUser);
         Assert.assertEquals(mockedUserEmail, currentUser.getEmail());
     }

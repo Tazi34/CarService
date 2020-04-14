@@ -26,7 +26,7 @@ public class GetCarTests {
     CarService carService;
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getCar_givenNonExistingId_throwResourceNotFoundException() {
+    public void givenNonExistingId_throwResourceNotFoundException() {
         //GIVEN
         Long nonExistingId = 1L;
 
@@ -37,7 +37,7 @@ public class GetCarTests {
     }
 
     @Test(expected = NullIdException.class)
-    public void getCar_givenNullId_throwNullIdException() {
+    public void givenNullId_throwNullIdException() {
         //GIVEN
         Long id = null;
 
@@ -48,7 +48,7 @@ public class GetCarTests {
     }
 
     @Test
-    public void getCar_givenExistingCar_returnCar() {
+    public void givenExistingCar_returnCar() {
         //GIVEN
         Long id = 1L;
         Car car = mock(Car.class);

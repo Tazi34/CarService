@@ -53,6 +53,7 @@ public class GetReservationsByEmailTests {
         String email = "nonexisitingclientinfo@email.com";
         var clientInfo = mock(ClientInfo.class);
         var list = new ArrayList<Status>();
+
         when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
         when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
 
@@ -69,11 +70,12 @@ public class GetReservationsByEmailTests {
         String email = "nonexisitingclientinfo@email.com";
         var list = new ArrayList<Status>();
 
-        //WHEN
         var clientInfo = mock(ClientInfo.class);
+
         when(clientInfoService.getClientInfoByEmail(email)).thenReturn(clientInfo);
         when(statusService.getClientsStatuses(clientInfo)).thenReturn(list);
 
+        //WHEN
         var foundReservations = reservationService.getUserReservationsByEmail(email);
 
         //THEN

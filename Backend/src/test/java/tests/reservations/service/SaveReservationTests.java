@@ -104,17 +104,20 @@ public class SaveReservationTests {
         BigDecimal expectedPrice = BigDecimal.valueOf(1000l);
         long startSpotId = 1;
         long endSpotId = 2;
+
+        //setup reservation
         when(mockedReservation.getEndSpotId()).thenReturn(endSpotId);
         when(mockedReservation.getStartSpotId()).thenReturn(startSpotId);
         when(mockedReservation.getPriceTotal()).thenReturn(receivedPrice);
+
         when(priceCalculator.CalculateReservationPrice(any(), any(), any())).thenReturn(expectedPrice);
 
         when(reservationDateChecker.checkIfCorrectDate(any(), any())).thenReturn(true);
         when(carAvailabilityChecker.check(any(), any(), any())).thenReturn(true);
 
-
         var mockedStartSpot = mock(Spot.class);
         var mockedEndSpot = mock(Spot.class);
+
         when(spotService.getSpot(startSpotId)).thenReturn(mockedStartSpot);
         when(spotService.getSpot(endSpotId)).thenReturn(mockedEndSpot);
         when(clientInfoService.updateClientInfo(any(ClientInfo.class))).thenReturn(mock(ClientInfo.class));

@@ -18,47 +18,46 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class CancelReservationTests {
-
     @Mock
     StatusService statusService;
     @InjectMocks
     ReservationService reservationService;
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
-    @Test
+    @Test(expected = BadRequestException.class)
     public void givenUnavailableStatus_throwBadRequest() {
+        //GIVEN
         var id = 1l;
-
         var mockedStatus = mock(Status.class);
         when(statusService.getStatus(id)).thenReturn(mockedStatus);
         when(mockedStatus.getType()).thenReturn(StatusType.UNAVAILABLE);
 
-        expectedException.expect(BadRequestException.class);
+        //WHEN
         reservationService.cancelReservation(id);
+
+        //THEN
     }
-    @Test
+
+    @Test(expected = BadRequestException.class)
     public void givenBookingCanceled_throwBadRequest() {
+        //GIVEN
         var id = 1l;
         var mockedStatus = mock(Status.class);
         when(statusService.getStatus(id)).thenReturn(mockedStatus);
         when(mockedStatus.getType()).thenReturn(StatusType.BOOKINGCANCELED);
 
-        expectedException.expect(BadRequestException.class);
+        //WHEN
         reservationService.cancelReservation(id);
+
+        //THEN
     }
 
-    @Test
+    @Test(expected = BadRequestException.class)
     public void givenBookedReservation_throwBadRequest() {
         var id = 1l;
         var mockedStatus = mock(Status.class);
         when(statusService.getStatus(id)).thenReturn(mockedStatus);
         when(mockedStatus.getType()).thenReturn(StatusType.BOOKINGCANCELED);
 
-        expectedException.expect(BadRequestException.class);
         reservationService.cancelReservation(id);
     }
-
-
-
 }

@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static utilities.CarsTestsUtility.getCarsWithoutId;
+import static org.junit.Assert.assertTrue;
+import static utilities.CarsTestsUtility.getDummyCarsWithoutId;
 import static utilities.CarsTestsUtility.getDummyCar;
 
 @RunWith(SpringRunner.class)
@@ -31,7 +32,6 @@ import static utilities.CarsTestsUtility.getDummyCar;
 @ActiveProfiles("test")
 @SpringBootTest(classes = CarServiceApplication.class)
 public class GetAvailableCarsTests {
-
     @Autowired
     private CarService carService;
     @Autowired
@@ -47,6 +47,7 @@ public class GetAvailableCarsTests {
 
     @Test
     public void getAvailableCars_givenBookedStatus_returnEmptyList() {
+        //GIVEN
         Car car = getDummyCar();
         carRepository.save(car);
 
@@ -55,6 +56,7 @@ public class GetAvailableCarsTests {
         Date startDate = cal.getTime();
         cal.add(Calendar.DATE, 1);
         Date endDate = cal.getTime();
+
         StatusType type = StatusType.BOOKED;
         Status status = new Status();
         status.setCar(car);
@@ -63,13 +65,17 @@ public class GetAvailableCarsTests {
         status.setType(type);
 
         statusRepository.save(status);
+
+        //WHEN
         Page<Car> found = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
 
-        assertEquals(true, found.isEmpty());
+        //THEN
+        assertTrue(found.isEmpty());
     }
 
     @Test
     public void getAvailableCars_givenUnavailableStatus_returnEmptyList() {
+        //GIVEN
         Car car = getDummyCar();
         carRepository.save(car);
 
@@ -78,6 +84,7 @@ public class GetAvailableCarsTests {
         Date startDate = cal.getTime();
         cal.add(Calendar.DATE, 1);
         Date endDate = cal.getTime();
+
         StatusType type = StatusType.UNAVAILABLE;
         Status status = new Status();
         status.setCar(car);
@@ -86,13 +93,17 @@ public class GetAvailableCarsTests {
         status.setType(type);
 
         statusRepository.save(status);
+
+        //WHEN
         Page<Car> found = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
 
-        assertEquals(true, found.isEmpty());
+        //THEN
+        assertTrue(found.isEmpty());
     }
 
     @Test
     public void getAvailableCars_givenCancelledBooking_returnAvailableCar() {
+        //GIVEN
         Car car = getDummyCar();
         carRepository.save(car);
 
@@ -101,6 +112,7 @@ public class GetAvailableCarsTests {
         Date startDate = cal.getTime();
         cal.add(Calendar.DATE, 1);
         Date endDate = cal.getTime();
+
         StatusType type = StatusType.BOOKINGCANCELED;
         Status status = new Status();
         status.setCar(car);
@@ -109,14 +121,18 @@ public class GetAvailableCarsTests {
         status.setType(type);
 
         statusRepository.save(status);
-        Page<Car> found = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE));
-        var cars = found.getContent();
+
+        //WHEN
+        List<Car> cars = carService.getAvailableCars(startDate, endDate, null, PageRequest.of(0, Integer.MAX_VALUE)).getContent();
+
+        //THEN
         assertEquals(1, cars.size());
-        assertEquals(true, cars.contains(car));
+        assertTrue(cars.contains(car));
     }
 
     @Test
     public void getAvailable_givenBookingCancelledAndBookedStatuses_returnEmptyList() {
+        //GIVEN
         Car car = getDummyCar();
         carRepository.save(car);
 
@@ -147,16 +163,19 @@ public class GetAvailableCarsTests {
 
         statusRepository.save(status);
         statusRepository.save(status2);
+
+        //WHEN
         List<Car> cars = carService.getAvailableCars(canceledBookingStartDate, canceledBookingEndDate, null,
                 PageRequest.of(0, Integer.MAX_VALUE)).getContent();
 
-        assertEquals(true, cars.isEmpty());
-
+        //THEN
+        assertTrue(cars.isEmpty());
     }
 
     @Test
     public void getAvailableCars_givenStatuses_returnAvailableCars() {
-        List<Car> cars = getCarsWithoutId();
+        //GIVEN
+        List<Car> cars = getDummyCarsWithoutId();
         carRepository.saveAll(cars);
 
         //booked car0
@@ -188,11 +207,14 @@ public class GetAvailableCarsTests {
 
         statusRepository.save(status);
         statusRepository.save(status2);
+
+        //WHEN
         List<Car> found = carService.getAvailableCars(bookingStartDate, bookingEndDate, null, PageRequest.of(0,
                 Integer.MAX_VALUE)).getContent();
 
+        //THEN
         assertEquals(2, found.size());
-        assertEquals(true, found.contains(cars.get(1)));
-        assertEquals(true, found.contains(cars.get(2)));
+        assertTrue(found.contains(cars.get(1)));
+        assertTrue(found.contains(cars.get(2)));
     }
 }

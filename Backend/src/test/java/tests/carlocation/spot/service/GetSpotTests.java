@@ -23,24 +23,29 @@ import static org.mockito.Mockito.when;
 public class GetSpotTests {
     @Mock
     SpotRepository spotRepository;
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
     @InjectMocks
     SpotService spotService;
 
-    @Test
+    @Test(expected = ResourceNotFoundException.class)
     public void givenWrongId_throwNotFound(){
+        //GIVEN
         when(spotRepository.findById(any())).thenReturn(Optional.empty());
 
-        expectedException.expect(ResourceNotFoundException.class);
+        //WHEN
         spotService.getSpot(1);
+
+        //THEN
     }
     @Test
     public void givenProperId_returnSpot(){
+        //GIVEN
         var mockedSpot = mock(Spot.class);
         when(spotRepository.findById(any())).thenReturn(Optional.of(mockedSpot));
 
+        //WHEN
         var spot = spotService.getSpot(1);
+
+        //THEN
         Assert.assertEquals(mockedSpot,spot);
     }
 

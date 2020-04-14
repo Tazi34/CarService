@@ -1,21 +1,16 @@
 package utilities;
 
 import com.tazi34.carservice.car.Car;
-import com.tazi34.carservice.carlocation.spot.Spot;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarsTestsUtility {
-    public static List<Car> getCarsWithoutId(){
+    public static List<Car> getDummyCarsWithoutId() {
         List<Car> cars = new ArrayList<Car>();
 
-
-        Spot dummySpot = new Spot();
-
-
-        for(int i = 0 ; i < 3 ; i++){
+        for (int i = 0; i < 3; i++) {
             Car car = new Car();
             car.setMake("TEST");
             car.setLicence("TEST");
@@ -27,7 +22,8 @@ public class CarsTestsUtility {
         }
         return cars;
     }
-    public static  Car getDummyCar(){
+
+    public static Car getDummyCar() {
         Car car = new Car();
         car.setMake("TEST");
         car.setLicence("TEST");

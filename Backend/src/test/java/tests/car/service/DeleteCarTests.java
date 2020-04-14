@@ -24,7 +24,7 @@ public class DeleteCarTests {
     CarService carService;
 
     @Test(expected = ResourceNotFoundException.class)
-    public void deleteCar_givenNonExistingId_throwResourceNotFoundException() {
+    public void givenNonExistingId_throwResourceNotFoundException() {
         //GIVEN
         Long nonExistingId = 1L;
 
@@ -35,7 +35,7 @@ public class DeleteCarTests {
     }
 
     @Test(expected = NullIdException.class)
-    public void deleteCar_givenNullId_throwNullIdException() {
+    public void givenNullId_throwNullIdException() {
         //GIVEN
         Long nullId = null;
 
@@ -46,7 +46,7 @@ public class DeleteCarTests {
     }
 
     @Test
-    public void deleteCar_givenValidId_saveInactiveCar() {
+    public void givenValidId_saveInactiveCar() {
         //GIVEN
         Long id = 1L;
         when(carRepository.findById(id)).thenReturn(Optional.of(mock(Car.class)));

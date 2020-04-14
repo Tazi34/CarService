@@ -24,10 +24,11 @@ public class CancelReservationTests {
     ReservationService reservationService;
 
     @Test(expected = BadRequestException.class)
-    public void cancelReservation_givenBookingCanceledStatus_throwBadRequestException() {
+    public void givenBookingCanceledStatus_throwBadRequestException() {
         //GIVEN
         Long id = 1L;
         var status = mock(Status.class);
+
         when(status.getType()).thenReturn(StatusType.BOOKINGCANCELED);
         when(status.getId()).thenReturn(id);
         when(statusService.getStatus(any())).thenReturn(status);
@@ -39,10 +40,11 @@ public class CancelReservationTests {
     }
 
     @Test(expected = BadRequestException.class)
-    public void cancelReservation_givenUnavailableStatus_throwBadRequestException() {
+    public void givenUnavailableStatus_throwBadRequestException() {
         //GIVEN
         Long id = 1L;
         var status = mock(Status.class);
+
         when(status.getType()).thenReturn(StatusType.UNAVAILABLE);
         when(status.getId()).thenReturn(id);
         when(statusService.getStatus(any())).thenReturn(status);
@@ -54,9 +56,8 @@ public class CancelReservationTests {
     }
 
     @Test
-    public void cancelReservation_givenReservation_saveBookingCanceledStatus() {
+    public void givenReservation_saveBookingCanceledStatus() {
         //GIVEN
-
         Long id = 1L;
         var status = mock(Status.class);
         when(statusService.getStatus(id)).thenReturn(status);

@@ -9,9 +9,7 @@ import com.tazi34.carservice.user.User;
 import com.tazi34.carservice.user.UserService;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
@@ -24,15 +22,15 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class RegisterUserTests {
-
     @Mock
     UserService userService;
     @Mock
     RoleRepository roleRepository;
-    @InjectMocks
-    AuthenticationService authenticationService;
     @Mock
     User mockedUser;
+    @InjectMocks
+    AuthenticationService authenticationService;
+
 
     @Before
     public void init() {
@@ -45,21 +43,20 @@ public class RegisterUserTests {
         when(mockedUser.getPassword()).thenReturn(testPassword);
     }
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
-    @Test
+    @Test(expected = UserAlreadyExistsException.class)
     public void givenExistingUser_throwUserAlreadyExistsException() {
+        //GIVEN
         var mockedUser = mock(User.class);
         when(userService.userExists(mockedUser.getEmail())).thenReturn(true);
 
-        expectedException.expect(UserAlreadyExistsException.class);
+        //WHEN
         authenticationService.registerUser(mockedUser);
+
+        //THEN
     }
 
     @Test
     public void givenNonExistingUser_returnNewUser() {
-
         //GIVEN
         when(userService.userExists(mockedUser.getEmail())).thenReturn(false);
         //returns same object that was passed to method

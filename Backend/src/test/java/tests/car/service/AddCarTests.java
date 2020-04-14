@@ -27,7 +27,7 @@ public class AddCarTests {
     CarService carService;
 
     @Test(expected = BadRequestException.class)
-    public void addCar_givenCarWithId_throwBadRequest() {
+    public void givenCarWithId_throwBadRequest() {
         //GIVEN
         long id = 1l;
         var car = mock(CarDTO.class);
@@ -40,7 +40,7 @@ public class AddCarTests {
     }
 
     @Test
-    public void addCar_givenCar_save() {
+    public void givenCar_save() {
         //GIVEN
         Long id = null;
         var carDTO = mock(CarDTO.class);

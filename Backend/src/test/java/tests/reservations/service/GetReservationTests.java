@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class GetReservationTests {
-
     @Mock
     StatusService statusService;
 

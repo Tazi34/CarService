@@ -19,7 +19,7 @@ import java.util.List;
 import static com.tazi34.carservice.car.CarSpecification.isDeniedByStatuses;
 import static com.tazi34.carservice.car.CarSpecification.isNotDeniedByStatuses;
 import static org.junit.Assert.assertEquals;
-import static utilities.CarsTestsUtility.getCarsWithoutId;
+import static utilities.CarsTestsUtility.getDummyCarsWithoutId;
 import static utilities.CarsTestsUtility.getDummyCar;
 
 @RunWith(SpringRunner.class)
@@ -27,119 +27,152 @@ import static utilities.CarsTestsUtility.getDummyCar;
 @ActiveProfiles("test")
 @SpringBootTest(classes = CarServiceApplication.class)
 public class CarRepositorySpecTests {
-
     @Autowired
     private CarRepository carRepository;
 
     @Before
-    public void init(){
+    public void init() {
         carRepository.deleteAll();
     }
 
     @Test
-    public void isNotDeniedByStatuses_givenNullList_returnsAllCars(){
-        List<Car> allCars = getCarsWithoutId();
-        carRepository.saveAll(getCarsWithoutId());
+    public void isNotDeniedByStatuses_givenNullList_returnsAllCars() {
+        //GIVEN
+        List<Car> allCars = getDummyCarsWithoutId();
+        carRepository.saveAll(getDummyCarsWithoutId());
+
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isNotDeniedByStatuses(null));
-        assertEquals(allCars.size(),foundCars.size());
+
+        //THEN
+        assertEquals(allCars.size(), foundCars.size());
     }
+
     @Test
-    public void isNotDeniedByStatuses_givenEmptyList_returnsAllCars(){
-        List<Car> allCars = getCarsWithoutId();
-        carRepository.saveAll(getCarsWithoutId());
+    public void isNotDeniedByStatuses_givenEmptyList_returnsAllCars() {
+        //GIVEN
+        List<Car> allCars = getDummyCarsWithoutId();
+        carRepository.saveAll(getDummyCarsWithoutId());
+
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isNotDeniedByStatuses(new ArrayList<Status>()));
-        assertEquals(allCars.size(),foundCars.size());
+
+        //THEN
+        assertEquals(allCars.size(), foundCars.size());
     }
+
     @Test
-    public void isDeniedByStatuses_givenNullList_returnsEmptyList(){
-        List<Car> allCars = getCarsWithoutId();
+    public void isDeniedByStatuses_givenNullList_returnsEmptyList() {
+        //GIVEN
+        List<Car> allCars = getDummyCarsWithoutId();
         carRepository.saveAll(allCars);
+
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isDeniedByStatuses(null));
-        assertEquals(0,foundCars.size());
+
+        //THEN
+        assertEquals(0, foundCars.size());
     }
+
     @Test
-    public void isDeniedByStatuses_givenEmptyList_returnsEmptyList(){
-        List<Car> allCars = getCarsWithoutId();
-        carRepository.saveAll(getCarsWithoutId());
+    public void isDeniedByStatuses_givenEmptyList_returnsEmptyList() {
+        //GIVEN
+        carRepository.saveAll(getDummyCarsWithoutId());
+
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isDeniedByStatuses(new ArrayList<Status>()));
-        assertEquals(0,foundCars.size());
+
+        //THEN
+        assertEquals(0, foundCars.size());
     }
+
     @Test
-    public void isNotDeniedByStatuses_givenStatusesWhichDontDenyAnyCar_returnsAllCars(){
-        List<Car> testCars = getCarsWithoutId();
-        for(int i = 0 ; i < testCars.size(); i++)
-            testCars.get(i).setId((long)(i+1));
+    public void isNotDeniedByStatuses_givenStatusesWhichDontDenyAnyCar_returnsAllCars() {
+        //GIVEN
+        List<Car> testCars = getDummyCarsWithoutId();
+        for (int i = 0; i < testCars.size(); i++) {
+            testCars.get(i).setId((long) (i + 1));
+        }
 
         carRepository.saveAll(testCars);
 
         int statusesCarIndexesStart = testCars.size() + 10;
 
         Car dummyCar1 = getDummyCar();
-        dummyCar1.setId((long)(statusesCarIndexesStart));
+        dummyCar1.setId((long) (statusesCarIndexesStart));
+
         Car dummyCar2 = getDummyCar();
-        dummyCar2.setId((long)(statusesCarIndexesStart+1));
+        dummyCar2.setId((long) (statusesCarIndexesStart + 1));
 
         Status status1 = new Status();
         status1.setCar(dummyCar1);
+
         Status status2 = new Status();
         status2.setCar(dummyCar2);
 
-        List<Status> statusesWithoutTestedCars = new ArrayList<Status>();
-        statusesWithoutTestedCars.add(status1);
-        statusesWithoutTestedCars.add(status2);
+        List<Status> statusesWithoutTestedCars = List.of(status1, status2);
 
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isNotDeniedByStatuses(statusesWithoutTestedCars));
-        assertEquals(testCars.size(),foundCars.size());
+
+        //THEN
+        assertEquals(testCars.size(), foundCars.size());
     }
+
     @Test
-    public void isNotDeniedByStatuses_givenStatusesWhichDenyAllCars_returnsEmptyList(){
-        List<Car> testCars = getCarsWithoutId();
+    public void isNotDeniedByStatuses_givenStatusesWhichDenyAllCars_returnsEmptyList() {
+        //GIVEN
+        List<Car> testCars = getDummyCarsWithoutId();
 
         carRepository.saveAll(testCars);
 
         List<Status> statuses = new ArrayList<Status>();
-        for(int i = 0 ; i < testCars.size(); i++){
+        for (int i = 0; i < testCars.size(); i++) {
             Status status = new Status();
             status.setCar(testCars.get(i));
             statuses.add(status);
         }
 
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isNotDeniedByStatuses(statuses));
-        assertEquals(true,foundCars.isEmpty());
+
+        //THEN
+        assertEquals(true, foundCars.isEmpty());
     }
+
     @Test
-    public void isNotDeniedByStatuses_givenStatusesWhichDenySomeCars_returnsOnlyNotDeniedCars(){
-        List<Car> testCars = getCarsWithoutId();
+    public void isNotDeniedByStatuses_givenStatusesWhichDenySomeCars_returnsOnlyNotDeniedCars() {
+        //GIVEN
+        List<Car> testCars = getDummyCarsWithoutId();
 
         carRepository.saveAll(testCars);
 
         Car dummyCar1 = getDummyCar();
         dummyCar1.setId(Long.MAX_VALUE - 5);
+
         Car dummyCar2 = getDummyCar();
         dummyCar2.setId(Long.MAX_VALUE - 3);
 
         //statuses which deny tested cars
         Status denyingStatus1 = new Status();
         denyingStatus1.setCar(testCars.get(0));
+
         Status denyingStatus2 = new Status();
         denyingStatus2.setCar(testCars.get(1));
 
         //statuses which dont deny tested cars
         Status status1 = new Status();
         status1.setCar(dummyCar1);
+
         Status status2 = new Status();
         status2.setCar(dummyCar2);
 
-        List<Status> statuses = new ArrayList<Status>();
-        statuses.add(denyingStatus1);
-        statuses.add(denyingStatus2);
-        statuses.add(status1);
-        statuses.add(status2);
+        List<Status> statuses = List.of(denyingStatus1, denyingStatus2, status1, status2);
 
+        //WHEN
         List<Car> foundCars = carRepository.findAll(isNotDeniedByStatuses(statuses));
-        assertEquals(1,foundCars.size());
+
+        //THEN
+        assertEquals(1, foundCars.size());
     }
-
-
-
 }
