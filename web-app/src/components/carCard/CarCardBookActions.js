@@ -5,7 +5,7 @@ import BookCarButton from "./BookCarButton";
 const CarCardBookActions = ({ car, onCarSelect, ...props }) => {
   return (
     <CardActions {...props}>
-      <BookCarButton car={car} onCarSelect={onCarSelect} />
+      <BookCarButton fullWidth car={car} onCarSelect={onCarSelect} />
     </CardActions>
   );
 };
